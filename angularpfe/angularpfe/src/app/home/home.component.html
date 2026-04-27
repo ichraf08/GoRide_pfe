@@ -1,0 +1,132 @@
+<!-- NEW HERO SECTION -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Content Left -->
+      <div class="col-lg-6 hero-content">
+        <div class="badge-new mb-3">
+          <span class="ion-ios-checkmark-circle me-3"></span>
+          {{ 'HOME.BADGE' | translate }}
+        </div>
+        <h1 class="hero-title-new mb-4" [innerHTML]="'HOME.HERO_TITLE' | translate"></h1>
+        <p class="hero-subtitle-new mb-5">{{ 'HOME.HERO_SUBTITLE' | translate }}</p>
+        
+        <div class="hero-btns d-flex flex-wrap gap-4">
+          <button class="btn btn-primary-new px-5 py-3 shadow-sm" routerLink="/signup">
+            {{ 'HOME.CTA_RESERVE' | translate }} <span class="ion-ios-arrow-round-forward ms-2"></span>
+          </button>
+          <button class="btn btn-outline-new px-5 py-3" routerLink="/about">
+            {{ 'HOME.CTA_LEARN' | translate }} <span class="ion-ios-play ms-2"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Illustration Right -->
+      <div class="col-lg-6 hero-illustration mt-5 mt-lg-0">
+        <img src="assets/images/goride-hero-illustration.png" alt="GoRide Experience" class="img-fluid floating-animation">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES BAR -->
+<section class="features-bar py-4 border-top border-bottom bg-white">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 border-end-lg">
+        <div class="feat-item d-flex align-items-center px-lg-3">
+          <div class="feat-icon-new accent-blue me-4">
+            <span class="ion-ios-flash"></span>
+          </div>
+          <div class="feat-text text-start">
+            <h6 class="fw-bold mb-0 text-dark">{{ 'HOME.FEAT_QUICK_TITLE' | translate }}</h6>
+            <p class="small text-muted mb-0 lh-sm">{{ 'HOME.FEAT_QUICK_DESC' | translate }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 border-end-lg">
+        <div class="feat-item d-flex align-items-center px-lg-3">
+          <div class="feat-icon-new accent-blue me-4">
+            <span class="ion-ios-lock"></span>
+          </div>
+          <div class="feat-text text-start">
+            <h6 class="fw-bold mb-0 text-dark">{{ 'HOME.FEAT_SECURE_TITLE' | translate }}</h6>
+            <p class="small text-muted mb-0 lh-sm">{{ 'HOME.FEAT_SECURE_DESC' | translate }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 border-end-lg">
+        <div class="feat-item d-flex align-items-center px-lg-3">
+          <div class="feat-icon-new accent-blue me-4">
+            <span class="ion-ios-checkmark-circle"></span>
+          </div>
+          <div class="feat-text text-start">
+            <h6 class="fw-bold mb-0 text-dark">{{ 'HOME.FEAT_RELIABLE_TITLE' | translate }}</h6>
+            <p class="small text-muted mb-0 lh-sm">{{ 'HOME.FEAT_RELIABLE_DESC' | translate }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="feat-item d-flex align-items-center px-lg-3">
+          <div class="feat-icon-new accent-blue me-4">
+            <span class="ion-ios-time"></span>
+          </div>
+          <div class="feat-text text-start">
+            <h6 class="fw-bold mb-0 text-dark">{{ 'HOME.FEAT_AVAILABLE_TITLE' | translate }}</h6>
+            <p class="small text-muted mb-0 lh-sm">{{ 'HOME.FEAT_AVAILABLE_DESC' | translate }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES SECTION -->
+<section class="services-section py-5 bg-light">
+  <div class="container py-5">
+    <div class="text-center mb-5">
+      <span class="text-primary fw-bold text-uppercase small letter-spacing-1">{{ 'HOME.SERVICES_LABEL' | translate }}</span>
+      <h2 class="fw-800 mt-2">{{ 'HOME.SERVICES_TITLE' | translate }}</h2>
+      <p class="text-muted mx-auto" style="max-width: 600px;">{{ 'HOME.SERVICES_SUBTITLE' | translate }}</p>
+    </div>
+
+    <div class="row g-4 mt-4">
+      <!-- Particuliers -->
+      <div class="col-lg-3 col-md-6">
+        <div class="service-card p-4 shadow-sm border-0 h-100 text-center">
+          <div class="service-icon-box bg-blue-pale mb-4 mx-auto">
+            <span class="ion-ios-person"></span>
+          </div>
+          <h5 class="fw-bold mb-0">{{ 'HOME.SERVICE_PRIVATE' | translate }}</h5>
+        </div>
+      </div>
+      <!-- Chauffeurs -->
+      <div class="col-lg-3 col-md-6">
+        <div class="service-card p-4 shadow-sm border-0 h-100 text-center">
+          <div class="service-icon-box bg-green-pale mb-4 mx-auto">
+            <span class="ion-ios-car"></span>
+          </div>
+          <h5 class="fw-bold mb-0">{{ 'HOME.SERVICE_DRIVER' | translate }}</h5>
+        </div>
+      </div>
+      <!-- Flotte -->
+      <div class="col-lg-3 col-md-6">
+        <div class="service-card p-4 shadow-sm border-0 h-100 text-center">
+          <div class="service-icon-box bg-purple-pale mb-4 mx-auto">
+            <span class="ion-ios-apps"></span>
+          </div>
+          <h5 class="fw-bold mb-0">{{ 'HOME.SERVICE_FLEET' | translate }}</h5>
+        </div>
+      </div>
+      <!-- Entreprises -->
+      <div class="col-lg-3 col-md-6">
+        <div class="service-card p-4 shadow-sm border-0 h-100 text-center">
+          <div class="service-icon-box bg-orange-pale mb-4 mx-auto">
+            <span class="ion-ios-briefcase"></span>
+          </div>
+          <h5 class="fw-bold mb-0">{{ 'HOME.SERVICE_BUSINESS' | translate }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

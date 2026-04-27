@@ -1,0 +1,101 @@
+<section class="profile-section ftco-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="profile-card shadow-sm">
+          <!-- Header du profil avec dégradé -->
+          <div class="profile-header">
+            <div class="profile-cover"></div>
+            <div class="profile-avatar-container">
+              <div class="profile-avatar">
+                <span class="ion-ios-person"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-body p-4">
+            <div *ngIf="loading" class="text-center py-5">
+              <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">{{ 'PROFILE.LOADING' | translate }}</span>
+              </div>
+              <p class="mt-3 text-muted">{{ 'PROFILE.FETCHING_INFO' | translate }}</p>
+            </div>
+
+            <div *ngIf="error" class="alert alert-danger">
+              {{ error }}
+            </div>
+
+            <div *ngIf="!loading && user">
+              <div class="row">
+                <div class="col-md-4 border-end">
+                  <div class="text-center mb-4">
+                    <h3 class="mb-0">{{ user.firstName }} {{ user.lastName }}</h3>
+                    <p class="text-muted">{{ user.email }}</p>
+                    <div class="badge-roles">
+                      <span *ngFor="let role of user.roles" class="badge bg-primary me-1">
+                        {{ getRoleLabel(role.name || role) }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <ul class="list-group list-group-flush profile-menu">
+                    <li class="list-group-item active">
+                      <span class="ion-ios-contact me-2"></span> {{ 'PROFILE.MENU_ACCOUNT' | translate }}
+                    </li>
+                    <li class="list-group-item">
+                      <span class="ion-ios-car me-2"></span> {{ 'PROFILE.MENU_RESERVATIONS' | translate }}
+                    </li>
+                    <li class="list-group-item">
+                      <span class="ion-ios-notifications me-2"></span> {{ 'PROFILE.MENU_NOTIFICATIONS' | translate }}
+                    </li>
+                    <li class="list-group-item">
+                      <span class="ion-ios-settings me-2"></span> {{ 'PROFILE.MENU_SETTINGS' | translate }}
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="col-md-8 ps-md-4">
+                  <h4 class="mb-4">{{ 'PROFILE.PERSONAL_DETAILS' | translate }}</h4>
+
+                  <div class="row g-3">
+                    <div class="col-sm-6">
+                      <label class="form-label text-muted small">{{ 'PROFILE.FIRST_NAME' | translate }}</label>
+                      <p class="h6 border-bottom pb-2">{{ user.firstName }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label text-muted small">{{ 'PROFILE.LAST_NAME' | translate }}</label>
+                      <p class="h6 border-bottom pb-2">{{ user.lastName }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label text-muted small">{{ 'PROFILE.EMAIL' | translate }}</label>
+                      <p class="h6 border-bottom pb-2">{{ user.email }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label text-muted small">{{ 'PROFILE.PHONE' | translate }}</label>
+                      <p class="h6 border-bottom pb-2">{{ user.phone || ('PROFILE.PHONE_NOT_PROVIDED' | translate) }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label text-muted small">{{ 'PROFILE.MEMBER_SINCE' | translate }}</label>
+                      <p class="h6 border-bottom pb-2">{{ user.createdAt | date:'dd/MM/yyyy' }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label text-muted small">{{ 'PROFILE.ACCOUNT_STATUS' | translate }}</label>
+                      <p class="h6 border-bottom pb-2">
+                        <span class="text-success">● {{ 'PROFILE.STATUS_ACTIVE' | translate }}</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="mt-5">
+                    <button class="btn btn-primary px-4 me-2">{{ 'PROFILE.EDIT_PROFILE' | translate }}</button>
+                    <button class="btn btn-outline-secondary px-4">{{ 'PROFILE.CHANGE_PASSWORD' | translate }}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
