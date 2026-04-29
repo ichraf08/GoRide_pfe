@@ -58,10 +58,10 @@
     }
   },
   "HOME": {
-    "BADGE": "Votre trajet, notre priorité",
-    "HERO_TITLE": "Vos trajets, simplifiés. GoRide avec vous !",
-    "HERO_SUBTITLE": "Réservez facilement vos trajets ou gérez votre flotte de véhicules en toute simplicité.",
-    "CTA_RESERVE": "Réserver un trajet",
+    "BADGE": "Votre mobilité, notre priorité",
+    "HERO_TITLE": "La mobilité réinventée, selon vos besoins.",
+    "HERO_SUBTITLE": "Réservez, louez ou gagnez de l’argent avec votre voiture.",
+    "CTA_RESERVE": "Explorer des solutions",
     "CTA_LEARN": "En savoir plus",
     "FEAT_QUICK_TITLE": "Rapide",
     "FEAT_QUICK_DESC": "Réservation en quelques clics",
@@ -80,7 +80,57 @@
     "SERVICE_BUSINESS": "Entreprises",
     "WHAT_WE_OFFER": "Ce que nous offrons",
     "FEATURED": "Véhicules en vedette",
-    "SEARCH_VEHICLE": "Rechercher un véhicule"
+    "SEARCH_VEHICLE": "Rechercher un véhicule",
+    "HOW_IT_WORKS": {
+      "LABEL": "COMMENT ÇA MARCHE",
+      "TITLE": "3 étapes simples pour votre trajet",
+      "STEP1_TITLE": "Choisissez votre trajet",
+      "STEP1_DESC": "Entrez votre destination et choisissez le type de véhicule.",
+      "STEP2_TITLE": "Sélectionnez votre chauffeur",
+      "STEP2_DESC": "Consultez les chauffeurs disponibles et décidez qui vous conduit.",
+      "STEP3_TITLE": "Profitez du trajet",
+      "STEP3_DESC": "Suivez votre trajet en temps réel et arrivez à destination en toute sécurité."
+    },
+    "SERVICES_DESC": {
+      "RESERVE": "Déplacez-vous rapidement en ville sans stress",
+      "DELIVERY": "Expédiez vos colis en ville en un temps record",
+      "RENT": "Véhicules vérifiés pour vos besoins spécifiques",
+      "BECOME_DRIVER": "Gagnez de l’argent avec votre véhicule",
+      "FLEET": "Gérez votre flotte d'entreprise avec efficacité",
+      "MICROMOBILITY": "Trottinettes et vélos électriques à portée de main"
+    },
+    "TESTIMONIALS": {
+      "LABEL": "AVIS DE NOS UTILISATEURS",
+      "TITLE": "Ils nous font confiance"
+    },
+    "STATS": {
+      "TRIPS": "Trajets réalisés",
+      "DRIVERS": "Chauffeurs actifs",
+      "SATISFACTION": "Clients satisfaits",
+      "SUPPORT": "Support disponible"
+    },
+    "SECURITY_SECTION": {
+      "LABEL": "POURQUOI CHOISIR GORIDE ?",
+      "TITLE": "Votre sécurité, notre engagement",
+      "ITEM1_TITLE": "Chauffeurs vérifiés",
+      "ITEM1_DESC": "Des trajets sûrs grâce à une sélection stricte et un suivi constant.",
+      "ITEM2_TITLE": "Paiement sécurisé",
+      "ITEM2_DESC": "Vos paiements sont protégés et sécurisés.",
+      "ITEM3_TITLE": "Assistance 24/7",
+      "ITEM3_DESC": "Notre équipe est disponible à tout moment pour vous aider.",
+      "ITEM4_TITLE": "Données protégées",
+      "ITEM4_DESC": "Vos données personnelles sont confidentielles et sécurisées."
+    },
+    "DOWNLOAD_SECTION": {
+      "TITLE": "Emportez GoRide partout avec vous",
+      "SUBTITLE": "Téléchargez notre application et profitez d'une expérience de mobilité révolutionnaire.",
+      "BADGE_IOS": "Télécharger sur App Store",
+      "BADGE_ANDROID": "Télécharger sur Google Play"
+    },
+    "CTA_FOOTER": {
+      "TITLE": "Prêt à simplifier vos trajets ?",
+      "SUBTITLE": "Rejoignez des milliers d'utilisateurs satisfaits et réservez votre trajet dès maintenant."
+    }
   },
   "FOOTER": {
     "ABOUT": "À propos",

@@ -17,10 +17,20 @@
   gap: 0.35rem;
 }
 
-/* Force l'alignement sur Desktop */
+/* Force l'alignement sur Desktop sur une seule ligne */
 @media (min-width: 992px) {
+  :host ::ng-deep #ftco-navbar .container-custom {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
   :host ::ng-deep #ftco-nav {
     display: flex !important;
+    flex-basis: auto !important;
+    flex-grow: 1 !important;
+    align-items: center !important;
   }
 
   :host ::ng-deep #ftco-nav .navbar-nav.mx-auto {
@@ -494,7 +504,11 @@
   text-transform: none !important;
 }
 
-:host ::ng-deep .goride-logo .logo-text span {
+.logo-part-dark {
+  color: #1e293b !important;
+}
+
+.logo-part-blue {
   color: #2563eb !important;
 }
 
@@ -511,19 +525,26 @@
   background: transparent;
 }
 
-:host ::ng-deep .btn-outline-light:hover {
+:host ::ng-deep .btn-outline-light:hover,
+:host ::ng-deep .btn-outline-light:focus,
+:host ::ng-deep .btn-outline-light:active {
   background: #f8fafc;
   border-color: #2563eb;
-  color: #2563eb;
+  color: #2563eb !important;
 }
 
-:host ::ng-deep .btn-primary {
+:host ::ng-deep .navbar-nav .nav-item .nav-link.btn-primary,
+:host ::ng-deep .navbar-nav .nav-item .nav-link.btn-primary:hover,
+:host ::ng-deep .navbar-nav .nav-item .nav-link.btn-primary:focus,
+:host ::ng-deep .navbar-nav .nav-item .nav-link.btn-primary:active {
   background-color: #2563eb !important;
   border-color: #2563eb !important;
   color: #ffffff !important;
+  opacity: 1 !important;
 }
 
-:host ::ng-deep .btn-primary:hover {
+:host ::ng-deep .navbar-nav .nav-item .nav-link.btn-primary:active {
   background-color: #1d4ed8 !important;
-  border-color: #1d4ed8 !important;
+  transform: scale(0.96) !important;
+  transition: transform 0.1s ease !important;
 }

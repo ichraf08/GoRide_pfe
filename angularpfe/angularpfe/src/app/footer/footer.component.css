@@ -1,15 +1,15 @@
 .custom-footer {
-  background-color: #0b1120;
-  color: #9ca3af;
+  background-color: #ffffff;
+  color: #64748b;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  padding: 60px 0 20px 0;
-  margin-top: 50px;
+  padding: 80px 0 40px 0;
+  border-top: 1px solid #e2e8f0;
 }
 
 .custom-footer .footer-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 40px;
 }
 
 .custom-footer .footer-grid {
@@ -32,10 +32,17 @@
 }
 
 .custom-footer .logo-text {
-  color: #ffffff;
   font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.5px;
+}
+
+.logo-part-dark {
+  color: #1e293b !important;
+}
+
+.logo-part-blue {
+  color: #2563eb !important;
 }
 
 .custom-footer .brand-desc {
@@ -43,6 +50,7 @@
   line-height: 1.6;
   margin-bottom: 30px;
   max-width: 280px;
+  color: #64748b;
 }
 
 .custom-footer .social-icons {
@@ -57,16 +65,16 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid #1f2937;
-  color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
   transition: all 0.3s ease;
   text-decoration: none;
 }
 
 .custom-footer .social-icons a:hover {
-  background-color: #1f2937;
-  color: #3b82f6;
-  border-color: #3b82f6;
+  background-color: #f8fafc;
+  color: #2563eb;
+  border-color: #2563eb;
 }
 
 .custom-footer .social-icons svg {
@@ -77,9 +85,9 @@
 /* Links Sections */
 .custom-footer .footer-links h4,
 .custom-footer .footer-newsletter h4 {
-  color: #ffffff;
+  color: #1e293b;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 25px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -129,9 +137,9 @@
 
 .custom-footer .newsletter-form input {
   width: 100%;
-  background-color: transparent;
-  border: 1px solid #1f2937;
-  color: #ffffff;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
   padding: 12px 50px 12px 15px;
   border-radius: 8px;
   font-size: 14px;
@@ -140,7 +148,8 @@
 }
 
 .custom-footer .newsletter-form input:focus {
-  border-color: #3b82f6;
+  border-color: #2563eb;
+  background-color: #ffffff;
 }
 
 .custom-footer .newsletter-form input::placeholder {
@@ -183,18 +192,20 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: transparent;
-  border: 1px solid #374151;
+  background-color: #0f172a;
+  border: 1px solid #0f172a;
   border-radius: 8px;
   padding: 6px 12px;
   color: #ffffff;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
   min-width: 130px;
 }
 
 .custom-footer .app-btn:hover {
-  background-color: #1f2937;
+  background-color: #1e293b;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .custom-footer .app-btn svg {
@@ -225,7 +236,7 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 30px;
-  border-top: 1px solid #1f2937;
+  border-top: 1px solid #e2e8f0;
   font-size: 13px;
 }
 
@@ -236,35 +247,37 @@
 }
 
 .custom-footer .footer-legal a {
-  color: #9ca3af;
+  color: #64748b;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .custom-footer .footer-legal a:hover {
-  color: #ffffff;
+  color: #2563eb;
 }
 
 .custom-footer .footer-legal .sep {
-  color: #374151;
+  color: #e2e8f0;
 }
 
 .custom-footer .footer-lang button {
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: transparent;
-  border: 1px solid #374151;
-  color: #ffffff;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
   padding: 8px 15px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 13px;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .custom-footer .footer-lang button:hover {
-  background-color: #1f2937;
+  background-color: #f8fafc;
+  border-color: #2563eb;
+  color: #2563eb;
 }
 
 .custom-footer .footer-lang .globe-icon {

@@ -105,6 +105,29 @@
 			}
 		});
 
+		$('.carousel-services').owlCarousel({
+			center: false,
+			loop: true,
+			autoplay: true,
+			autoplayTimeout: 5000,
+			items: 1,
+			margin: 30,
+			stagePadding: 0,
+			nav: false,
+			dots: true,
+			responsive:{
+				0:{
+					items: 1
+				},
+				600:{
+					items: 2
+				},
+				1000:{
+					items: 4
+				}
+			}
+		});
+
 	};
 	carousel();
 

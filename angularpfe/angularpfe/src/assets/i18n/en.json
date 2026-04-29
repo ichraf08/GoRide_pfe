@@ -80,7 +80,55 @@
     "SERVICE_BUSINESS": "Businesses",
     "WHAT_WE_OFFER": "What we offer",
     "FEATURED": "Featured Vehicles",
-    "SEARCH_VEHICLE": "Search Vehicle"
+    "SEARCH_VEHICLE": "Search Vehicle",
+    "HOW_IT_WORKS": {
+      "LABEL": "HOW IT WORKS",
+      "TITLE": "3 simple steps for your trip",
+      "STEP1_TITLE": "Choose your trip",
+      "STEP1_DESC": "Enter your destination and choose your vehicle type.",
+      "STEP2_TITLE": "Select your driver",
+      "STEP2_DESC": "View available drivers and decide who drives you.",
+      "STEP3_TITLE": "Enjoy the ride",
+      "STEP3_DESC": "Track your ride in real-time and arrive safely at your destination."
+    },
+    "SERVICES_DESC": {
+      "RESERVE": "Move easily from point A to point B.",
+      "RENT": "Rent a vehicle that fits your needs.",
+      "BECOME_DRIVER": "Join GoRide and gain total flexibility.",
+      "FLEET": "Custom solutions for businesses."
+    },
+    "TESTIMONIALS": {
+      "LABEL": "USER REVIEWS",
+      "TITLE": "They trust us"
+    },
+    "STATS": {
+      "TRIPS": "Completed trips",
+      "DRIVERS": "Active drivers",
+      "SATISFACTION": "Satisfied customers",
+      "SUPPORT": "Support available"
+    },
+    "SECURITY_SECTION": {
+      "LABEL": "WHY CHOOSE GORIDE?",
+      "TITLE": "Your safety, our commitment",
+      "ITEM1_TITLE": "Verified drivers",
+      "ITEM1_DESC": "All our drivers are verified and rated by our customers.",
+      "ITEM2_TITLE": "Secure payment",
+      "ITEM2_DESC": "Your payments are protected and secure.",
+      "ITEM3_TITLE": "24/7 Assistance",
+      "ITEM3_DESC": "Our team is available anytime to help you.",
+      "ITEM4_TITLE": "Protected data",
+      "ITEM4_DESC": "Your personal data is confidential and secure."
+    },
+    "DOWNLOAD_SECTION": {
+      "TITLE": "Take GoRide with you everywhere",
+      "SUBTITLE": "Download our app and enjoy a revolutionary mobility experience.",
+      "BADGE_IOS": "Download on App Store",
+      "BADGE_ANDROID": "Get it on Google Play"
+    },
+    "CTA_FOOTER": {
+      "TITLE": "Ready to simplify your trips?",
+      "SUBTITLE": "Join thousands of satisfied users and book your ride now."
+    }
   },
   "FOOTER": {
     "ABOUT": "About",

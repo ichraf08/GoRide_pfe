@@ -1,1 +1,98 @@
-/* About component styles */
+/* HERO SECTION ABOUT */
+.about-hero {
+  position: relative;
+  background-image: url('/assets/images/bg_2.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 180px 0 120px 0;
+  display: flex;
+  align-items: center;
+}
+
+.about-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(37, 99, 235, 0.7) 100%);
+  z-index: 1;
+}
+
+.letter-spacing-2 {
+  letter-spacing: 2px;
+}
+
+.fw-900 {
+  font-weight: 900;
+}
+
+.z-index-2 {
+  z-index: 2;
+}
+
+/* STORY SECTION */
+.experience-card {
+  position: absolute;
+  bottom: -30px;
+  right: -30px;
+  border: 1px solid rgba(0,0,0,0.05);
+  min-width: 200px;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+@media (max-width: 991px) {
+  .experience-card {
+    right: 20px;
+    bottom: -20px;
+  }
+}
+
+/* VALUES SECTION */
+.value-card {
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid transparent;
+}
+
+.value-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08) !important;
+  border-color: rgba(37, 99, 235, 0.1);
+}
+
+.value-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563eb;
+  font-size: 32px;
+  transition: all 0.3s ease;
+}
+
+.value-card:hover .value-icon {
+  background: #2563eb;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* TEAM SECTION */
+.team-member img {
+  border: 4px solid white;
+  transition: all 0.4s ease;
+}
+
+.team-member:hover img {
+  transform: scale(1.05);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+  border-color: #2563eb;
+}
