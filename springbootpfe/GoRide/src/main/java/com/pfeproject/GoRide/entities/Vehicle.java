@@ -6,11 +6,16 @@ import lombok.*;
 
 /**
  * Entité représentant un véhicule sur la plateforme GoRide.
- * Un véhicule appartient à un propriétaire de flotte et peut être assigné à un chauffeur.
+ * Un véhicule appartient à un propriétaire de flotte et peut être assigné à un
+ * chauffeur.
  */
 @Entity
 @Table(name = "vehicles")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Vehicle {
 
     @Id
@@ -51,12 +56,12 @@ public class Vehicle {
     // Le propriétaire du véhicule (Fleet Owner)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
-    @JsonIgnoreProperties({"roles", "password", "hasFleet", "enabled", "createdAt"})
+    @JsonIgnoreProperties({ "roles", "password", "hasFleet", "enabled", "createdAt" })
     private UserEntity owner;
 
     // Le chauffeur actuellement assigné
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")
-    @JsonIgnoreProperties({"roles", "password", "hasFleet", "enabled", "createdAt"})
+    @JsonIgnoreProperties({ "roles", "password", "hasFleet", "enabled", "createdAt" })
     private UserEntity driver;
 }
