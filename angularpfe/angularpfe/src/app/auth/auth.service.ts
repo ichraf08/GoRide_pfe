@@ -60,10 +60,25 @@ export class AuthService {
   private userSubject = new BehaviorSubject<JwtResponse | null>(this.getCurrentUser());
   readonly user$ = this.userSubject.asObservable();
 
+  private roleDefinitions: Record<string, any> = {
+    'ROLE_CLIENT': { id: 'ROLE_CLIENT', label: 'Client (Location)', icon: 'ion-ios-car', route: '/client/home', color: '#10b981', action: 'Réserver un trajet' },
+    'ROLE_USER': { id: 'ROLE_USER', label: 'Client (Trajets)', icon: 'ion-ios-navigate', route: '/client/home', color: '#10b981', action: 'Commander un trajet' },
+    'ROLE_DRIVER': { id: 'ROLE_DRIVER', label: 'Chauffeur', icon: 'ion-ios-speedometer', route: '/driver/home', color: '#2563eb', action: 'Prendre le volant' },
+    'ROLE_FLEET_OWNER': { id: 'ROLE_FLEET_OWNER', label: 'Propriétaire', icon: 'ion-ios-people', route: '/fleet/home', color: '#f59e0b', action: 'Gérer ma flotte' },
+    'ROLE_COMPANY': { id: 'ROLE_COMPANY', label: 'Entreprise', icon: 'ion-ios-business', route: '/company/home', color: '#4b5563', action: 'Espace Entreprise' },
+    'ROLE_ADMIN': { id: 'ROLE_ADMIN', label: 'Admin', icon: 'ion-ios-settings', route: '/admin/home', color: '#ef4444', action: 'Administration' }
+  };
+
   constructor(
     private http: HttpClient,
     private router: Router
   ) {}
+
+  getActiveRoleData(): any {
+    const activeRole = this.getActiveRole() || 'ROLE_USER';
+    const normalizedRole = activeRole.startsWith('ROLE_') ? activeRole : 'ROLE_' + activeRole;
+    return this.roleDefinitions[normalizedRole] || this.roleDefinitions['ROLE_USER'];
+  }
 
   /**
    * Connexion — envoie email/password au backend et stocke le JWT reçu.
@@ -163,6 +178,18 @@ export class AuthService {
         // Mais pour l'instant on laisse l'utilisateur basculer manuellement
       })
     );
+  }
+
+  /**
+   * Met à jour les infos de l'utilisateur dans le localStorage et notifie les composants.
+   */
+  updateUser(userData: any): void {
+    const user = this.getCurrentUser();
+    if (user) {
+      const updatedUser = { ...user, ...userData };
+      localStorage.setItem(USER_KEY, JSON.stringify(updatedUser));
+      this.userSubject.next(updatedUser);
+    }
   }
 
   /**

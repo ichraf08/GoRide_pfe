@@ -113,6 +113,103 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 
+.hero-bg-city {
+  background-image: url('/assets/images/bg_3.jpg') !important; /* Chemin absolu depuis la racine des assets */
+  opacity: 0.4;
+  filter: grayscale(20%);
+}
+
+.hero-logged-in .hero-overlay-dark {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.92) 40%,
+    rgba(255, 255, 255, 0.4) 80%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+.hero-title-premium {
+  font-size: 4.8rem;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -3px;
+  line-height: 1.1;
+  text-shadow: none;
+}
+
+.hero-subtitle-premium {
+  font-size: 1.5rem;
+  color: #475569;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.glass-card-premium {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(25px) saturate(160%);
+  -webkit-backdrop-filter: blur(25px) saturate(160%);
+  border-radius: 30px !important;
+  border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.06);
+  max-width: 620px;
+}
+
+.shadow-lg-premium {
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.12) !important;
+}
+
+.hero-visual-wrapper img {
+  border-radius: 30px;
+  transform: perspective(1000px) rotateY(-5deg);
+  transition: all 0.6s ease;
+}
+
+.hero-visual-wrapper:hover img {
+  transform: perspective(1000px) rotateY(0deg) translateY(-10px);
+  box-shadow: 0 50px 120px rgba(0, 0, 0, 0.18) !important;
+}
+
+
+.btn-goride-primary {
+  background-color: #2563eb !important; /* Bleu principal #2563EB */
+  color: #ffffff !important;
+  border: none;
+  font-weight: 700;
+  border-radius: 14px;
+  padding: 16px 28px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+.btn-goride-primary:hover {
+  background-color: #1d4ed8 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
+}
+
+.btn-goride-secondary {
+  background-color: #ffffff !important; /* Fond blanc cassé/blanc */
+  color: #64748b !important; /* Gris doux */
+  border: 1px solid #e2e8f0 !important; /* Contour gris premium */
+  font-weight: 700;
+  border-radius: 14px;
+  padding: 16px 28px;
+  transition: all 0.3s ease;
+}
+
+.btn-goride-secondary:hover {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important; /* Noir texte #0F172A */
+  transform: translateY(-2px);
+}
+
+.text-goride-dark {
+  color: #0f172a !important; /* Noir texte #0F172A */
+}
+
 .btn-premium-outline-blue {
   background: transparent;
   color: #2563eb;

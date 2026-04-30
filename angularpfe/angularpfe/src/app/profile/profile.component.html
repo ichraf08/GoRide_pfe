@@ -1,14 +1,24 @@
 <section class="profile-section ftco-section bg-light">
-  <div class="container">
+  <!-- BACKGROUND DECORATION (Like Hero) -->
+  <div class="profile-hero-bg">
+    <div class="profile-hero-overlay"></div>
+  </div>
+
+  <div class="container position-relative z-index-10">
+    <!-- WELCOME HEADER (Like Home) -->
+    <div class="text-center mb-5 mt-4" data-aos="fade-up">
+      <h1 class="hero-title-premium mb-2 text-white">Bienvenue, {{ user?.firstName || 'Ichraf' }}</h1>
+      <p class="hero-subtitle-premium text-white-50">Votre espace mobilité personnalisé.</p>
+    </div>
+
     <div class="row justify-content-center">
       <div class="col-md-10">
-        <div class="profile-card shadow-sm">
-          <!-- Header du profil avec dégradé -->
-          <div class="profile-header">
-            <div class="profile-cover"></div>
+        <div class="profile-card shadow-lg border-0">
+          <!-- Small Header with minimal cover -->
+          <div class="profile-header-minimal">
             <div class="profile-avatar-container">
               <div class="profile-avatar-smart">
-                <app-profile-avatar [firstName]="user?.firstName" [lastName]="user?.lastName" [photoUrl]="(photoPreview || user?.photoUrl) ?? undefined" [size]="90"></app-profile-avatar>
+                <app-profile-avatar [firstName]="user?.firstName" [lastName]="user?.lastName" [photoUrl]="(photoPreview || user?.photoUrl) ?? undefined" [size]="100"></app-profile-avatar>
               </div>
             </div>
           </div>
@@ -59,9 +69,42 @@
                 </div>
 
                 <div class="col-md-8 ps-md-4" *ngIf="activeTab === 'account'">
-                  <h4 class="mb-4">{{ 'PROFILE.PERSONAL_DETAILS' | translate }}</h4>
+                  
+                  <!-- ROLE SWITCHER QUICK ACCESS -->
+                  <div class="role-switcher-card p-4 rounded-4 mb-4 border border-light" style="background: rgba(248, 250, 252, 0.5);">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <div>
+                        <span class="text-muted small fw-bold text-uppercase letter-spacing-1">Mode actuel</span>
+                        <div class="d-flex align-items-center mt-1">
+                          <span [class]="authService.getActiveRoleData()?.icon" [style.color]="authService.getActiveRoleData()?.color" style="font-size: 1.5rem; margin-right: 10px;"></span>
+                          <h4 class="mb-0 fw-bold text-goride-dark">{{ authService.getActiveRoleData()?.label }}</h4>
+                        </div>
+                      </div>
+                      <span class="ion-ios-swap text-primary opacity-50" style="font-size: 1.5rem;"></span>
+                    </div>
+                    <div class="px-3 py-2 text-muted small fw-bold border-bottom mb-3" style="font-size: 0.65rem;">BASCULER DE PROFIL</div>
+                    <div class="d-flex flex-wrap gap-2">
+                      <button *ngFor="let role of availableRoles" 
+                              (click)="switchRole(role.id)"
+                              class="btn btn-sm d-flex align-items-center gap-2 px-3 py-2 rounded-pill transition-all shadow-sm border-0"
+                              [style.backgroundColor]="activeRole === role.id ? role.color : '#fff'"
+                              [style.color]="activeRole === role.id ? '#fff' : '#475569'">
+                        <span [class]="role.icon"></span>
+                        <span class="fw-bold">{{ role.label.split(' ')[0] }}</span>
+                        <span class="ion-ios-checkmark-circle ms-1" *ngIf="activeRole === role.id"></span>
+                      </button>
+                    </div>
+                  </div>
 
-                  <div class="row g-3">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0 text-goride-dark">{{ 'PROFILE.PERSONAL_DETAILS' | translate }}</h4>
+                    <button class="btn btn-sm" [class.btn-outline-primary]="!isEditing" [class.btn-outline-danger]="isEditing" (click)="toggleEdit()">
+                      <span [class]="isEditing ? 'ion-ios-close' : 'ion-ios-create'"></span>
+                      {{ isEditing ? 'Annuler' : 'Modifier' }}
+                    </button>
+                  </div>
+
+                  <div class="row g-3" *ngIf="!isEditing">
                     <div class="col-sm-6">
                       <label class="form-label text-muted small">{{ 'PROFILE.FIRST_NAME' | translate }}</label>
                       <p class="h6 border-bottom pb-2">{{ user.firstName }}</p>
@@ -76,7 +119,7 @@
                     </div>
                     <div class="col-sm-6">
                       <label class="form-label text-muted small">{{ 'PROFILE.PHONE' | translate }}</label>
-                      <p class="h6 border-bottom pb-2">{{ user.phone || ('PROFILE.PHONE_NOT_PROVIDED' | translate) }}</p>
+                      <p class="h6 border-bottom pb-2">{{ user.phone || 'Non renseigné' }}</p>
                     </div>
                     <div class="col-sm-6">
                       <label class="form-label text-muted small">{{ 'PROFILE.MEMBER_SINCE' | translate }}</label>
@@ -90,8 +133,32 @@
                     </div>
                   </div>
 
+                  <!-- EDIT FORM -->
+                  <div class="row g-3" *ngIf="isEditing">
+                    <div class="col-sm-6">
+                      <label class="form-label fw-bold small">Prénom</label>
+                      <input type="text" class="form-control form-control-sm" [(ngModel)]="editUser.firstName">
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label fw-bold small">Nom</label>
+                      <input type="text" class="form-control form-control-sm" [(ngModel)]="editUser.lastName">
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label fw-bold small">Email (Non modifiable)</label>
+                      <input type="text" class="form-control form-control-sm bg-light" [value]="editUser.email" disabled>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label fw-bold small">Téléphone</label>
+                      <input type="text" class="form-control form-control-sm" [(ngModel)]="editUser.phone">
+                    </div>
+                    <div class="col-12 mt-4">
+                      <button class="btn btn-primary btn-sm px-4 me-2" (click)="saveProfile()">Enregistrer les modifications</button>
+                      <button class="btn btn-outline-secondary btn-sm px-4" (click)="toggleEdit()">Annuler</button>
+                    </div>
+                  </div>
+
                   <!-- Photo de Profil Upload Section -->
-                  <div class="photo-upload-section mb-4 p-4 border rounded-3 bg-white shadow-sm">
+                  <div class="photo-upload-section mt-5 mb-4 p-4 border rounded-4 bg-white shadow-sm" *ngIf="!isEditing">
                     <h6 class="fw-bold mb-3 d-flex align-items-center">
                       <span class="ion-ios-camera me-2 text-primary" style="font-size:1.3rem"></span>
                       Photo de profil
@@ -135,10 +202,7 @@
                   </div>
                   <!-- END Photo Upload Section -->
 
-                  <div class="mt-4">
-                    <button class="btn btn-primary px-4 me-2">{{ 'PROFILE.EDIT_PROFILE' | translate }}</button>
-                    <button class="btn btn-outline-secondary px-4">{{ 'PROFILE.CHANGE_PASSWORD' | translate }}</button>
-                  </div>
+                  <!-- END Photo Upload Section -->
 
                   <!-- Section Gestion des Rôles -->
                   <div class="mt-5 pt-4 border-top">

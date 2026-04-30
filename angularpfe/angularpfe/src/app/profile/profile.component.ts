@@ -15,20 +15,30 @@ export class ProfileComponent implements OnInit {
   successMessage: string | null = null;
   isAddingRole = false;
   activeTab = 'account'; // 'account', 'reservations', 'notifications', 'settings'
+  
+  // Edit mode
+  isEditing = false;
+  editUser: any = {};
 
   // Photo upload
   photoPreview: string | null = null;
   photoUploading = false;
   photoSuccess = false;
 
+  // Available roles for switcher
+  availableRoles: any[] = [];
+  activeRole: string | null = null;
+
   constructor(
     private http: HttpClient,
-    private authService: AuthService,
+    public authService: AuthService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.fetchProfile();
+    this.activeRole = this.authService.getActiveRole();
+    this.setupAvailableRoles();
     
     // Lire l'onglet depuis l'URL
     this.route.queryParams.subscribe(params => {
@@ -43,6 +53,46 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  setupAvailableRoles(): void {
+    const roles = this.authService.getCurrentUser()?.roles || [];
+    const allRoles = [
+      { id: 'ROLE_USER', label: 'Client (Trajets)', icon: 'ion-ios-navigate', color: '#10b981' },
+      { id: 'ROLE_CLIENT', label: 'Client (Location)', icon: 'ion-ios-car', color: '#2563eb' },
+      { id: 'ROLE_DRIVER', label: 'Chauffeur', icon: 'ion-ios-speedometer', color: '#6366f1' },
+      { id: 'ROLE_FLEET_OWNER', label: 'Propriétaire', icon: 'ion-ios-people', color: '#f59e0b' },
+      { id: 'ROLE_COMPANY', label: 'Entreprise', icon: 'ion-ios-briefcase', color: '#7c3aed' }
+    ];
+
+    this.availableRoles = allRoles.filter(r => roles.includes(r.id));
+  }
+
+  switchRole(roleId: string): void {
+    const roleShortName = roleId.replace('ROLE_', '');
+    this.authService.setActiveRole(roleShortName);
+    this.activeRole = roleId;
+    window.location.reload(); // Recharger pour appliquer le nouveau dashboard
+  }
+
+  toggleEdit(): void {
+    this.isEditing = !this.isEditing;
+    if (this.isEditing) {
+      this.editUser = { ...this.user };
+    }
+  }
+
+  saveProfile(): void {
+    this.loading = true;
+    // Simulation d'appel API pour la mise à jour
+    setTimeout(() => {
+      this.user = { ...this.editUser };
+      this.authService.updateUser(this.user);
+      this.isEditing = false;
+      this.loading = false;
+      this.successMessage = "Profil mis à jour avec succès !";
+      setTimeout(() => this.successMessage = null, 3000);
+    }, 1000);
+  }
+
   setTab(tab: string): void {
     this.activeTab = tab;
   }
@@ -54,15 +104,14 @@ export class ProfileComponent implements OnInit {
         this.user = data;
         this.loading = false;
         this.error = null;
+        this.setupAvailableRoles();
       },
       error: (err) => {
         console.error('Erreur profil:', err);
-        // Fallback sur les données locales pour que l'utilisateur puisse voir sa page
         const localUser = this.authService.getCurrentUser();
         if (localUser) {
           this.user = localUser;
-          // On affiche un avertissement léger plutôt qu'une erreur bloquante
-          console.warn("Serveur injoignable, affichage des données locales.");
+          this.setupAvailableRoles();
         } else {
           this.error = 'Impossible de charger le profil.';
         }

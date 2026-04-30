@@ -28,36 +28,39 @@
 
 <!-- HERO SECTION V2 (Utilisateurs Connectés) -->
 <section class="hero-section-v2 hero-logged-in" *ngIf="isLoggedIn">
-  <div class="hero-bg-image"></div>
-  <div class="hero-overlay-dark" style="background: linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,58,138,0.85) 100%);"></div>
-  <div class="container-custom position-relative z-index-10">
-    <div class="row align-items-center justify-content-center text-center">
-      <div class="col-lg-8 hero-content-v2">
-        
-        <!-- Welcome Message -->
-        <h1 class="hero-title-v2 mb-2" data-aos="fade-up">Bonjour {{ user?.firstName || 'Utilisateur' }} 👋</h1>
-        <p class="text-white-50 fs-5 mb-5" data-aos="fade-up" data-aos-delay="100">Heureux de vous revoir sur GoRide.</p>
+  <div class="hero-bg-image hero-bg-city"></div>
+  <div class="hero-overlay-dark"></div>
+  <div class="container position-relative z-index-10">
+    <div class="row align-items-center g-5">
+      
+      <!-- Left Content (Welcome + Card) -->
+      <div class="col-lg-6 hero-content-v2 text-start" data-aos="fade-right">
+        <!-- WELCOME HEADER -->
+        <div class="mb-5 mt-4">
+          <h1 class="hero-title-premium mb-2">Bienvenue, {{ user?.firstName || 'ichraf' }}</h1>
+          <p class="hero-subtitle-premium">Votre espace mobilité personnalisé.</p>
+        </div>
 
-        <!-- Dynamic Dashboard Card -->
-        <div class="dashboard-access-card bg-white rounded-4 shadow-lg p-4 p-md-5 mx-auto text-start position-relative" style="max-width: 600px;" data-aos="zoom-in" data-aos-delay="200">
+        <!-- Dynamic Dashboard Card (Glassmorphism) -->
+        <div class="dashboard-access-card glass-card-premium p-4 p-md-5 position-relative" data-aos="zoom-in" data-aos-delay="200">
           
           <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-light">
             <div>
               <span class="text-muted small fw-bold text-uppercase letter-spacing-1">Mode actuel</span>
               <div class="d-flex align-items-center mt-1">
-                <span [class]="getActiveRoleData().icon" [style.color]="getActiveRoleData().color" style="font-size: 1.5rem; margin-right: 10px;"></span>
-                <h4 class="mb-0 fw-bold text-dark">{{ getActiveRoleData().label }}</h4>
+                <span [class]="getActiveRoleData().icon" [style.color]="getActiveRoleData().color" style="font-size: 1.5rem; margin-right: 15px;"></span>
+                <h4 class="mb-0 fw-bold text-goride-dark">{{ getActiveRoleData().label }}</h4>
               </div>
             </div>
 
-            <!-- Role Switcher Dropdown (If Multi-role) -->
+            <!-- Role Switcher Dropdown -->
             <div class="position-relative" *ngIf="availableRoles.length > 1">
-              <button class="btn btn-light rounded-pill px-3 py-2 fw-bold d-flex align-items-center" style="font-size: 0.85rem;" (click)="toggleRoleSwitcher()">
+              <button class="btn btn-light rounded-pill px-3 py-2 fw-bold d-flex align-items-center shadow-sm" style="font-size: 0.85rem;" (click)="toggleRoleSwitcher()">
                 <span class="ion-ios-swap me-2"></span> Changer
               </button>
               
               <!-- Dropdown List -->
-              <div class="position-absolute bg-white rounded-3 shadow border mt-2 py-2" style="right: 0; min-width: 220px; z-index: 100;" *ngIf="isRoleSwitcherOpen">
+              <div class="position-absolute bg-white rounded-3 shadow-lg border-0 mt-2 py-2" style="right: 0; min-width: 220px; z-index: 100;" *ngIf="isRoleSwitcherOpen">
                 <div class="px-3 py-2 text-muted small fw-bold border-bottom">BASCULER VERS</div>
                 <button *ngFor="let role of availableRoles" 
                         class="dropdown-item d-flex align-items-center py-2 px-3 border-0 bg-transparent w-100 text-start"
@@ -73,23 +76,27 @@
 
           <!-- Action Area -->
           <div class="d-flex flex-column flex-sm-row gap-3">
-            <button class="btn-premium flex-grow-1 py-3 d-flex align-items-center justify-content-center text-white" 
-                    [style.backgroundColor]="getActiveRoleData().color" 
-                    style="border-radius: 12px; border: none; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"
+            <button class="btn-goride-primary flex-grow-1 d-flex align-items-center justify-content-center" 
                     (click)="goToDashboard()">
               <span [class]="getActiveRoleData().icon" style="margin-right: 10px; font-size: 1.3rem;"></span>
               {{ getActiveRoleData().action }}
               <span class="ion-md-arrow-forward ms-2"></span>
             </button>
-            <button class="btn btn-light py-3 px-4 d-flex align-items-center justify-content-center" style="border-radius: 12px; font-weight: bold; border: 1px solid #e2e8f0;" routerLink="/profile">
+            <button class="btn-goride-secondary px-4 d-flex align-items-center justify-content-center" routerLink="/profile">
               <span class="ion-ios-person me-2"></span> Mon Profil
             </button>
           </div>
-          
         </div>
-        <!-- End Dynamic Dashboard Card -->
-
       </div>
+
+      <!-- Right Visual (Corporate Image) -->
+      <div class="col-lg-6 d-none d-lg-block" data-aos="fade-left" data-aos-delay="300">
+        <div class="hero-visual-wrapper position-relative">
+          <img src="assets/images/hero-couple.png" alt="GoRide Corporate" class="img-fluid rounded-4 shadow-lg-premium">
+          <!-- Subtle Floating Badges if needed -->
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
