@@ -1,348 +1,265 @@
 <section class="profile-section ftco-section bg-light">
-  <!-- BACKGROUND DECORATION (Like Hero) -->
+  <!-- BACKGROUND DECORATION -->
   <div class="profile-hero-bg">
     <div class="profile-hero-overlay"></div>
   </div>
 
   <div class="container position-relative z-index-10">
-    <!-- WELCOME HEADER (Like Home) -->
+    <!-- WELCOME HEADER -->
     <div class="text-center mb-5 mt-4" data-aos="fade-up">
-      <h1 class="hero-title-premium mb-2 text-white">Bienvenue, {{ user?.firstName || 'Ichraf' }}</h1>
-      <p class="hero-subtitle-premium text-white-50">Votre espace mobilité personnalisé.</p>
+      <h1 class="hero-title-premium mb-2 text-white">Profil & Paramètres</h1>
+      <p class="hero-subtitle-premium text-white-50">Gérez vos informations personnelles et vos préférences GoRide.</p>
     </div>
 
     <div class="row justify-content-center">
-      <div class="col-md-10">
+      <div class="col-md-11 col-lg-10">
         <div class="profile-card shadow-lg border-0">
-          <!-- Small Header with minimal cover -->
-          <div class="profile-header-minimal">
-            <div class="profile-avatar-container">
-              <div class="profile-avatar-smart">
-                <app-profile-avatar [firstName]="user?.firstName" [lastName]="user?.lastName" [photoUrl]="(photoPreview || user?.photoUrl) ?? undefined" [size]="100"></app-profile-avatar>
-              </div>
-            </div>
-          </div>
-
-          <div class="profile-body p-4">
-            <div *ngIf="loading" class="text-center py-5">
-              <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">{{ 'PROFILE.LOADING' | translate }}</span>
-              </div>
-              <p class="mt-3 text-muted">{{ 'PROFILE.FETCHING_INFO' | translate }}</p>
-            </div>
-
-            <div *ngIf="error" class="alert alert-danger">
-              {{ error }}
-            </div>
-
-            <div *ngIf="successMessage" class="alert alert-success">
-              {{ successMessage }}
-            </div>
-
-            <div *ngIf="!loading && user">
-              <div class="row">
-                <div class="col-md-4 border-end">
-                  <div class="text-center mb-4">
-                    <h3 class="mb-0">{{ user.firstName }} {{ user.lastName }}</h3>
-                    <p class="text-muted">{{ user.email }}</p>
-                    <div class="badge-roles">
-                      <span *ngFor="let role of user.roles" class="badge bg-primary me-1">
-                        {{ getRoleLabel(role.name || role) }}
-                      </span>
-                    </div>
-                  </div>
-
-                  <ul class="list-group list-group-flush profile-menu">
-                    <li class="list-group-item" [class.active]="activeTab === 'account'" (click)="setTab('account')">
-                      <span class="ion-ios-contact me-2"></span> {{ 'PROFILE.MENU_ACCOUNT' | translate }}
-                    </li>
-                    <li class="list-group-item" [class.active]="activeTab === 'reservations'" (click)="setTab('reservations')">
-                      <span class="ion-ios-car me-2"></span> {{ 'PROFILE.MENU_RESERVATIONS' | translate }}
-                    </li>
-                    <li class="list-group-item" [class.active]="activeTab === 'notifications'" (click)="setTab('notifications')">
-                      <span class="ion-ios-notifications me-2"></span> {{ 'PROFILE.MENU_NOTIFICATIONS' | translate }}
-                    </li>
-                    <li class="list-group-item" [class.active]="activeTab === 'settings'" (click)="setTab('settings')">
-                      <span class="ion-ios-settings me-2"></span> {{ 'PROFILE.MENU_SETTINGS' | translate }}
-                    </li>
-                  </ul>
+          
+          <div class="row g-0">
+            <!-- SIDE NAVIGATION -->
+            <div class="col-md-3 border-end bg-light" style="min-height: 600px;">
+              <div class="p-4 text-center border-bottom mb-3">
+                <div class="mb-3 d-inline-block p-1 bg-white rounded-circle shadow-sm">
+                   <app-profile-avatar [firstName]="user?.firstName" [lastName]="user?.lastName" [photoUrl]="(photoPreview || user?.photoUrl) ?? undefined" [size]="80"></app-profile-avatar>
                 </div>
+                <h6 class="fw-bold mb-1">{{ user?.firstName }} {{ user?.lastName }}</h6>
+                <span class="badge bg-primary-soft text-primary small fw-bold">Compte Vérifié</span>
+              </div>
 
-                <div class="col-md-8 ps-md-4" *ngIf="activeTab === 'account'">
+              <ul class="list-group list-group-flush profile-menu px-2">
+                <li class="list-group-item d-flex align-items-center" [class.active]="activeTab === 'account'" (click)="setTab('account')">
+                  <span class="ion-ios-contact me-3"></span> Informations
+                </li>
+                <li class="list-group-item d-flex align-items-center" [class.active]="activeTab === 'reservations'" (click)="setTab('reservations')">
+                  <span class="ion-ios-car me-3"></span> Activités
+                </li>
+                <li class="list-group-item d-flex align-items-center" [class.active]="activeTab === 'notifications'" (click)="setTab('notifications')">
+                  <span class="ion-ios-notifications me-3"></span> Alertes
+                </li>
+                <li class="list-group-item d-flex align-items-center" [class.active]="activeTab === 'settings'" (click)="setTab('settings')">
+                  <span class="ion-ios-settings me-3"></span> Sécurité
+                </li>
+              </ul>
+
+              <!-- OPPORTUNITIES QUICK LINK -->
+              <div class="mt-auto p-4">
+                <div class="bg-primary rounded-4 p-3 text-white shadow-sm">
+                  <p class="small mb-2 opacity-75">Envie de gagner plus ?</p>
+                  <h6 class="fw-bold mb-3">Devenez partenaire GoRide</h6>
+                  <button class="btn btn-light btn-sm w-100 fw-bold" (click)="setTab('account')">En savoir plus</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- MAIN CONTENT AREA -->
+            <div class="col-md-9 bg-white position-relative">
+              <div class="profile-body p-4 p-lg-5" style="padding-top: 30px !important;">
+                
+                <!-- ACCOUNT TAB (Inspired by Screenshot) -->
+                <div *ngIf="activeTab === 'account'">
                   
-                  <!-- ROLE SWITCHER QUICK ACCESS -->
-                  <div class="role-switcher-card p-4 rounded-4 mb-4 border border-light" style="background: rgba(248, 250, 252, 0.5);">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                      <div>
-                        <span class="text-muted small fw-bold text-uppercase letter-spacing-1">Mode actuel</span>
-                        <div class="d-flex align-items-center mt-1">
-                          <span [class]="authService.getActiveRoleData()?.icon" [style.color]="authService.getActiveRoleData()?.color" style="font-size: 1.5rem; margin-right: 10px;"></span>
-                          <h4 class="mb-0 fw-bold text-goride-dark">{{ authService.getActiveRoleData()?.label }}</h4>
-                        </div>
+                  <!-- Section Title -->
+                  <div class="section-title-premium">
+                    <div class="icon-box"><span class="ion-ios-contact"></span></div>
+                    <h4 class="mb-0">Détails Personnels</h4>
+                  </div>
+
+                  <!-- Alert Success -->
+                  <div class="alert alert-success border-0 shadow-sm rounded-4 py-3 mb-4 d-flex align-items-center" *ngIf="successMessage">
+                    <span class="ion-ios-checkmark-circle me-3 h4 mb-0"></span>
+                    <div>
+                      <h6 class="mb-0 fw-bold">Succès !</h6>
+                      <span class="small">{{ successMessage }}</span>
+                    </div>
+                  </div>
+
+                  <!-- PHOTO UPLOAD SECTION -->
+                  <div class="photo-upload-v2">
+                    <div class="avatar-preview-v2">
+                      <app-profile-avatar [firstName]="user?.firstName" [lastName]="user?.lastName" [photoUrl]="photoPreview ?? undefined" [size]="100"></app-profile-avatar>
+                    </div>
+                    <div>
+                      <label for="photo-upload-input" class="btn-upload-premium mb-2">
+                        <span class="ion-ios-cloud-upload"></span> Upload Photo
+                      </label>
+                      <input id="photo-upload-input" type="file" accept="image/*" style="display:none" (change)="onFileSelected($event)">
+                      <div class="upload-guidelines">
+                        Une photo de face en bonne qualité est recommandée.<br>
+                        Format <strong>JPG, PNG</strong> supporté. Max <strong>5 MB</strong>.
                       </div>
-                      <span class="ion-ios-swap text-primary opacity-50" style="font-size: 1.5rem;"></span>
-                    </div>
-                    <div class="px-3 py-2 text-muted small fw-bold border-bottom mb-3" style="font-size: 0.65rem;">BASCULER DE PROFIL</div>
-                    <div class="d-flex flex-wrap gap-2">
-                      <button *ngFor="let role of availableRoles" 
-                              (click)="switchRole(role.id)"
-                              class="btn btn-sm d-flex align-items-center gap-2 px-3 py-2 rounded-pill transition-all shadow-sm border-0"
-                              [style.backgroundColor]="activeRole === role.id ? role.color : '#fff'"
-                              [style.color]="activeRole === role.id ? '#fff' : '#475569'">
-                        <span [class]="role.icon"></span>
-                        <span class="fw-bold">{{ role.label.split(' ')[0] }}</span>
-                        <span class="ion-ios-checkmark-circle ms-1" *ngIf="activeRole === role.id"></span>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="mb-0 text-goride-dark">{{ 'PROFILE.PERSONAL_DETAILS' | translate }}</h4>
-                    <button class="btn btn-sm" [class.btn-outline-primary]="!isEditing" [class.btn-outline-danger]="isEditing" (click)="toggleEdit()">
-                      <span [class]="isEditing ? 'ion-ios-close' : 'ion-ios-create'"></span>
-                      {{ isEditing ? 'Annuler' : 'Modifier' }}
-                    </button>
-                  </div>
-
-                  <div class="row g-3" *ngIf="!isEditing">
-                    <div class="col-sm-6">
-                      <label class="form-label text-muted small">{{ 'PROFILE.FIRST_NAME' | translate }}</label>
-                      <p class="h6 border-bottom pb-2">{{ user.firstName }}</p>
-                    </div>
-                    <div class="col-sm-6">
-                      <label class="form-label text-muted small">{{ 'PROFILE.LAST_NAME' | translate }}</label>
-                      <p class="h6 border-bottom pb-2">{{ user.lastName }}</p>
-                    </div>
-                    <div class="col-sm-6">
-                      <label class="form-label text-muted small">{{ 'PROFILE.EMAIL' | translate }}</label>
-                      <p class="h6 border-bottom pb-2">{{ user.email }}</p>
-                    </div>
-                    <div class="col-sm-6">
-                      <label class="form-label text-muted small">{{ 'PROFILE.PHONE' | translate }}</label>
-                      <p class="h6 border-bottom pb-2">{{ user.phone || 'Non renseigné' }}</p>
-                    </div>
-                    <div class="col-sm-6">
-                      <label class="form-label text-muted small">{{ 'PROFILE.MEMBER_SINCE' | translate }}</label>
-                      <p class="h6 border-bottom pb-2">{{ user.createdAt | date:'dd/MM/yyyy' }}</p>
-                    </div>
-                    <div class="col-sm-6">
-                      <label class="form-label text-muted small">{{ 'PROFILE.ACCOUNT_STATUS' | translate }}</label>
-                      <p class="h6 border-bottom pb-2">
-                        <span class="text-success">● {{ 'PROFILE.STATUS_ACTIVE' | translate }}</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  <!-- EDIT FORM -->
-                  <div class="row g-3" *ngIf="isEditing">
-                    <div class="col-sm-6">
-                      <label class="form-label fw-bold small">Prénom</label>
-                      <input type="text" class="form-control form-control-sm" [(ngModel)]="editUser.firstName">
-                    </div>
-                    <div class="col-sm-6">
-                      <label class="form-label fw-bold small">Nom</label>
-                      <input type="text" class="form-control form-control-sm" [(ngModel)]="editUser.lastName">
-                    </div>
-                    <div class="col-sm-6">
-                      <label class="form-label fw-bold small">Email (Non modifiable)</label>
-                      <input type="text" class="form-control form-control-sm bg-light" [value]="editUser.email" disabled>
-                    </div>
-                    <div class="col-sm-6">
-                      <label class="form-label fw-bold small">Téléphone</label>
-                      <input type="text" class="form-control form-control-sm" [(ngModel)]="editUser.phone">
-                    </div>
-                    <div class="col-12 mt-4">
-                      <button class="btn btn-primary btn-sm px-4 me-2" (click)="saveProfile()">Enregistrer les modifications</button>
-                      <button class="btn btn-outline-secondary btn-sm px-4" (click)="toggleEdit()">Annuler</button>
-                    </div>
-                  </div>
-
-                  <!-- Photo de Profil Upload Section -->
-                  <div class="photo-upload-section mt-5 mb-4 p-4 border rounded-4 bg-white shadow-sm" *ngIf="!isEditing">
-                    <h6 class="fw-bold mb-3 d-flex align-items-center">
-                      <span class="ion-ios-camera me-2 text-primary" style="font-size:1.3rem"></span>
-                      Photo de profil
-                    </h6>
-
-                    <!-- Toast Success -->
-                    <div class="alert alert-success py-2 px-3 small d-flex align-items-center" *ngIf="photoSuccess">
-                      <span class="ion-ios-checkmark-circle me-2"></span> Photo enregistrée avec succès !
-                    </div>
-
-                    <div class="d-flex align-items-center gap-4">
-                      <!-- Preview -->
-                      <div style="flex-shrink:0;">
-                        <app-profile-avatar [firstName]="user?.firstName" [lastName]="user?.lastName" [photoUrl]="photoPreview ?? undefined" [size]="72"></app-profile-avatar>
-                      </div>
-
-                      <!-- Controls -->
-                      <div class="flex-grow-1">
-                        <p class="text-muted small mb-3">
-                          Choisissez une photo nette et professionnelle. Format JPG ou PNG, max. 5 Mo.
-                        </p>
-                        <div class="d-flex flex-wrap gap-2">
-                          <label for="photo-upload-input" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1" style="cursor:pointer;">
-                            <span class="ion-ios-cloud-upload"></span>
-                            <span>{{ photoPreview ? 'Changer la photo' : 'Choisir une photo' }}</span>
-                          </label>
-                          <input id="photo-upload-input" type="file" accept="image/*" style="display:none" (change)="onFileSelected($event)">
-
-                          <button class="btn btn-primary btn-sm d-flex align-items-center gap-1" *ngIf="photoPreview" [disabled]="photoUploading" (click)="savePhoto()">
-                            <span *ngIf="!photoUploading" class="ion-ios-checkmark"></span>
-                            <span *ngIf="photoUploading" class="spinner-border spinner-border-sm"></span>
-                            {{ photoUploading ? 'Enregistrement...' : 'Enregistrer' }}
-                          </button>
-
-                          <button class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1" *ngIf="photoPreview" (click)="removePhoto()">
-                            <span class="ion-ios-trash"></span> Supprimer
-                          </button>
-                        </div>
+                      
+                      <!-- Action buttons for photo -->
+                      <div class="mt-3 d-flex gap-2" *ngIf="photoPreview">
+                        <button class="btn btn-primary btn-sm rounded-pill px-3" (click)="savePhoto()" [disabled]="photoUploading">
+                          <span class="spinner-border spinner-border-sm me-1" *ngIf="photoUploading"></span> Confirmer
+                        </button>
+                        <button class="btn btn-outline-danger btn-sm rounded-pill px-3" (click)="removePhoto()">Supprimer</button>
                       </div>
                     </div>
                   </div>
-                  <!-- END Photo Upload Section -->
 
-                  <!-- END Photo Upload Section -->
+                  <!-- PERSONAL DETAILS FORM -->
+                  <div class="row g-4">
+                    <!-- First Name -->
+                    <div class="col-md-6">
+                      <label class="form-label-premium">Prénom</label>
+                      <input type="text" class="input-box-v2" [(ngModel)]="user.firstName" placeholder="Entrez votre prénom">
+                    </div>
+                    <!-- Last Name -->
+                    <div class="col-md-6">
+                      <label class="form-label-premium">Nom</label>
+                      <input type="text" class="input-box-v2" [(ngModel)]="user.lastName" placeholder="Entrez votre nom">
+                    </div>
 
-                  <!-- Section Gestion des Rôles -->
-                  <div class="mt-5 pt-4 border-top">
-                    <h4 class="mb-3">Opportunités & Partenariats</h4>
-                    <p class="text-muted small mb-4">Étendez vos possibilités sur GoRide en activant de nouveaux rôles.</p>
+                    <!-- Date of Birth -->
+                    <div class="col-md-6">
+                      <label class="form-label-premium">Date de naissance</label>
+                      <div class="position-relative">
+                        <input type="date" class="input-box-v2" [(ngModel)]="user.birthDate">
+                      </div>
+                    </div>
+
+                    <!-- Gender Selection -->
+                    <div class="col-md-6">
+                      <label class="form-label-premium">Genre</label>
+                      <div class="gender-toggle-group">
+                        <label class="gender-option">
+                          <input type="radio" name="gender" value="male" [(ngModel)]="user.gender">
+                          <div class="gender-box">
+                            <div class="gender-dot"></div>
+                            Homme
+                          </div>
+                        </label>
+                        <label class="gender-option">
+                          <input type="radio" name="gender" value="female" [(ngModel)]="user.gender">
+                          <div class="gender-box">
+                            <div class="gender-dot"></div>
+                            Femme
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- Citizenship (Select) -->
+                    <div class="col-md-6">
+                      <label class="form-label-premium">Nationalité</label>
+                      <select class="input-box-v2 form-select" [(ngModel)]="user.citizenship">
+                        <option value="Tunisie">Tunisie</option>
+                        <option value="France">France</option>
+                        <option value="Etats-Unis">États-Unis</option>
+                        <option value="Canada">Canada</option>
+                      </select>
+                    </div>
+
+                    <!-- Residence -->
+                    <div class="col-md-6">
+                      <label class="form-label-premium">Ville de résidence</label>
+                      <input type="text" class="input-box-v2" [(ngModel)]="user.residence" placeholder="Ex: Tunis, Ariana...">
+                    </div>
+
+                    <!-- Passport Expiry -->
+                    <div class="col-md-6">
+                      <label class="form-label-premium">Date d'expiration C.I.N / Passeport</label>
+                      <input type="date" class="input-box-v2" [(ngModel)]="user.passportExpiry">
+                    </div>
+
+                    <!-- Passport Number -->
+                    <div class="col-md-6">
+                      <label class="form-label-premium">Numéro de pièce d'identité</label>
+                      <input type="text" class="input-box-v2" [(ngModel)]="user.passportNumber" placeholder="#88888888">
+                    </div>
+
+                    <!-- Speaking Language -->
+                    <div class="col-md-6">
+                      <label class="form-label-premium">Langue parlée <span class="badge-missing">Manquant</span></label>
+                      <select class="input-box-v2 form-select" [(ngModel)]="user.language">
+                        <option value="" disabled selected>Sélectionner la langue</option>
+                        <option value="Français">Français</option>
+                        <option value="Anglais">Anglais</option>
+                        <option value="Arabe">Arabe</option>
+                      </select>
+                    </div>
+
+                    <!-- Bio / Notes -->
+                    <div class="col-12">
+                      <label class="form-label-premium">Bio / Notes</label>
+                      <textarea class="input-box-v2" rows="4" [(ngModel)]="user.bio" placeholder="Parlez-nous un peu de vous..."></textarea>
+                    </div>
+                  </div>
+
+                  <!-- OPPORTUNITIES SECTION -->
+                  <div class="mt-5 pt-5 border-top" data-aos="fade-up">
+                    <div class="section-title-premium">
+                      <div class="icon-box"><span class="ion-ios-rocket"></span></div>
+                      <h4 class="mb-0">Opportunités & Partenariats</h4>
+                    </div>
+                    <p class="text-muted small mb-4">Débloquez de nouveaux horizons en activant des rôles spécifiques à vos besoins.</p>
                     
                     <div class="row g-3">
-                      <!-- Activer Commander un trajet -->
-                      <div class="col-md-6" *ngIf="!hasRole('ROLE_USER')">
-                        <div class="card role-promo-card p-3 h-100 border-0 bg-light shadow-none">
-                          <div class="d-flex align-items-center mb-3">
-                            <div class="promo-icon bg-success text-white me-3">
-                              <span class="ion-ios-navigate"></span>
-                            </div>
-                            <h6 class="mb-0">Commander un trajet</h6>
-                          </div>
-                          <p class="small text-muted flex-grow-1">Bénéficiez de trajets confortables et sécurisés en tant que passager.</p>
-                          <button class="btn btn-sm btn-outline-success w-100 mt-2" style="cursor: pointer; position: relative; z-index: 10;" [disabled]="isAddingRole" (click)="requestNewRole('USER')">
-                            Activer ce mode
-                          </button>
-                        </div>
-                      </div>
-
-                      <!-- Activer Location -->
-                      <div class="col-md-6" *ngIf="!hasRole('ROLE_CLIENT')">
-                        <div class="card role-promo-card p-3 h-100 border-0 bg-light shadow-none">
-                          <div class="d-flex align-items-center mb-3">
-                            <div class="promo-icon bg-info text-white me-3">
-                              <span class="ion-ios-car"></span>
-                            </div>
-                            <h6 class="mb-0">Louer un véhicule</h6>
-                          </div>
-                          <p class="small text-muted flex-grow-1">Réservez un véhicule pour vos déplacements personnels ou professionnels.</p>
-                          <button class="btn btn-sm btn-outline-info w-100 mt-2" style="cursor: pointer; position: relative; z-index: 10;" [disabled]="isAddingRole" (click)="requestNewRole('CLIENT')">
-                            Activer ce mode
-                          </button>
-                        </div>
-                      </div>
-
                       <!-- Devenir Chauffeur -->
                       <div class="col-md-6" *ngIf="!hasRole('ROLE_DRIVER')">
-                        <div class="card role-promo-card p-3 h-100 border-0 bg-light shadow-none">
+                        <div class="card role-promo-card p-4 h-100 border-0 bg-light-blue shadow-none transition-all">
                           <div class="d-flex align-items-center mb-3">
-                            <div class="promo-icon bg-primary text-white me-3">
+                            <div class="promo-icon bg-primary text-white me-3 shadow-sm">
                               <span class="ion-ios-car"></span>
                             </div>
-                            <h6 class="mb-0">Devenir Chauffeur</h6>
+                            <h6 class="mb-0 fw-bold">Devenir Chauffeur</h6>
                           </div>
-                          <p class="small text-muted flex-grow-1">Gagnez de l'argent en conduisant votre propre véhicule avec GoRide.</p>
-                          <button class="btn btn-sm btn-outline-primary w-100 mt-2" [disabled]="isAddingRole" (click)="requestNewRole('DRIVER')">
-                            Activer le mode Chauffeur
-                          </button>
+                          <p class="small text-muted flex-grow-1">Gagnez des revenus en conduisant votre véhicule. Planning flexible.</p>
+                          <button class="btn btn-sm btn-primary w-100 mt-3 rounded-pill" [disabled]="isAddingRole" (click)="requestNewRole('DRIVER')">Activer ce mode</button>
                         </div>
                       </div>
 
                       <!-- Devenir Propriétaire -->
                       <div class="col-md-6" *ngIf="!hasRole('ROLE_FLEET_OWNER')">
-                        <div class="card role-promo-card p-3 h-100 border-0 bg-light shadow-none">
+                        <div class="card role-promo-card p-4 h-100 border-0 bg-light-orange shadow-none transition-all">
                           <div class="d-flex align-items-center mb-3">
-                            <div class="promo-icon bg-warning text-white me-3">
+                            <div class="promo-icon bg-warning text-white me-3 shadow-sm">
                               <span class="ion-ios-people"></span>
                             </div>
-                            <h6 class="mb-0">Propriétaire de Flotte</h6>
+                            <h6 class="mb-0 fw-bold">Gestionnaire de Flotte</h6>
                           </div>
-                          <p class="small text-muted flex-grow-1">Inscrivez vos véhicules et gérez votre équipe de chauffeurs.</p>
-                          <button class="btn btn-sm btn-outline-warning w-100 mt-2" [disabled]="isAddingRole" (click)="requestNewRole('FLEET_OWNER')">
-                            Gérer une flotte
-                          </button>
-                        </div>
-                      </div>
-
-                      <!-- Devenir Entreprise -->
-                      <div class="col-md-6" *ngIf="!hasRole('ROLE_COMPANY')">
-                        <div class="card role-promo-card p-3 h-100 border-0 bg-light shadow-none">
-                          <div class="d-flex align-items-center mb-3">
-                            <div class="promo-icon bg-dark text-white me-3">
-                              <span class="ion-ios-briefcase"></span>
-                            </div>
-                            <h6 class="mb-0">Compte Entreprise</h6>
-                          </div>
-                          <p class="small text-muted flex-grow-1">Optimisez les déplacements de vos collaborateurs avec des solutions pro.</p>
-                          <button class="btn btn-sm btn-outline-dark w-100 mt-2" [disabled]="isAddingRole" (click)="requestNewRole('COMPANY')">
-                            Créer un compte entreprise
-                          </button>
+                          <p class="small text-muted flex-grow-1">Inscrivez plusieurs véhicules et gérez vos chauffeurs efficacement.</p>
+                          <button class="btn btn-sm btn-warning w-100 mt-3 rounded-pill text-white" [disabled]="isAddingRole" (click)="requestNewRole('FLEET_OWNER')">Activer ce mode</button>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- Reservations Tab -->
-                <div class="col-md-8 ps-md-4" *ngIf="activeTab === 'reservations'">
-                  <h4 class="mb-4">Mes Réservations</h4>
-                  <div class="text-center py-5">
-                    <span class="ion-ios-car text-muted" style="font-size: 3rem; opacity: 0.3;"></span>
-                    <p class="mt-3 text-muted">Historique des trajets à venir et passés.</p>
+                  <!-- STICKY FOOTER ACTIONS -->
+                  <div class="profile-footer-sticky">
+                    <button class="btn-cancel-premium" (click)="fetchProfile()">Réinitialiser</button>
+                    <button class="btn-save-premium" (click)="saveProfile()" [disabled]="loading">
+                      <span class="spinner-border spinner-border-sm me-2" *ngIf="loading"></span> Enregistrer les modifications
+                    </button>
                   </div>
+
                 </div>
 
-                <!-- Notifications Tab -->
-                <div class="col-md-8 ps-md-4" *ngIf="activeTab === 'notifications'">
+                <!-- OTHER TABS PLACEHOLDERS -->
+                <div *ngIf="activeTab === 'reservations'" class="text-center py-5">
+                   <span class="ion-ios-car text-muted" style="font-size: 4rem; opacity: 0.1;"></span>
+                   <h4 class="mt-3">Aucune activité récente</h4>
+                   <p class="text-muted">Vos trajets et locations apparaîtront ici.</p>
+                </div>
+
+                <div *ngIf="activeTab === 'notifications'" class="py-2">
                   <h4 class="mb-4">Préférences de Notifications</h4>
-                  <p class="text-muted small mb-4">Gérez la façon dont GoRide vous contacte.</p>
-                  <div class="list-group list-group-flush border rounded-3">
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                  <div class="list-group list-group-flush border rounded-4 overflow-hidden">
+                    <div class="list-group-item p-4 d-flex justify-content-between align-items-center">
                       <div>
-                        <h6 class="mb-0">Notifications Push</h6>
-                        <small class="text-muted">Recevoir des alertes sur votre navigateur.</small>
+                        <h6 class="mb-1 fw-bold">Alertes SMS</h6>
+                        <p class="text-muted small mb-0">Recevoir un SMS pour chaque réservation confirmée.</p>
                       </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" checked>
-                      </div>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-0">E-mails transactionnels</h6>
-                        <small class="text-muted">Reçus, confirmations de réservation.</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" checked>
-                      </div>
+                      <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked></div>
                     </div>
                   </div>
                 </div>
 
-                <!-- Settings Tab -->
-                <div class="col-md-8 ps-md-4" *ngIf="activeTab === 'settings'">
-                  <h4 class="mb-4">Paramètres du Compte</h4>
-                  <div class="card border-0 bg-light p-4 rounded-3">
-                    <h6 class="fw-bold mb-3">Sécurité</h6>
-                    <button class="btn btn-outline-primary btn-sm mb-3">Changer le mot de passe</button>
-                    <hr>
-                    <h6 class="fw-bold mb-3 text-danger">Zone de danger</h6>
-                    <p class="small text-muted">La suppression de votre compte est irréversible.</p>
-                    <button class="btn btn-outline-danger btn-sm">Supprimer mon compte</button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

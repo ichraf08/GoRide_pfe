@@ -119,33 +119,226 @@
   color: #2563eb;
 }
 
-/* Role Promo Cards */
-.role-promo-card {
-  transition: all 0.3s ease;
-  border-radius: 16px !important;
+/* --- NEW PREMIUM FORM STYLES --- */
+.section-title-premium {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 25px;
 }
 
-.role-promo-card:hover {
-  transform: translateY(-5px);
-  background: #ffffff !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
-}
-
-.promo-icon {
-  width: 45px;
-  height: 45px;
-  border-radius: 12px;
+.section-title-premium .icon-box {
+  width: 32px;
+  height: 32px;
+  background: #f1f5f9;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 16px;
+  color: #64748b;
 }
 
-.btn-sm {
-  border-radius: 8px;
+.form-label-premium {
   font-weight: 700;
-  padding: 8px 15px;
-  text-transform: uppercase;
+  font-size: 13px;
+  color: #475569;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.input-box-v2 {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.input-box-v2:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+  outline: none;
+}
+
+.input-box-v2:disabled {
+  background: #f8fafc;
+  color: #94a3b8;
+}
+
+/* Gender Toggle Group */
+.gender-toggle-group {
+  display: flex;
+  gap: 12px;
+}
+
+.gender-option {
+  flex: 1;
+  cursor: pointer;
+}
+
+.gender-option input {
+  display: none;
+}
+
+.gender-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  color: #475569;
+}
+
+.gender-option input:checked + .gender-box {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.gender-dot {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #cbd5e1;
+  border-radius: 50%;
+  position: relative;
+}
+
+.gender-option input:checked + .gender-box .gender-dot {
+  border-color: #2563eb;
+}
+
+.gender-option input:checked + .gender-box .gender-dot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: #2563eb;
+  border-radius: 50%;
+}
+
+/* Photo Upload Inspiration */
+.photo-upload-v2 {
+  display: flex;
+  align-items: flex-start;
+  gap: 25px;
+  margin-bottom: 35px;
+}
+
+.avatar-preview-v2 {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 2px solid #ffffff;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.btn-upload-premium {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.btn-upload-premium:hover {
+  background: #f8fafc;
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.upload-guidelines {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+/* Action Footer Sticky */
+.profile-footer-sticky {
+  position: sticky;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 20px 40px;
+  border-top: 1px solid #f1f5f9;
+  margin: 0 -40px -40px -40px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  z-index: 100;
+}
+
+.btn-save-premium {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 35px;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+}
+
+.btn-save-premium:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
+}
+
+.btn-cancel-premium {
+  background: transparent;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  padding: 12px 30px;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel-premium:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.badge-missing {
+  background: #fee2e2;
+  color: #ef4444;
+  padding: 2px 8px;
+  border-radius: 6px;
   font-size: 11px;
-  letter-spacing: 0.5px;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+.bg-light-blue {
+  background: #f0f7ff !important;
+}
+
+.bg-light-orange {
+  background: #fffaf0 !important;
+}
+
+.bg-primary-soft {
+  background: rgba(37, 99, 235, 0.1);
 }

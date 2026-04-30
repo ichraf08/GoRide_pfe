@@ -100,6 +100,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.roleDefinitions[this.activeRole] || this.roleDefinitions['ROLE_CLIENT'];
   }
 
+  get currentUser(): any {
+    return {
+      name: this.user?.firstName || 'ichraf'
+    };
+  }
+
   goToDashboard(): void {
     const roleData = this.getActiveRoleData();
     if (roleData && roleData.route) {

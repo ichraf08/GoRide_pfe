@@ -30,19 +30,20 @@
 <section class="hero-section-v2 hero-logged-in" *ngIf="isLoggedIn">
   <div class="hero-bg-image hero-bg-city"></div>
   <div class="hero-overlay-dark"></div>
-  <div class="container position-relative z-index-10">
-    <div class="row align-items-center g-5">
+  <div class="container-custom position-relative z-index-10">
+    <div class="row align-items-center">
       
-      <!-- Left Content (Welcome + Card) -->
-      <div class="col-lg-6 hero-content-v2 text-start" data-aos="fade-right">
+      <!-- Content (Welcome + Card) -->
+      <div class="col-lg-7 hero-content-v2 text-start">
         <!-- WELCOME HEADER -->
-        <div class="mb-5 mt-4">
-          <h1 class="hero-title-premium mb-2">Bienvenue, {{ user?.firstName || 'ichraf' }}</h1>
-          <p class="hero-subtitle-premium">Votre espace mobilité personnalisé.</p>
+        <div class="mb-4 welcome-header" data-aos="fade-up" data-aos-duration="1200" data-aos-easing="ease-out-back">
+          <h1 class="hero-title-premium mb-3">Bienvenue, {{ currentUser.name }}</h1>
+          <div class="hero-title-line" data-aos="stretch-right" data-aos-delay="600" data-aos-duration="1000"></div>
+          <p class="hero-subtitle-premium" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">Votre espace mobilité personnalisé.</p>
         </div>
 
         <!-- Dynamic Dashboard Card (Glassmorphism) -->
-        <div class="dashboard-access-card glass-card-premium p-4 p-md-5 position-relative" data-aos="zoom-in" data-aos-delay="200">
+        <div class="dashboard-access-card glass-card-premium p-4 p-md-4" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1200" data-aos-easing="ease-out-quint">
           
           <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-light">
             <div>
@@ -55,8 +56,8 @@
 
             <!-- Role Switcher Dropdown -->
             <div class="position-relative" *ngIf="availableRoles.length > 1">
-              <button class="btn btn-light rounded-pill px-3 py-2 fw-bold d-flex align-items-center shadow-sm" style="font-size: 0.85rem;" (click)="toggleRoleSwitcher()">
-                <span class="ion-ios-swap me-2"></span> Changer
+              <button class="btn-change-role" (click)="toggleRoleSwitcher()">
+                <span class="ion-ios-swap"></span> Changer
               </button>
               
               <!-- Dropdown List -->
@@ -75,25 +76,35 @@
           </div>
 
           <!-- Action Area -->
-          <div class="d-flex flex-column flex-sm-row gap-3">
+          <div class="d-flex flex-column flex-sm-row action-buttons-group">
             <button class="btn-goride-primary flex-grow-1 d-flex align-items-center justify-content-center" 
-                    (click)="goToDashboard()">
+                    (click)="goToDashboard()"
+                    data-aos="fade-up" data-aos-delay="1000" data-aos-duration="1000">
               <span [class]="getActiveRoleData().icon" style="margin-right: 10px; font-size: 1.3rem;"></span>
               {{ getActiveRoleData().action }}
               <span class="ion-md-arrow-forward ms-2"></span>
             </button>
-            <button class="btn-goride-secondary px-4 d-flex align-items-center justify-content-center" routerLink="/profile">
+            <button class="btn-goride-secondary px-4 d-flex align-items-center justify-content-center" 
+                    routerLink="/acceuil/profile"
+                    data-aos="fade-up" data-aos-delay="1200" data-aos-duration="1000">
               <span class="ion-ios-person me-2"></span> Mon Profil
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Right Visual (Corporate Image) -->
-      <div class="col-lg-6 d-none d-lg-block" data-aos="fade-left" data-aos-delay="300">
-        <div class="hero-visual-wrapper position-relative">
-          <img src="assets/images/hero-couple.png" alt="GoRide Corporate" class="img-fluid rounded-4 shadow-lg-premium">
-          <!-- Subtle Floating Badges if needed -->
+      <!-- Right Visual (Badges only) -->
+      <div class="col-lg-5 d-none d-lg-block">
+        <div class="hero-visual-wrapper position-relative" style="min-height: 400px;">
+          <!-- Floating Badges -->
+          <div class="floating-badge badge-1" data-aos="zoom-in" data-aos-delay="1400" data-aos-duration="1000">
+            <span class="badge-icon">⭐</span>
+            <span class="badge-text">Service rapide</span>
+          </div>
+          <div class="floating-badge badge-2" data-aos="zoom-in" data-aos-delay="1600" data-aos-duration="1000">
+            <span class="badge-icon">🚘</span>
+            <span class="badge-text">Mobilité premium</span>
+          </div>
         </div>
       </div>
 
@@ -108,7 +119,7 @@
       <!-- Feature 1 -->
       <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
         <div class="feature-card-premium bg-white p-4 rounded-4 shadow-sm h-100 d-flex align-items-center transition-all">
-          <div class="feat-icon-new accent-blue me-4 flex-shrink-0" style="width: 55px; height: 55px; font-size: 24px;">
+          <div class="feat-icon-new accent-blue me-5 flex-shrink-0" style="width: 55px; height: 55px; font-size: 24px;">
             <span class="ion-ios-flash"></span>
           </div>
           <div class="feat-text text-start">
@@ -120,7 +131,7 @@
       <!-- Feature 2 -->
       <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
         <div class="feature-card-premium bg-white p-4 rounded-4 shadow-sm h-100 d-flex align-items-center transition-all">
-          <div class="feat-icon-new accent-blue me-4 flex-shrink-0" style="width: 55px; height: 55px; font-size: 24px;">
+          <div class="feat-icon-new accent-blue me-5 flex-shrink-0" style="width: 55px; height: 55px; font-size: 24px;">
             <span class="ion-ios-lock"></span>
           </div>
           <div class="feat-text text-start">
@@ -132,7 +143,7 @@
       <!-- Feature 3 -->
       <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
         <div class="feature-card-premium bg-white p-4 rounded-4 shadow-sm h-100 d-flex align-items-center transition-all">
-          <div class="feat-icon-new accent-blue me-4 flex-shrink-0" style="width: 55px; height: 55px; font-size: 24px;">
+          <div class="feat-icon-new accent-blue me-5 flex-shrink-0" style="width: 55px; height: 55px; font-size: 24px;">
             <span class="ion-ios-checkmark-circle"></span>
           </div>
           <div class="feat-text text-start">
@@ -144,7 +155,7 @@
       <!-- Feature 4 -->
       <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
         <div class="feature-card-premium bg-white p-4 rounded-4 shadow-sm h-100 d-flex align-items-center transition-all">
-          <div class="feat-icon-new accent-blue me-4 flex-shrink-0" style="width: 55px; height: 55px; font-size: 24px;">
+          <div class="feat-icon-new accent-blue me-5 flex-shrink-0" style="width: 55px; height: 55px; font-size: 24px;">
             <span class="ion-ios-time"></span>
           </div>
           <div class="feat-text text-start">

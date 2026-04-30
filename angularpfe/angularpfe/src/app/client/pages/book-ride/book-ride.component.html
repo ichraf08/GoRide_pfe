@@ -1,93 +1,117 @@
 <div class="book-ride">
-  <div class="row g-4" *ngIf="bookingStep === 'idle'">
-    <!-- Search & Selection -->
-    <div class="col-lg-5">
-      <div class="booking-card shadow-sm p-4">
-        <h4 class="fw-bold mb-4">Où allez-vous ?</h4>
-        
-        <div class="location-inputs mb-4">
-          <div class="input-group-custom">
-            <span class="ion-ios-radio-button-on text-primary"></span>
-            <input type="text" placeholder="Lieu de départ" value="Mon emplacement actuel" readonly>
-          </div>
-          <div class="vertical-line"></div>
-          <div class="input-group-custom">
-            <span class="ion-ios-pin text-danger"></span>
-            <input type="text" placeholder="Entrez la destination" [(ngModel)]="destination">
-          </div>
-        </div>
+  <!-- BACKGROUND MAP -->
+  <div class="map-container">
+    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1600" class="map-bg">
+  </div>
 
-        <h6 class="fw-bold mb-3">Choisir le service</h6>
-        <div class="ride-options">
-          <div class="ride-item" [class.active]="selectedService === 'Economy'" (click)="selectService('Economy', 12.5)">
-            <div class="ride-icon gradient-blue">
-              <span class="ion-ios-car"></span>
-            </div>
-            <div class="ride-info">
-              <span class="ride-name">GoRide Economy</span>
-              <span class="ride-desc">Abordable & rapide</span>
-            </div>
-            <div class="ride-price">12.5 DT</div>
-          </div>
-
-          <div class="ride-item" [class.active]="selectedService === 'Comfort'" (click)="selectService('Comfort', 18.0)">
-            <div class="ride-icon gradient-purple">
-              <span class="ion-ios-star"></span>
-            </div>
-            <div class="ride-info">
-              <span class="ride-name">GoRide Comfort</span>
-              <span class="ride-desc">Véhicule climatisé</span>
-            </div>
-            <div class="ride-price">18.0 DT</div>
-          </div>
-        </div>
-
-        <button class="btn btn-primary w-100 py-3 mt-4 fw-bold shadow-lg rounded-4" (click)="confirmBooking()">
-          Commander {{ selectedService }}
-        </button>
+  <!-- FLOATING BOOKING PANEL (Idle State) -->
+  <div class="booking-panel-glass" *ngIf="bookingStep === 'idle'" data-aos="fade-right" data-aos-duration="1000">
+    <h3 class="fw-900 text-goride-dark mb-4">Où allez-vous ?</h3>
+    
+    <div class="location-inputs-v2 mb-4">
+      <div class="input-line"></div>
+      
+      <div class="input-box-premium shadow-sm">
+        <span class="ion-ios-radio-button-on text-primary" style="font-size: 1.2rem;"></span>
+        <input type="text" placeholder="Lieu de départ" value="Mon emplacement actuel" readonly>
+      </div>
+      
+      <div class="input-box-premium shadow-sm">
+        <span class="ion-ios-pin text-danger" style="font-size: 1.2rem;"></span>
+        <input type="text" placeholder="Entrez la destination" [(ngModel)]="destination">
       </div>
     </div>
 
-    <!-- Map -->
-    <div class="col-lg-7">
-      <div class="map-card shadow-sm rounded-4 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000" class="map-bg">
+    <h6 class="text-muted small fw-bold text-uppercase mb-3 letter-spacing-1">Services disponibles</h6>
+    
+    <div class="ride-options-v2 mb-4">
+      <!-- Economy -->
+      <div class="ride-item-v2" [class.active]="selectedService === 'Economy'" (click)="selectService('Economy', 12.5)">
+        <div class="ride-icon-v2 bg-economy">
+          <span class="ion-ios-car"></span>
+        </div>
+        <div class="ride-details-v2">
+          <span class="ride-name-v2">GoRide Economy</span>
+          <span class="ride-meta-v2">Abordable • 4 min</span>
+        </div>
+        <div class="ride-price-v2">12.5 DT</div>
       </div>
+
+      <!-- Comfort -->
+      <div class="ride-item-v2" [class.active]="selectedService === 'Comfort'" (click)="selectService('Comfort', 18.0)">
+        <div class="ride-icon-v2 bg-comfort">
+          <span class="ion-ios-star"></span>
+        </div>
+        <div class="ride-details-v2">
+          <span class="ride-name-v2">GoRide Comfort</span>
+          <span class="ride-meta-v2">Confortable • 3 min</span>
+        </div>
+        <div class="ride-price-v2">18.0 DT</div>
+      </div>
+
+      <!-- Luxury -->
+      <div class="ride-item-v2" [class.active]="selectedService === 'Luxury'" (click)="selectService('Luxury', 25.0)">
+        <div class="ride-icon-v2 bg-luxury">
+          <span class="ion-ios-ribbon"></span>
+        </div>
+        <div class="ride-details-v2">
+          <span class="ride-name-v2">GoRide Luxury</span>
+          <span class="ride-meta-v2">Haut de gamme • 5 min</span>
+        </div>
+        <div class="ride-price-v2">25.0 DT</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary w-100 py-3 fw-bold rounded-4 shadow-lg border-0 d-flex align-items-center justify-content-center gap-2" 
+            (click)="confirmBooking()"
+            [disabled]="!destination">
+      Réserver {{ selectedService }}
+      <span class="ion-md-arrow-forward"></span>
+    </button>
+  </div>
+
+  <!-- SEARCHING RADAR (Searching State) -->
+  <div class="radar-container" *ngIf="bookingStep === 'searching'">
+    <div class="radar">
+      <div class="radar-circle"></div>
+      <div class="radar-circle"></div>
+      <div class="radar-circle"></div>
+      <div class="radar-car">
+        <span class="ion-ios-car"></span>
+      </div>
+    </div>
+    <div class="text-center" data-aos="fade-up">
+      <h3 class="fw-900 text-goride-dark mb-2">Recherche en cours...</h3>
+      <p class="text-muted">Nous connectons avec le chauffeur {{ selectedService }} le plus proche.</p>
+      <button class="btn btn-link text-danger fw-bold text-decoration-none mt-3" (click)="reset()">Annuler</button>
     </div>
   </div>
 
-  <!-- Searching State -->
-  <div class="searching-state text-center py-5" *ngIf="bookingStep === 'searching'">
-    <div class="search-animation mb-4">
-      <div class="pulse-ring"></div>
-      <div class="car-icon">
-        <span class="ion-ios-car text-primary"></span>
+  <!-- CONFIRMATION (Confirmed State) -->
+  <div class="radar-container" *ngIf="bookingStep === 'confirmed'">
+    <div class="driver-card-premium text-center" data-aos="zoom-in" data-aos-duration="600">
+      <div class="success-ring mb-4">
+        <span class="ion-ios-checkmark-circle text-success" style="font-size: 80px;"></span>
       </div>
-    </div>
-    <h3 class="fw-bold">Recherche de chauffeurs...</h3>
-    <p class="text-muted">Nous trouvons le chauffeur le plus proche de vous.</p>
-    <button class="btn btn-outline-danger rounded-pill px-4 mt-3" (click)="reset()">Annuler</button>
-  </div>
+      <h3 class="fw-900 text-goride-dark mb-4">Trajet Confirmé !</h3>
+      
+      <div class="d-flex align-items-center gap-4 mb-4 text-start p-3 bg-light rounded-4">
+        <img src="assets/images/person_1.jpg" class="driver-avatar-v2 shadow-sm">
+        <div>
+          <span class="fw-900 text-goride-dark d-block h5 mb-1">Mohamed Amine</span>
+          <span class="text-muted small fw-bold">KIA RIO • 202 TN 540</span>
+          <div class="mt-2 text-warning small">
+            <span class="ion-ios-star"></span> 4.9 • 1.2k trajets
+          </div>
+        </div>
+      </div>
 
-  <!-- Confirmed State -->
-  <div class="confirmed-state text-center py-5" *ngIf="bookingStep === 'confirmed'">
-    <div class="success-icon mb-4">
-      <span class="ion-ios-checkmark-circle text-success" style="font-size: 100px;"></span>
-    </div>
-    <h2 class="fw-bold">Commande Confirmée !</h2>
-    <p class="text-muted mb-4">Votre chauffeur Mohamed est en route pour vous chercher à {{ destination }}.</p>
-    <div class="driver-card bg-white shadow-sm p-3 rounded-4 d-inline-flex align-items-center gap-3 mb-4">
-      <img src="assets/images/person_1.jpg" class="rounded-circle" width="60" height="60">
-      <div class="text-start">
-        <span class="fw-bold d-block">Mohamed Amine</span>
-        <span class="text-muted small">Kia Rio • 202 TN 540</span>
+      <p class="text-muted small mb-4">Votre chauffeur arrive dans environ 4 minutes à votre position.</p>
+      
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary flex-grow-1 py-3 rounded-4 fw-bold" (click)="reset()">Nouveau trajet</button>
+        <button class="btn btn-light px-4 rounded-4"><span class="ion-ios-chatbubbles"></span></button>
       </div>
-      <div class="rating ms-3">
-        <span class="ion-ios-star text-warning"></span> 4.9
-      </div>
-    </div>
-    <div class="d-block">
-        <button class="btn btn-primary rounded-pill px-5 py-3 fw-bold" (click)="reset()">Nouveau trajet</button>
     </div>
   </div>
 </div>
