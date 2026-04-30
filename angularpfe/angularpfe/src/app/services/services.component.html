@@ -1,134 +1,108 @@
-<!-- HERO SECTION SERVICES -->
-<section class="services-hero">
-  <div class="container-custom">
+<section class="hero-section-v2">
+  <div class="hero-bg-image-services"></div>
+  <div class="hero-overlay-dark"></div>
+  <div class="container-custom position-relative z-index-10">
     <div class="row align-items-center">
-      <div class="col-lg-6 hero-text-col" data-aos="fade-right">
-        <h1 class="display-3 fw-900 text-dark mb-4">Une mobilité pensée pour vous.</h1>
-        <p class="lead text-muted mb-5">
-          Découvrez la gamme complète de services GoRide. Que vous cherchiez un trajet rapide, à louer un véhicule, ou une solution pour votre entreprise, nous avons ce qu'il vous faut.
-        </p>
-        <div class="d-flex gap-3">
-          <button class="btn-premium btn-premium-blue px-4 py-3" routerLink="/signup">
-            Commencer maintenant
-          </button>
-          <button class="btn btn-outline-dark px-4 py-3" routerLink="/acceuil/contact">
-            Nous contacter
-          </button>
-        </div>
-      </div>
-      <div class="col-lg-6 hero-img-col" data-aos="fade-left">
-        <div class="hero-isometric-wrapper">
-          <img src="assets/images/goride-hero-isometric.jpg" alt="GoRide Mobility" class="img-fluid hero-isometric-img">
-        </div>
+      <div class="col-lg-7 hero-content-v2" data-aos="fade-right">
+        <h1 class="hero-title-v2 mb-3">Nos Services</h1>
+        <p class="hero-subtitle-v2 mb-0">Découvrez nos solutions de mobilité pensées pour vous.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SERVICES GRID -->
-<section class="services-grid py-5 bg-light">
-  <div class="container-custom py-5">
-    
-    <!-- Trajets -->
-    <div class="row align-items-center mb-5 service-row g-5" data-aos="fade-up">
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <div class="service-img-wrapper">
-          <img src="assets/images/service-rides.png" alt="Trajets" class="img-fluid">
-          <div class="service-img-overlay"></div>
-          <div class="service-badge"><span class="ion-ios-car"></span> Populaire</div>
+<!-- SERVICES GRID 4 COLUMNS -->
+<section class="services-grid-v4 py-5 bg-white">
+  <div class="container-custom py-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+      
+      <!-- Card 1: Trajets -->
+      <div class="col" data-aos="fade-up">
+        <div class="service-card-lux">
+          <div class="card-img-container">
+            <img src="assets/images/image_6.jpg" alt="Trajets" class="img-fluid">
+            <div class="card-badge-mini">Populaire</div>
+          </div>
+          <div class="card-content-lux">
+            <div class="card-icon-floating">
+              <span class="ion-ios-car"></span>
+            </div>
+            <h3 class="fw-800 h5 mb-3">Trajets Quotidiens</h3>
+            <p class="text-muted small mb-4">
+              Déplacez-vous rapidement en ville sans stress. Nos chauffeurs partenaires vous emmènent à destination.
+            </p>
+            <a class="text-link-premium" routerLink="/signup">
+              Commander un trajet <span class="ion-md-arrow-forward ms-1"></span>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="col-lg-5 offset-lg-1">
-        <h2 class="fw-800 mb-3">Trajets Quotidiens</h2>
-        <p class="text-muted lead mb-4">
-          {{ 'HOME.SERVICES_DESC.RESERVE' | translate }}
-          Déplacez-vous en toute tranquillité. Nos chauffeurs partenaires vous emmènent à destination, à tout moment, en quelques clics.
-        </p>
-        <ul class="list-unstyled mb-4">
-          <li class="mb-2"><span class="ion-ios-checkmark-circle text-primary me-5" style="margin-right: 15px;"></span> Disponibilité 24/7</li>
-          <li class="mb-2"><span class="ion-ios-checkmark-circle text-primary me-5" style="margin-right: 15px;"></span> Prix transparents avant de réserver</li>
-          <li class="mb-2"><span class="ion-ios-checkmark-circle text-primary me-5" style="margin-right: 15px;"></span> Sécurité garantie</li>
-        </ul>
-        <button class="btn-premium btn-premium-blue px-4 py-3" routerLink="/signup">
-          Commander un trajet
-          <span class="ion-md-arrow-forward btn-arrow"></span>
-        </button>
-      </div>
-    </div>
 
-    <!-- Livraison -->
-    <div class="row align-items-center mb-5 service-row flex-lg-row-reverse g-5" data-aos="fade-up">
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <div class="service-img-wrapper">
-          <img src="assets/images/image_2.jpg" alt="Livraison" class="img-fluid" style="object-fit: cover; height: 400px; width: 100%;">
-          <div class="service-img-overlay"></div>
+      <!-- Card 2: Location -->
+      <div class="col" data-aos="fade-up" data-aos-delay="100">
+        <div class="service-card-lux">
+          <div class="card-img-container">
+            <img src="assets/images/image_1.jpg" alt="Louer">
+          </div>
+          <div class="card-content-lux">
+            <div class="card-icon-floating">
+              <span class="ion-ios-key"></span>
+            </div>
+            <h3 class="fw-800 h5 mb-3">Louer un véhicule</h3>
+            <p class="text-muted small mb-4">
+              Trouvez la voiture idéale pour vos besoins. Location courte ou longue durée, simple et rapide.
+            </p>
+            <a class="text-link-premium" routerLink="/signup">
+              Voir les véhicules <span class="ion-md-arrow-forward ms-1"></span>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="col-lg-5 me-lg-auto">
-        <h2 class="fw-800 mb-3">GoRide Livraison</h2>
-        <p class="text-muted lead mb-4">
-          {{ 'HOME.SERVICES_DESC.DELIVERY' | translate }}
-          Envoyez ou recevez vos colis et repas rapidement. Suivez votre livraison en temps réel sur l'application.
-        </p>
-        <button class="btn-premium btn-premium-blue px-4 py-3" routerLink="/signup">
-          Essayer la livraison
-          <span class="ion-md-arrow-forward btn-arrow"></span>
-        </button>
-      </div>
-    </div>
 
-    <!-- Location -->
-    <div class="row align-items-center mb-5 service-row g-5" data-aos="fade-up">
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <div class="service-img-wrapper">
-          <img src="assets/images/service-rental.png" alt="Location" class="img-fluid">
-          <div class="service-img-overlay"></div>
+      <!-- Card 3: Partenariat -->
+      <div class="col" data-aos="fade-up" data-aos-delay="200">
+        <div class="service-card-lux">
+          <div class="card-img-container">
+            <img src="assets/images/goride-fleet-owner-key.png" alt="Partenaire" style="object-position: center top;">
+          </div>
+          <div class="card-content-lux">
+            <div class="card-icon-floating">
+              <span class="ion-ios-cash"></span>
+            </div>
+            <h3 class="fw-800 h5 mb-3">Mettre mon véhicule</h3>
+            <p class="text-muted small mb-4">
+              Rentabilisez votre voiture en la proposant sur GoRide de façon simple et sécurisée.
+            </p>
+            <a class="text-link-premium" routerLink="/signup/fleet">
+              Devenir partenaire <span class="ion-md-arrow-forward ms-1"></span>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="col-lg-5 offset-lg-1">
-        <h2 class="fw-800 mb-3">Location de Véhicules</h2>
-        <p class="text-muted lead mb-4">
-          {{ 'HOME.SERVICES_DESC.RENT' | translate }}
-          Besoin d'une voiture pour le week-end ou pour les vacances ? Louez un véhicule adapté à vos besoins parmi notre flotte partenaire.
-        </p>
-        <button class="btn-premium btn-premium-blue px-4 py-3" routerLink="/signup">
-          Voir les véhicules
-          <span class="ion-md-arrow-forward btn-arrow"></span>
-        </button>
-      </div>
-    </div>
 
-    <!-- Solutions Entreprises -->
-    <div class="row align-items-center mb-5 service-row flex-lg-row-reverse g-5" data-aos="fade-up">
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <div class="service-img-wrapper">
-          <img src="assets/images/service-business.png" alt="Entreprise" class="img-fluid">
-          <div class="service-img-overlay"></div>
+      <!-- Card 4: Entreprise -->
+      <div class="col" data-aos="fade-up" data-aos-delay="300">
+        <div class="service-card-lux">
+          <div class="card-img-container">
+            <img src="assets/images/service-business.png" alt="Entreprise">
+          </div>
+          <div class="card-content-lux">
+            <div class="card-icon-floating">
+              <span class="ion-ios-business"></span>
+            </div>
+            <h3 class="fw-800 h5 mb-3">Solutions Pro & Flotte</h3>
+            <p class="text-muted small mb-4">
+              Gérez votre flotte d'entreprise avec efficacité. Optimisez vos déplacements et votre budget.
+            </p>
+            <a class="text-link-premium" routerLink="/signup/fleet">
+              Créer un compte Pro <span class="ion-md-arrow-forward ms-1"></span>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="col-lg-5 me-lg-auto">
-        <h2 class="fw-800 mb-3">Solutions Pro & Flotte</h2>
-        <p class="text-muted lead mb-4">
-          {{ 'HOME.SERVICES_DESC.FLEET' | translate }}
-          Optimisez les déplacements de vos collaborateurs ou rentabilisez votre propre flotte de véhicules grâce à nos outils dédiés.
-        </p>
-        <button class="btn btn-outline-dark px-4 py-3" routerLink="/signup/fleet">Créer un compte Pro</button>
-      </div>
-    </div>
 
+    </div>
   </div>
 </section>
 
-<!-- CALL TO ACTION -->
-<section class="py-5 bg-white text-center">
-  <div class="container-custom py-5">
-    <h2 class="fw-800 mb-4">Prêt à rejoindre l'aventure GoRide ?</h2>
-    <div class="d-flex justify-content-center gap-3 mt-4">
-      <button class="btn-premium btn-premium-blue px-5 py-3" routerLink="/signup">
-        Devenir Client
-        <span class="ion-md-arrow-forward btn-arrow"></span>
-      </button>
-      <button class="btn btn-outline-dark px-5 py-3" routerLink="/signup/driver">Devenir Chauffeur</button>
-    </div>
-  </div>
-</section>
+

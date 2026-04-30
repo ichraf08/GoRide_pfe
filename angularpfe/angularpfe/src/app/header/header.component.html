@@ -71,16 +71,56 @@
         </ng-container>
 
         <ng-container *ngIf="authService.isLoggedIn()">
+          <!-- Notifications -->
           <li class="nav-item">
-            <a class="nav-link fw-bold" routerLink="/acceuil/profile" (click)="closeAllMenus()">
-              <span class="ion-ios-contact me-2"></span>
-              {{ currentUserFullName }}
-            </a>
-          </li>
-          <li class="nav-item">
-            <button type="button" class="nav-link btn btn-link text-danger ms-lg-2" (click)="logout()">
-              <span class="ion-ios-log-out me-1"></span> {{ 'NAV.LOGIN' | translate }}
+            <button class="nav-link notification-btn" type="button" aria-label="Notifications">
+              <span class="ion-ios-notifications-outline notification-icon"></span>
+              <span class="notification-badge"></span>
             </button>
+          </li>
+
+          <!-- User Dropdown -->
+          <li class="nav-item position-relative user-dropdown-container">
+            <button class="nav-link user-dropdown-toggle d-flex align-items-center gap-2" type="button" (click)="toggleUserDropdown($event)">
+              <div class="user-avatar-small">
+                <img src="assets/images/person_1.jpg" alt="Avatar" class="rounded-circle" width="32" height="32">
+              </div>
+              <span class="user-name fw-bold text-dark">{{ currentUserFullName }}</span>
+              <span class="ion-ios-arrow-down ms-1 text-muted" style="font-size: 0.8rem;"></span>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div class="user-dropdown-menu" [class.show]="isUserDropdownOpen">
+              <div class="dropdown-header">
+                <p class="mb-0 fw-bold text-dark">Connecté en tant que</p>
+                <p class="mb-0 text-muted small">Chauffeur Partenaire</p>
+              </div>
+              <div class="dropdown-divider"></div>
+              
+              <a class="dropdown-item" routerLink="/acceuil/driver-dashboard" (click)="closeAllMenus()">
+                <span class="ion-ios-speedometer dropdown-icon"></span> Tableau de bord
+              </a>
+              <a class="dropdown-item" routerLink="/acceuil/mes-courses" (click)="closeAllMenus()">
+                <span class="ion-ios-car dropdown-icon"></span> Mes courses
+              </a>
+              <a class="dropdown-item" routerLink="/acceuil/revenus" (click)="closeAllMenus()">
+                <span class="ion-ios-wallet dropdown-icon"></span> Revenus
+              </a>
+              <a class="dropdown-item" routerLink="/acceuil/mon-vehicule" (click)="closeAllMenus()">
+                <span class="ion-ios-settings dropdown-icon"></span> Mon véhicule
+              </a>
+              <a class="dropdown-item" routerLink="/acceuil/disponibilite" (click)="closeAllMenus()">
+                <span class="ion-ios-time dropdown-icon"></span> Disponibilité
+              </a>
+              <a class="dropdown-item" routerLink="/acceuil/parametres" (click)="closeAllMenus()">
+                <span class="ion-ios-options dropdown-icon"></span> Paramètres
+              </a>
+              
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item text-danger fw-bold" (click)="logout()">
+                <span class="ion-ios-log-out dropdown-icon text-danger"></span> Déconnexion
+              </button>
+            </div>
           </li>
         </ng-container>
       </ul>

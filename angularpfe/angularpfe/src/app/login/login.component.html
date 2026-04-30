@@ -17,8 +17,8 @@
       
       <!-- Back to Home -->
       <div class="mb-4">
-        <a routerLink="/acceuil" class="back-home-link">
-          <span class="ion-ios-arrow-back me-2"></span> Retour à l'accueil
+        <a routerLink="/acceuil" class="back-home-link d-inline-flex align-items-center">
+          <span class="ion-ios-arrow-back" style="margin-right: 12px;"></span> Retour à l'accueil
         </a>
       </div>
 
@@ -70,14 +70,17 @@
             <span class="ion-ios-lock input-icon"></span>
             <input
               id="password"
-              class="form-control custom-input"
+              class="form-control custom-input pe-5"
               [class.is-invalid]="f['password'].invalid && (f['password'].dirty || f['password'].touched)"
               [class.is-valid]="f['password'].valid && (f['password'].dirty || f['password'].touched)"
-              type="password"
+              [type]="hidePassword ? 'password' : 'text'"
               formControlName="password"
               autocomplete="current-password"
               [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate"
             />
+            <span class="password-toggle-icon" (click)="hidePassword = !hidePassword" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; font-size: 1.2rem;">
+              <span [class]="hidePassword ? 'ion-ios-eye-off' : 'ion-ios-eye'"></span>
+            </span>
           </div>
           <div class="invalid-feedback small mt-1" *ngIf="f['password'].errors?.['required'] && (f['password'].dirty || f['password'].touched)">Le mot de passe est requis.</div>
           <div class="invalid-feedback small mt-1" *ngIf="f['password'].errors?.['minlength'] && (f['password'].dirty || f['password'].touched)">Le mot de passe doit faire au moins 4 caractères.</div>

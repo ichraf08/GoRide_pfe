@@ -10,6 +10,7 @@ import { AuthService } from '../auth/auth.service';
 export class HeaderComponent {
   private readonly mobileBreakpoint = 992;
   isNavbarOpen = false;
+  isUserDropdownOpen = false;
 
   constructor(
     private readonly elementRef: ElementRef<HTMLElement>,
@@ -45,6 +46,12 @@ export class HeaderComponent {
 
   closeAllMenus(): void {
     this.isNavbarOpen = false;
+    this.isUserDropdownOpen = false;
+  }
+
+  toggleUserDropdown(event: Event): void {
+    event.stopPropagation();
+    this.isUserDropdownOpen = !this.isUserDropdownOpen;
   }
 
   @HostListener('document:click', ['$event'])

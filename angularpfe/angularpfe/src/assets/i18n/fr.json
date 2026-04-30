@@ -14,7 +14,7 @@
   "ABOUT": {
     "SUBHEADING": "À propos",
     "TITLE": "Qui sommes-nous ?",
-    "DESCRIPTION": "Découvrez notre mission et ce que nous construisons avec GoRide.",
+    "DESCRIPTION": "Une mobilité sur mesure, orchestrée dans les moindres détails.",
     "BLOCK_TITLE": "Une expérience simple et rapide",
     "BLOCK_TEXT": "Notre objectif est de vous offrir une plateforme moderne, fiable et facile à utiliser.",
     "CTA": "Voir les services"
@@ -122,14 +122,20 @@
       "ITEM4_DESC": "Vos données personnelles sont confidentielles et sécurisées."
     },
     "DOWNLOAD_SECTION": {
-      "TITLE": "Emportez GoRide partout avec vous",
-      "SUBTITLE": "Téléchargez notre application et profitez d'une expérience de mobilité révolutionnaire.",
+      "LABEL": "APPLICATION MOBILE",
+      "TITLE": "Votre mobilité, dans votre poche",
+      "SUBTITLE": "L'application GoRide arrive très bientôt pour vous offrir une expérience fluide, rapide et sécurisée.",
+      "COMING_SOON": "Lancement mobile imminent sur iOS et Android",
+      "CTA_NOTIFY": "Être informé du lancement",
+      "CTA_DISCOVER": "Découvrir la plateforme",
       "BADGE_IOS": "Télécharger sur App Store",
       "BADGE_ANDROID": "Télécharger sur Google Play"
     },
     "CTA_FOOTER": {
       "TITLE": "Prêt à simplifier vos trajets ?",
-      "SUBTITLE": "Rejoignez des milliers d'utilisateurs satisfaits et réservez votre trajet dès maintenant."
+      "SUBTITLE": "Découvrez GoRide et réservez votre prochain trajet en toute simplicité.",
+      "PRIMARY": "Réserver un trajet",
+      "SECONDARY": "Découvrir GoRide"
     }
   },
   "FOOTER": {
@@ -144,7 +150,8 @@
     "BOOKING": "Conseils de réservation",
     "HOW_WORKS": "Comment ça marche",
     "CONTACT": "Contact",
-    "QUESTIONS": "Des questions ?",
+    "QUESTIONS": "Nous sommes à votre écoute",
+    "QUESTIONS_SUBTITLE": "Nous répondons généralement sous 24 heures.",
     "NEWSLETTER": "Newsletter",
     "ENTER_EMAIL": "Adresse e-mail",
     "SUBSCRIBE": "S'abonner",

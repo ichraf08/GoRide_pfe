@@ -19,6 +19,7 @@ export class LoginComponent {
 
   isSubmitting = false;
   errorMessage: string | null = null;
+  hidePassword = true;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -59,7 +60,11 @@ export class LoginComponent {
       .subscribe({
         next: () => {
           const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-          this.router.navigateByUrl(returnUrl || '/acceuil');
+          if (this.authService.hasRole('ROLE_DRIVER')) {
+            this.router.navigateByUrl('/acceuil/driver-dashboard');
+          } else {
+            this.router.navigateByUrl(returnUrl || '/acceuil');
+          }
         },
         error: (err: any) => {
           console.error('Erreur login:', err);

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,6 +20,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './auth/jwt.interceptor';
 import { FleetSetupComponent } from './fleet-setup/fleet-setup.component';
 import { ContactComponent } from './contact/contact.component';
+import { DriverDashboardComponent } from './driver-dashboard/driver-dashboard.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { ContactComponent } from './contact/contact.component';
     ProfileComponent,
     SignupComponent,
     FleetSetupComponent,
-    ContactComponent
+    ContactComponent,
+    DriverDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +46,7 @@ import { ContactComponent } from './contact/contact.component';
     TranslateModule.forRoot(),
     AppRoutingModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     ...provideTranslateHttpLoader({
       prefix: './assets/i18n/',

@@ -10,6 +10,7 @@ import { SignupComponent } from './signup/signup.component';
 import { FleetSetupComponent } from './fleet-setup/fleet-setup.component';
 import { ContactComponent } from './contact/contact.component';
 import { AuthGuard } from './auth/auth.guard';
+import { DriverDashboardComponent } from './driver-dashboard/driver-dashboard.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,8 @@ const routes: Routes = [
        { path: 'services', component: ServicesComponent },
        { path: 'about', component: AboutComponent },
        { path: 'contact', component: ContactComponent },
-       { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
+       { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+       { path: 'driver-dashboard', component: DriverDashboardComponent, canActivate: [AuthGuard] }
      ]
    },
    // Login/Signup en plein écran

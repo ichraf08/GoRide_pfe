@@ -12,6 +12,29 @@ export class HomeComponent implements AfterViewInit {
   usersCount: number = 0;
   ratingCount: string = '0';
   statsAnimated: boolean = false;
+  selectedSubject: string = 'Choisissez votre demande';
+  isDropdownOpen: boolean = false;
+  
+  subjects: any[] = [
+    { label: 'Assistance client', icon: 'ion-ios-help-buoy' }, 
+    { label: 'Rejoindre GoRide comme chauffeur', icon: 'ion-ios-car' }, 
+    { label: 'Solution entreprise', icon: 'ion-ios-business' }, 
+    { label: 'Partenariat', icon: 'ion-ios-people' }, 
+    { label: 'Autre demande', icon: 'ion-ios-chatbubbles' }
+  ];
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  selectSubject(subject: string) {
+    this.selectedSubject = subject;
+    this.isDropdownOpen = false;
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   ngAfterViewInit() {
     this.initOwlCarousel();

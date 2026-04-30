@@ -548,3 +548,163 @@
   transform: scale(0.96) !important;
   transition: transform 0.1s ease !important;
 }
+
+/* --- Notifications & User Dropdown --- */
+:host ::ng-deep .notification-btn {
+  position: relative;
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep .notification-icon {
+  font-size: 1.5rem;
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+:host ::ng-deep .notification-btn:hover .notification-icon {
+  color: #2563eb;
+}
+
+:host ::ng-deep .notification-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: #ef4444;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+:host ::ng-deep .user-dropdown-toggle {
+  background: transparent;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+:host ::ng-deep .user-dropdown-toggle:hover {
+  background-color: #f1f5f9;
+}
+
+:host ::ng-deep .user-avatar-small img {
+  border: 2px solid #e2e8f0;
+  object-fit: cover;
+}
+
+:host ::ng-deep .user-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 240px;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+  z-index: 1050;
+  animation: fadeInDown 0.2s ease-out;
+}
+
+:host ::ng-deep .user-dropdown-menu.show {
+  display: block;
+}
+
+:host ::ng-deep .dropdown-header {
+  padding: 0.75rem 1.25rem;
+}
+
+:host ::ng-deep .dropdown-divider {
+  height: 1px;
+  background-color: #f1f5f9;
+  margin: 0.5rem 0;
+}
+
+:host ::ng-deep .dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 1.25rem;
+  color: #475569;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+:host ::ng-deep .dropdown-item:hover {
+  background-color: #f8fafc;
+  color: #2563eb;
+}
+
+:host ::ng-deep .dropdown-item.text-danger:hover {
+  background-color: #fef2f2;
+  color: #dc2626 !important;
+}
+
+:host ::ng-deep .dropdown-icon {
+  font-size: 1.1rem;
+  margin-right: 0.75rem;
+  color: #94a3b8;
+  width: 20px;
+  text-align: center;
+}
+
+:host ::ng-deep .dropdown-item:hover .dropdown-icon {
+  color: #2563eb;
+}
+
+:host ::ng-deep .dropdown-item.text-danger:hover .dropdown-icon {
+  color: #dc2626 !important;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 991.98px) {
+  :host ::ng-deep .user-dropdown-menu {
+    position: static;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin-top: 1rem;
+  }
+  
+  :host ::ng-deep .dropdown-item {
+    color: #f8fafc;
+    padding: 0.75rem 1rem;
+  }
+  
+  :host ::ng-deep .dropdown-header p.text-dark {
+    color: #f8fafc !important;
+  }
+  
+  :host ::ng-deep .user-name.text-dark {
+    color: #f8fafc !important;
+  }
+  
+  :host ::ng-deep .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}

@@ -14,6 +14,8 @@ export class SignupComponent implements OnInit {
   isSubmitting = false;
   errorMessage: string | null = null;
   successMessage: string | null = null;
+  hidePassword = true;
+  hideConfirmPassword = true;
   
   // Wizard State
   currentStep = 1;
