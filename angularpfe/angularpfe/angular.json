@@ -26,6 +26,7 @@
             ],
             "styles": [
               "src/styles.css",
+              "node_modules/leaflet/dist/leaflet.css",
               "src/assets/css/animate.css",
               "src/assets/css/owl.carousel.min.css",
               "src/assets/css/owl.theme.default.min.css",

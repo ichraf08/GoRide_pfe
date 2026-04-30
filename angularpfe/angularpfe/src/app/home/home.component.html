@@ -1,5 +1,5 @@
-<!-- HERO SECTION V2 (Full Image Premium) -->
-<section class="hero-section-v2">
+<!-- HERO SECTION V2 (Visiteurs - Non Connectés) -->
+<section class="hero-section-v2" *ngIf="!isLoggedIn">
   <div class="hero-bg-image"></div>
   <div class="hero-overlay-dark"></div>
   <div class="container-custom position-relative z-index-10">
@@ -21,6 +21,74 @@
             {{ 'HOME.CTA_LEARN' | translate }} <span class="ion-ios-arrow-forward ms-2"></span>
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HERO SECTION V2 (Utilisateurs Connectés) -->
+<section class="hero-section-v2 hero-logged-in" *ngIf="isLoggedIn">
+  <div class="hero-bg-image"></div>
+  <div class="hero-overlay-dark" style="background: linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,58,138,0.85) 100%);"></div>
+  <div class="container-custom position-relative z-index-10">
+    <div class="row align-items-center justify-content-center text-center">
+      <div class="col-lg-8 hero-content-v2">
+        
+        <!-- Welcome Message -->
+        <h1 class="hero-title-v2 mb-2" data-aos="fade-up">Bonjour {{ user?.firstName || 'Utilisateur' }} 👋</h1>
+        <p class="text-white-50 fs-5 mb-5" data-aos="fade-up" data-aos-delay="100">Heureux de vous revoir sur GoRide.</p>
+
+        <!-- Dynamic Dashboard Card -->
+        <div class="dashboard-access-card bg-white rounded-4 shadow-lg p-4 p-md-5 mx-auto text-start position-relative" style="max-width: 600px;" data-aos="zoom-in" data-aos-delay="200">
+          
+          <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-light">
+            <div>
+              <span class="text-muted small fw-bold text-uppercase letter-spacing-1">Mode actuel</span>
+              <div class="d-flex align-items-center mt-1">
+                <span [class]="getActiveRoleData().icon" [style.color]="getActiveRoleData().color" style="font-size: 1.5rem; margin-right: 10px;"></span>
+                <h4 class="mb-0 fw-bold text-dark">{{ getActiveRoleData().label }}</h4>
+              </div>
+            </div>
+
+            <!-- Role Switcher Dropdown (If Multi-role) -->
+            <div class="position-relative" *ngIf="availableRoles.length > 1">
+              <button class="btn btn-light rounded-pill px-3 py-2 fw-bold d-flex align-items-center" style="font-size: 0.85rem;" (click)="toggleRoleSwitcher()">
+                <span class="ion-ios-swap me-2"></span> Changer
+              </button>
+              
+              <!-- Dropdown List -->
+              <div class="position-absolute bg-white rounded-3 shadow border mt-2 py-2" style="right: 0; min-width: 220px; z-index: 100;" *ngIf="isRoleSwitcherOpen">
+                <div class="px-3 py-2 text-muted small fw-bold border-bottom">BASCULER VERS</div>
+                <button *ngFor="let role of availableRoles" 
+                        class="dropdown-item d-flex align-items-center py-2 px-3 border-0 bg-transparent w-100 text-start"
+                        [class.bg-light]="role.id === activeRole"
+                        (click)="switchRole(role.id)">
+                  <span [class]="role.icon" [style.color]="role.color" style="font-size: 1.2rem; width: 25px; text-align: center; margin-right: 10px;"></span>
+                  <span class="fw-bold" [class.text-primary]="role.id === activeRole">{{ role.label }}</span>
+                  <span class="ion-ios-checkmark ms-auto text-primary" *ngIf="role.id === activeRole" style="font-size: 1.2rem;"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Area -->
+          <div class="d-flex flex-column flex-sm-row gap-3">
+            <button class="btn-premium flex-grow-1 py-3 d-flex align-items-center justify-content-center text-white" 
+                    [style.backgroundColor]="getActiveRoleData().color" 
+                    style="border-radius: 12px; border: none; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"
+                    (click)="goToDashboard()">
+              <span [class]="getActiveRoleData().icon" style="margin-right: 10px; font-size: 1.3rem;"></span>
+              {{ getActiveRoleData().action }}
+              <span class="ion-md-arrow-forward ms-2"></span>
+            </button>
+            <button class="btn btn-light py-3 px-4 d-flex align-items-center justify-content-center" style="border-radius: 12px; font-weight: bold; border: 1px solid #e2e8f0;" routerLink="/profile">
+              <span class="ion-ios-person me-2"></span> Mon Profil
+            </button>
+          </div>
+          
+        </div>
+        <!-- End Dynamic Dashboard Card -->
+
       </div>
     </div>
   </div>
@@ -125,8 +193,12 @@
             <div class="mt-auto position-relative d-flex align-items-end p-4 image-container" style="height: 250px;">
               <img src="assets/images/white-car.png" class="position-absolute top-0 start-0 w-100 h-100" style="object-fit: cover; z-index: 0;" onerror="this.src='assets/images/service-rides.png'">
               <div class="image-overlay"></div>
-              <button class="btn-premium btn-premium-blue w-100 py-3" routerLink="/signup" style="z-index: 5;">
+              <button class="btn-premium btn-premium-blue w-100 py-3" *ngIf="!isLoggedIn" routerLink="/signup" style="z-index: 5;">
                 <span>Réserver maintenant</span>
+                <span class="ion-md-arrow-forward btn-arrow"></span>
+              </button>
+              <button class="btn-premium btn-premium-blue w-100 py-3" *ngIf="isLoggedIn" routerLink="/client/home" style="z-index: 5;">
+                <span>Espace Client</span>
                 <span class="ion-md-arrow-forward btn-arrow"></span>
               </button>
             </div>
@@ -168,8 +240,12 @@
             <div class="mt-auto position-relative d-flex align-items-end p-4 image-container" style="height: 250px;">
               <img src="assets/images/person_1.jpg" class="position-absolute top-0 start-0 w-100 h-100" style="object-fit: cover; z-index: 0;">
               <div class="image-overlay"></div>
-              <button class="btn-premium btn-premium-green w-100 py-3" routerLink="/signup/driver" style="z-index: 5;">
+              <button class="btn-premium btn-premium-green w-100 py-3" *ngIf="!isLoggedIn" routerLink="/signup/driver" style="z-index: 5;">
                 <span>Devenir chauffeur</span>
+                <span class="ion-md-arrow-forward btn-arrow"></span>
+              </button>
+              <button class="btn-premium btn-premium-green w-100 py-3" *ngIf="isLoggedIn" routerLink="/driver/home" style="z-index: 5;">
+                <span>Espace Chauffeur</span>
                 <span class="ion-md-arrow-forward btn-arrow"></span>
               </button>
             </div>
@@ -209,8 +285,12 @@
             <div class="mt-auto position-relative d-flex align-items-end p-4 image-container" style="height: 250px;">
               <img src="assets/images/service-rental.png" class="position-absolute top-0 start-0 w-100 h-100" style="object-fit: cover; z-index: 0;" onerror="this.src='assets/images/service-rental.png'">
               <div class="image-overlay"></div>
-              <button class="btn-premium btn-premium-orange w-100 py-3" routerLink="/signup/fleet" style="z-index: 5;">
+              <button class="btn-premium btn-premium-orange w-100 py-3" *ngIf="!isLoggedIn" routerLink="/signup/fleet" style="z-index: 5;">
                 <span>Louer ma voiture</span>
+                <span class="ion-md-arrow-forward btn-arrow"></span>
+              </button>
+              <button class="btn-premium btn-premium-orange w-100 py-3" *ngIf="isLoggedIn" routerLink="/fleet/home" style="z-index: 5;">
+                <span>Espace Propriétaire</span>
                 <span class="ion-md-arrow-forward btn-arrow"></span>
               </button>
             </div>
@@ -250,8 +330,12 @@
             <div class="mt-auto position-relative d-flex align-items-end p-4 image-container" style="height: 250px;">
               <img src="assets/images/service-business.png" class="position-absolute top-0 start-0 w-100 h-100" style="object-fit: cover; z-index: 0;" onerror="this.src='assets/images/service-rides.png'">
               <div class="image-overlay"></div>
-              <button class="btn-premium btn-premium-purple w-100 py-3" routerLink="/signup/fleet" style="z-index: 5;">
+              <button class="btn-premium btn-premium-purple w-100 py-3" *ngIf="!isLoggedIn" routerLink="/signup/fleet" style="z-index: 5;">
                 <span>GoRide Business</span>
+                <span class="ion-md-arrow-forward btn-arrow"></span>
+              </button>
+              <button class="btn-premium btn-premium-purple w-100 py-3" *ngIf="isLoggedIn" routerLink="/company/home" style="z-index: 5;">
+                <span>Espace Entreprise</span>
                 <span class="ion-md-arrow-forward btn-arrow"></span>
               </button>
             </div>
@@ -628,8 +712,11 @@
         <h2 class="fw-900 mb-4 text-dark" style="font-size: 2.8rem; letter-spacing: -1px; line-height: 1.1;">{{ 'HOME.DOWNLOAD_SECTION.TITLE' | translate }}</h2>
         <p class="text-secondary mb-5 fs-5" style="max-width: 500px; line-height: 1.6;">{{ 'HOME.DOWNLOAD_SECTION.SUBTITLE' | translate }}</p>
         <div class="d-flex flex-wrap align-items-center mt-4" style="gap: 20px !important;">
-          <button class="btn-premium btn-premium-blue px-4 py-3" style="border-radius: 12px; font-size: 1.05rem;" routerLink="/signup">
+          <button class="btn-premium btn-premium-blue px-4 py-3" style="border-radius: 12px; font-size: 1.05rem;" *ngIf="!isLoggedIn" routerLink="/signup">
             <span class="ion-ios-mail" style="margin-right: 12px;"></span> {{ 'HOME.DOWNLOAD_SECTION.CTA_NOTIFY' | translate }}
+          </button>
+          <button class="btn-premium btn-premium-blue px-4 py-3" style="border-radius: 12px; font-size: 1.05rem;" *ngIf="isLoggedIn" (click)="goToDashboard()">
+            <span [class]="getActiveRoleData().icon" style="margin-right: 12px;"></span> Mon Dashboard
           </button>
           <button class="btn-outline-v2 px-4 py-3 bg-white" style="border-radius: 12px; font-size: 1.05rem;" (click)="scrollToTop()">
             {{ 'HOME.DOWNLOAD_SECTION.CTA_DISCOVER' | translate }} <span class="ion-md-arrow-forward ms-2"></span>
@@ -724,7 +811,8 @@
         <h2 class="fw-800 mb-3">{{ 'HOME.CTA_FOOTER.TITLE' | translate }}</h2>
         <p class="opacity-75 mb-5">{{ 'HOME.CTA_FOOTER.SUBTITLE' | translate }}</p>
         <div class="d-flex justify-content-center gap-5" style="column-gap: 25px !important;">
-          <button class="btn btn-white-v2 px-5 py-3" routerLink="/signup">{{ 'HOME.CTA_FOOTER.PRIMARY' | translate }}</button>
+          <button class="btn btn-white-v2 px-5 py-3" *ngIf="!isLoggedIn" routerLink="/signup">{{ 'HOME.CTA_FOOTER.PRIMARY' | translate }}</button>
+          <button class="btn btn-white-v2 px-5 py-3" *ngIf="isLoggedIn" (click)="goToDashboard()">Continuer l'activité</button>
           <button class="btn btn-outline-white-v2 px-5 py-3" routerLink="/acceuil/services">{{ 'HOME.CTA_FOOTER.SECONDARY' | translate }}</button>
         </div>
       </div>

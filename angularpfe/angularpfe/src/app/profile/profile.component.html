@@ -7,8 +7,8 @@
           <div class="profile-header">
             <div class="profile-cover"></div>
             <div class="profile-avatar-container">
-              <div class="profile-avatar">
-                <span class="ion-ios-person"></span>
+              <div class="profile-avatar-smart">
+                <app-profile-avatar [firstName]="user?.firstName" [lastName]="user?.lastName" [photoUrl]="(photoPreview || user?.photoUrl) ?? undefined" [size]="90"></app-profile-avatar>
               </div>
             </div>
           </div>
@@ -25,6 +25,10 @@
               {{ error }}
             </div>
 
+            <div *ngIf="successMessage" class="alert alert-success">
+              {{ successMessage }}
+            </div>
+
             <div *ngIf="!loading && user">
               <div class="row">
                 <div class="col-md-4 border-end">
@@ -39,22 +43,22 @@
                   </div>
 
                   <ul class="list-group list-group-flush profile-menu">
-                    <li class="list-group-item active">
+                    <li class="list-group-item" [class.active]="activeTab === 'account'" (click)="setTab('account')">
                       <span class="ion-ios-contact me-2"></span> {{ 'PROFILE.MENU_ACCOUNT' | translate }}
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" [class.active]="activeTab === 'reservations'" (click)="setTab('reservations')">
                       <span class="ion-ios-car me-2"></span> {{ 'PROFILE.MENU_RESERVATIONS' | translate }}
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" [class.active]="activeTab === 'notifications'" (click)="setTab('notifications')">
                       <span class="ion-ios-notifications me-2"></span> {{ 'PROFILE.MENU_NOTIFICATIONS' | translate }}
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" [class.active]="activeTab === 'settings'" (click)="setTab('settings')">
                       <span class="ion-ios-settings me-2"></span> {{ 'PROFILE.MENU_SETTINGS' | translate }}
                     </li>
                   </ul>
                 </div>
 
-                <div class="col-md-8 ps-md-4">
+                <div class="col-md-8 ps-md-4" *ngIf="activeTab === 'account'">
                   <h4 class="mb-4">{{ 'PROFILE.PERSONAL_DETAILS' | translate }}</h4>
 
                   <div class="row g-3">
@@ -86,9 +90,190 @@
                     </div>
                   </div>
 
-                  <div class="mt-5">
+                  <!-- Photo de Profil Upload Section -->
+                  <div class="photo-upload-section mb-4 p-4 border rounded-3 bg-white shadow-sm">
+                    <h6 class="fw-bold mb-3 d-flex align-items-center">
+                      <span class="ion-ios-camera me-2 text-primary" style="font-size:1.3rem"></span>
+                      Photo de profil
+                    </h6>
+
+                    <!-- Toast Success -->
+                    <div class="alert alert-success py-2 px-3 small d-flex align-items-center" *ngIf="photoSuccess">
+                      <span class="ion-ios-checkmark-circle me-2"></span> Photo enregistrée avec succès !
+                    </div>
+
+                    <div class="d-flex align-items-center gap-4">
+                      <!-- Preview -->
+                      <div style="flex-shrink:0;">
+                        <app-profile-avatar [firstName]="user?.firstName" [lastName]="user?.lastName" [photoUrl]="photoPreview ?? undefined" [size]="72"></app-profile-avatar>
+                      </div>
+
+                      <!-- Controls -->
+                      <div class="flex-grow-1">
+                        <p class="text-muted small mb-3">
+                          Choisissez une photo nette et professionnelle. Format JPG ou PNG, max. 5 Mo.
+                        </p>
+                        <div class="d-flex flex-wrap gap-2">
+                          <label for="photo-upload-input" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1" style="cursor:pointer;">
+                            <span class="ion-ios-cloud-upload"></span>
+                            <span>{{ photoPreview ? 'Changer la photo' : 'Choisir une photo' }}</span>
+                          </label>
+                          <input id="photo-upload-input" type="file" accept="image/*" style="display:none" (change)="onFileSelected($event)">
+
+                          <button class="btn btn-primary btn-sm d-flex align-items-center gap-1" *ngIf="photoPreview" [disabled]="photoUploading" (click)="savePhoto()">
+                            <span *ngIf="!photoUploading" class="ion-ios-checkmark"></span>
+                            <span *ngIf="photoUploading" class="spinner-border spinner-border-sm"></span>
+                            {{ photoUploading ? 'Enregistrement...' : 'Enregistrer' }}
+                          </button>
+
+                          <button class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1" *ngIf="photoPreview" (click)="removePhoto()">
+                            <span class="ion-ios-trash"></span> Supprimer
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- END Photo Upload Section -->
+
+                  <div class="mt-4">
                     <button class="btn btn-primary px-4 me-2">{{ 'PROFILE.EDIT_PROFILE' | translate }}</button>
                     <button class="btn btn-outline-secondary px-4">{{ 'PROFILE.CHANGE_PASSWORD' | translate }}</button>
+                  </div>
+
+                  <!-- Section Gestion des Rôles -->
+                  <div class="mt-5 pt-4 border-top">
+                    <h4 class="mb-3">Opportunités & Partenariats</h4>
+                    <p class="text-muted small mb-4">Étendez vos possibilités sur GoRide en activant de nouveaux rôles.</p>
+                    
+                    <div class="row g-3">
+                      <!-- Activer Commander un trajet -->
+                      <div class="col-md-6" *ngIf="!hasRole('ROLE_USER')">
+                        <div class="card role-promo-card p-3 h-100 border-0 bg-light shadow-none">
+                          <div class="d-flex align-items-center mb-3">
+                            <div class="promo-icon bg-success text-white me-3">
+                              <span class="ion-ios-navigate"></span>
+                            </div>
+                            <h6 class="mb-0">Commander un trajet</h6>
+                          </div>
+                          <p class="small text-muted flex-grow-1">Bénéficiez de trajets confortables et sécurisés en tant que passager.</p>
+                          <button class="btn btn-sm btn-outline-success w-100 mt-2" style="cursor: pointer; position: relative; z-index: 10;" [disabled]="isAddingRole" (click)="requestNewRole('USER')">
+                            Activer ce mode
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Activer Location -->
+                      <div class="col-md-6" *ngIf="!hasRole('ROLE_CLIENT')">
+                        <div class="card role-promo-card p-3 h-100 border-0 bg-light shadow-none">
+                          <div class="d-flex align-items-center mb-3">
+                            <div class="promo-icon bg-info text-white me-3">
+                              <span class="ion-ios-car"></span>
+                            </div>
+                            <h6 class="mb-0">Louer un véhicule</h6>
+                          </div>
+                          <p class="small text-muted flex-grow-1">Réservez un véhicule pour vos déplacements personnels ou professionnels.</p>
+                          <button class="btn btn-sm btn-outline-info w-100 mt-2" style="cursor: pointer; position: relative; z-index: 10;" [disabled]="isAddingRole" (click)="requestNewRole('CLIENT')">
+                            Activer ce mode
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Devenir Chauffeur -->
+                      <div class="col-md-6" *ngIf="!hasRole('ROLE_DRIVER')">
+                        <div class="card role-promo-card p-3 h-100 border-0 bg-light shadow-none">
+                          <div class="d-flex align-items-center mb-3">
+                            <div class="promo-icon bg-primary text-white me-3">
+                              <span class="ion-ios-car"></span>
+                            </div>
+                            <h6 class="mb-0">Devenir Chauffeur</h6>
+                          </div>
+                          <p class="small text-muted flex-grow-1">Gagnez de l'argent en conduisant votre propre véhicule avec GoRide.</p>
+                          <button class="btn btn-sm btn-outline-primary w-100 mt-2" [disabled]="isAddingRole" (click)="requestNewRole('DRIVER')">
+                            Activer le mode Chauffeur
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Devenir Propriétaire -->
+                      <div class="col-md-6" *ngIf="!hasRole('ROLE_FLEET_OWNER')">
+                        <div class="card role-promo-card p-3 h-100 border-0 bg-light shadow-none">
+                          <div class="d-flex align-items-center mb-3">
+                            <div class="promo-icon bg-warning text-white me-3">
+                              <span class="ion-ios-people"></span>
+                            </div>
+                            <h6 class="mb-0">Propriétaire de Flotte</h6>
+                          </div>
+                          <p class="small text-muted flex-grow-1">Inscrivez vos véhicules et gérez votre équipe de chauffeurs.</p>
+                          <button class="btn btn-sm btn-outline-warning w-100 mt-2" [disabled]="isAddingRole" (click)="requestNewRole('FLEET_OWNER')">
+                            Gérer une flotte
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Devenir Entreprise -->
+                      <div class="col-md-6" *ngIf="!hasRole('ROLE_COMPANY')">
+                        <div class="card role-promo-card p-3 h-100 border-0 bg-light shadow-none">
+                          <div class="d-flex align-items-center mb-3">
+                            <div class="promo-icon bg-dark text-white me-3">
+                              <span class="ion-ios-briefcase"></span>
+                            </div>
+                            <h6 class="mb-0">Compte Entreprise</h6>
+                          </div>
+                          <p class="small text-muted flex-grow-1">Optimisez les déplacements de vos collaborateurs avec des solutions pro.</p>
+                          <button class="btn btn-sm btn-outline-dark w-100 mt-2" [disabled]="isAddingRole" (click)="requestNewRole('COMPANY')">
+                            Créer un compte entreprise
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Reservations Tab -->
+                <div class="col-md-8 ps-md-4" *ngIf="activeTab === 'reservations'">
+                  <h4 class="mb-4">Mes Réservations</h4>
+                  <div class="text-center py-5">
+                    <span class="ion-ios-car text-muted" style="font-size: 3rem; opacity: 0.3;"></span>
+                    <p class="mt-3 text-muted">Historique des trajets à venir et passés.</p>
+                  </div>
+                </div>
+
+                <!-- Notifications Tab -->
+                <div class="col-md-8 ps-md-4" *ngIf="activeTab === 'notifications'">
+                  <h4 class="mb-4">Préférences de Notifications</h4>
+                  <p class="text-muted small mb-4">Gérez la façon dont GoRide vous contacte.</p>
+                  <div class="list-group list-group-flush border rounded-3">
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 class="mb-0">Notifications Push</h6>
+                        <small class="text-muted">Recevoir des alertes sur votre navigateur.</small>
+                      </div>
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" checked>
+                      </div>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 class="mb-0">E-mails transactionnels</h6>
+                        <small class="text-muted">Reçus, confirmations de réservation.</small>
+                      </div>
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" checked>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="col-md-8 ps-md-4" *ngIf="activeTab === 'settings'">
+                  <h4 class="mb-4">Paramètres du Compte</h4>
+                  <div class="card border-0 bg-light p-4 rounded-3">
+                    <h6 class="fw-bold mb-3">Sécurité</h6>
+                    <button class="btn btn-outline-primary btn-sm mb-3">Changer le mot de passe</button>
+                    <hr>
+                    <h6 class="fw-bold mb-3 text-danger">Zone de danger</h6>
+                    <p class="small text-muted">La suppression de votre compte est irréversible.</p>
+                    <button class="btn btn-outline-danger btn-sm">Supprimer mon compte</button>
                   </div>
                 </div>
               </div>

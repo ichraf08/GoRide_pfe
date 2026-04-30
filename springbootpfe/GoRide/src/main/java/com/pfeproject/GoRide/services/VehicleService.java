@@ -5,6 +5,7 @@ import com.pfeproject.GoRide.entities.UserEntity;
 import com.pfeproject.GoRide.entities.Vehicle;
 import com.pfeproject.GoRide.repositories.UserRepo;
 import com.pfeproject.GoRide.repositories.VehicleRepository;
+import com.pfeproject.GoRide.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class VehicleService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private NotificationService notificationService;
 
     /**
      * Ajoute un véhicule pour un propriétaire de flotte.
@@ -57,7 +61,20 @@ public class VehicleService {
             vehicle.setDriver(driver);
         }
 
-        return vehicleRepository.save(vehicle);
+        Vehicle savedVehicle = vehicleRepository.save(vehicle);
+
+        // Notification pour le chauffeur
+        if (dto.getDriverId() != null) {
+            notificationService.createNotification(
+                    dto.getDriverId(),
+                    "Nouveau véhicule attribué",
+                    "Le propriétaire " + owner.getFirstName() + " vous a attribué le véhicule " + vehicle.getBrand() + " " + vehicle.getModel() + ".",
+                    "SUCCESS",
+                    "/driver/vehicle"
+            );
+        }
+
+        return savedVehicle;
     }
 
     /**
@@ -96,7 +113,18 @@ public class VehicleService {
                 .orElseThrow(() -> new RuntimeException("Chauffeur non trouvé avec l'id : " + driverId));
 
         vehicle.setDriver(driver);
-        return vehicleRepository.save(vehicle);
+        Vehicle savedVehicle = vehicleRepository.save(vehicle);
+
+        // Notification pour le chauffeur
+        notificationService.createNotification(
+                driverId,
+                "Attribution de véhicule",
+                "On vous a assigné le véhicule " + vehicle.getBrand() + " (" + vehicle.getLicensePlate() + ").",
+                "INFO",
+                "/driver/vehicle"
+        );
+
+        return savedVehicle;
     }
 
     /**

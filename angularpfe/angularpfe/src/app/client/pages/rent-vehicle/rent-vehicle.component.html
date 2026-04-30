@@ -1,0 +1,52 @@
+<div class="rent-vehicle">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0">Location de Véhicules</h4>
+    <div class="category-filters d-flex gap-2">
+      <button 
+        class="btn btn-sm rounded-pill px-3" 
+        [class.btn-primary]="selectedCategory === 'Tout'"
+        [class.btn-light]="selectedCategory !== 'Tout'"
+        (click)="filterByCategory('Tout')">Tout</button>
+      <button 
+        class="btn btn-sm rounded-pill px-3" 
+        [class.btn-primary]="selectedCategory === 'Économique'"
+        [class.btn-light]="selectedCategory !== 'Économique'"
+        (click)="filterByCategory('Économique')">Économique</button>
+      <button 
+        class="btn btn-sm rounded-pill px-3" 
+        [class.btn-primary]="selectedCategory === 'SUV'"
+        [class.btn-light]="selectedCategory !== 'SUV'"
+        (click)="filterByCategory('SUV')">SUV</button>
+      <button 
+        class="btn btn-sm rounded-pill px-3" 
+        [class.btn-primary]="selectedCategory === 'Luxe'"
+        [class.btn-light]="selectedCategory !== 'Luxe'"
+        (click)="filterByCategory('Luxe')">Luxe</button>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-4 col-lg-3" *ngFor="let v of filteredVehicles">
+      <div class="vehicle-card bg-white shadow-sm rounded-4 overflow-hidden h-100">
+        <div class="position-relative">
+          <img [src]="v.image" class="w-100" style="height: 180px; object-fit: cover;">
+          <span class="badge bg-dark position-absolute top-0 end-0 m-3 shadow">{{ v.type }}</span>
+        </div>
+        <div class="p-3">
+          <h6 class="fw-bold mb-1">{{ v.brand }} {{ v.model }}</h6>
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>
+              <span class="fw-bold text-primary h5 mb-0">{{ v.price }} DT</span>
+              <span class="text-muted tiny"> / jour</span>
+            </div>
+            <button class="btn btn-primary btn-sm rounded-pill px-3" (click)="requestRental(v)">Louer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center py-5" *ngIf="filteredVehicles.length === 0">
+    <p class="text-muted">Aucun véhicule disponible dans cette catégorie.</p>
+  </div>
+</div>

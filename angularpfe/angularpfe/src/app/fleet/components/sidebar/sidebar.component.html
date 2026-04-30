@@ -1,0 +1,62 @@
+<aside class="sidebar shadow-sm">
+  <div class="sidebar-brand">
+    <div class="logo-wrapper">
+      <svg viewBox="0 0 100 100" width="32" height="32">
+        <path d="M 65 15 A 35 35 0 0 0 15 50" stroke="#f59e0b" stroke-width="12" fill="none" />
+        <path d="M 18 68 A 35 35 0 0 0 50 85" stroke="#f59e0b" stroke-width="12" fill="none" />
+        <path d="M 50 45 C 50 25, 80 25, 80 45 C 80 65, 65 95, 65 95 C 65 95, 50 65, 50 45 Z" fill="#f59e0b"/>
+      </svg>
+      <span class="logo-text">GO<span class="text-warning">FLEET</span></span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <p class="section-title">Gestion Flotte</p>
+      <a routerLink="/fleet/home" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-stats icon"></span>
+        <span>Vue d'ensemble</span>
+      </a>
+      <a routerLink="/fleet/vehicles" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-car icon"></span>
+        <span>Mes Véhicules</span>
+      </a>
+      <a routerLink="/fleet/add-vehicle" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-add-circle icon"></span>
+        <span>Ajouter un véhicule</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <p class="section-title">Opérations</p>
+      <a routerLink="/fleet/requests" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-mail icon"></span>
+        <span>Demandes</span>
+        <span class="badge badge-warning ms-auto">5</span>
+      </a>
+      <a routerLink="/fleet/earnings" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-cash icon"></span>
+        <span>Revenus</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <p class="section-title">Système</p>
+      <a routerLink="/acceuil/profile" class="nav-item">
+        <span class="ion-ios-person icon"></span>
+        <span>Mon Profil</span>
+      </a>
+      <a routerLink="/fleet/settings" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-settings icon"></span>
+        <span>Paramètres</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2" (click)="logout()">
+      <span class="ion-ios-log-out"></span>
+      <span>Déconnexion</span>
+    </button>
+  </div>
+</aside>

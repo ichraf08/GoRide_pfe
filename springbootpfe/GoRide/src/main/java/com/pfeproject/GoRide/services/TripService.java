@@ -7,6 +7,7 @@ import com.pfeproject.GoRide.entities.Vehicle;
 import com.pfeproject.GoRide.repositories.TripRepository;
 import com.pfeproject.GoRide.repositories.UserRepo;
 import com.pfeproject.GoRide.repositories.VehicleRepository;
+import com.pfeproject.GoRide.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ public class TripService {
 
     @Autowired
     private VehicleRepository vehicleRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     /**
      * Crée un nouveau trajet pour un chauffeur.
@@ -53,7 +57,18 @@ public class TripService {
             trip.setVehicle(vehicle);
         }
 
-        return tripRepository.save(trip);
+        Trip savedTrip = tripRepository.save(trip);
+
+        // Notification pour le chauffeur (confirmation de création)
+        notificationService.createNotification(
+                driverId,
+                "Trajet créé",
+                "Votre trajet de " + trip.getDeparture() + " vers " + trip.getDestination() + " est maintenant en ligne.",
+                "SUCCESS",
+                "/driver/rides"
+        );
+
+        return savedTrip;
     }
 
     /**
@@ -83,6 +98,15 @@ public class TripService {
 
         trip.setStatus("CANCELLED");
         tripRepository.save(trip);
+
+        // Notification pour le chauffeur
+        notificationService.createNotification(
+                driverId,
+                "Trajet annulé",
+                "Votre trajet vers " + trip.getDestination() + " a bien été annulé.",
+                "DANGER",
+                "/driver/rides"
+        );
     }
 
     /**

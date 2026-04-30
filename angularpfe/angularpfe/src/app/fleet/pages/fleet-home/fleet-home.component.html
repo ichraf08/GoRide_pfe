@@ -1,0 +1,158 @@
+<div class="fleet-home">
+  <!-- Stats Section -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-3">
+      <div class="stats-card bg-white shadow-sm p-3 rounded-4">
+        <div class="d-flex justify-content-between mb-3">
+          <div class="icon-box bg-primary-soft text-primary">
+            <span class="ion-ios-car"></span>
+          </div>
+          <span class="text-success small fw-bold">+5%</span>
+        </div>
+        <h3 class="fw-bold mb-1">12</h3>
+        <p class="text-muted small mb-0">Véhicules Actifs</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stats-card bg-white shadow-sm p-3 rounded-4">
+        <div class="d-flex justify-content-between mb-3">
+          <div class="icon-box bg-success-soft text-success">
+            <span class="ion-ios-cash"></span>
+          </div>
+          <span class="text-success small fw-bold">+18%</span>
+        </div>
+        <h3 class="fw-bold mb-1">4,850 DT</h3>
+        <p class="text-muted small mb-0">Revenus Mensuels</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stats-card bg-white shadow-sm p-3 rounded-4">
+        <div class="d-flex justify-content-between mb-3">
+          <div class="icon-box bg-warning-soft text-warning">
+            <span class="ion-ios-timer"></span>
+          </div>
+          <span class="text-danger small fw-bold">-2%</span>
+        </div>
+        <h3 class="fw-bold mb-1">85%</h3>
+        <p class="text-muted small mb-0">Taux d'Utilisation</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stats-card bg-white shadow-sm p-3 rounded-4">
+        <div class="d-flex justify-content-between mb-3">
+          <div class="icon-box bg-danger-soft text-danger">
+            <span class="ion-ios-construct"></span>
+          </div>
+        </div>
+        <h3 class="fw-bold mb-1">2</h3>
+        <p class="text-muted small mb-0">En Maintenance</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Recent Requests -->
+    <div class="col-lg-8">
+      <div class="content-card shadow-sm bg-white rounded-4 overflow-hidden">
+        <div class="card-header p-3 border-bottom d-flex justify-content-between align-items-center">
+          <h5 class="mb-0 fw-bold">Demandes Récentes</h5>
+          <button class="btn btn-sm btn-outline-primary rounded-pill px-3" routerLink="/fleet/requests">Voir tout</button>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th class="ps-3">Client</th>
+                <th>Véhicule</th>
+                <th>Période</th>
+                <th>Total</th>
+                <th>Statut</th>
+                <th class="text-end pe-3">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="ps-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="assets/images/person_2.jpg" class="rounded-circle" width="30" height="30">
+                    <div class="d-flex flex-column">
+                      <span class="fw-bold small">Yassine M.</span>
+                      <span class="tiny text-muted">Premium</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="small fw-bold">VW Golf 7 (154 TN 2024)</span></td>
+                <td><span class="small">12 Mai - 15 Mai</span></td>
+                <td><span class="fw-bold small text-primary">285.0 DT</span></td>
+                <td><span class="badge bg-warning-soft text-warning">En attente</span></td>
+                <td class="text-end pe-3">
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-success"><span class="ion-ios-checkmark"></span></button>
+                    <button class="btn btn-danger"><span class="ion-ios-close"></span></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="ps-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="assets/images/person_3.jpg" class="rounded-circle" width="30" height="30">
+                    <div class="d-flex flex-column">
+                      <span class="fw-bold small">Selima R.</span>
+                      <span class="tiny text-muted">Client Or</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="small fw-bold">Kia Sportage (182 TN 4501)</span></td>
+                <td><span class="small">14 Mai - 20 Mai</span></td>
+                <td><span class="fw-bold small text-primary">840.0 DT</span></td>
+                <td><span class="badge bg-success-soft text-success">Validé</span></td>
+                <td class="text-end pe-3">
+                  <button class="btn btn-sm btn-light border">Détails</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fleet Health -->
+    <div class="col-lg-4">
+      <div class="content-card shadow-sm bg-white rounded-4 p-4">
+        <h5 class="fw-bold mb-4">État de la Flotte</h5>
+        <div class="health-item mb-3">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="small fw-bold">Disponibilité</span>
+            <span class="small text-success fw-bold">92%</span>
+          </div>
+          <div class="progress" style="height: 6px;">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 92%"></div>
+          </div>
+        </div>
+        <div class="health-item mb-3">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="small fw-bold">Maintenance préventive</span>
+            <span class="small text-warning fw-bold">15%</span>
+          </div>
+          <div class="progress" style="height: 6px;">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: 15%"></div>
+          </div>
+        </div>
+        <div class="health-item">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="small fw-bold">Documents expirés</span>
+            <span class="small text-danger fw-bold">0</span>
+          </div>
+          <div class="progress" style="height: 6px;">
+            <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="mt-4 p-3 bg-light rounded-3">
+          <p class="small mb-2 fw-bold text-muted text-uppercase tiny">Conseil du jour</p>
+          <p class="small mb-0">Pensez à vérifier la pression des pneus de la **BMW Série 5** avant sa prochaine location.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

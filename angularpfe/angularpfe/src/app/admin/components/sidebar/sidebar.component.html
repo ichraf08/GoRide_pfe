@@ -1,0 +1,51 @@
+<aside class="sidebar shadow-sm">
+  <div class="sidebar-brand">
+    <div class="logo-wrapper">
+      <div class="admin-shield">
+        <span class="ion-ios-lock"></span>
+      </div>
+      <span class="logo-text">GO<span class="text-danger">ADMIN</span></span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <p class="section-title">Contrôle</p>
+      <a routerLink="/admin/home" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-speedometer icon"></span>
+        <span>Vue d'ensemble</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <p class="section-title">Gestion</p>
+      <a routerLink="/admin/users" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-people icon"></span>
+        <span>Utilisateurs</span>
+      </a>
+      <a routerLink="/admin/vehicles" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-car icon"></span>
+        <span>Véhicules & Validation</span>
+      </a>
+      <a routerLink="/admin/bookings" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-journal icon"></span>
+        <span>Réservations</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <p class="section-title">Système</p>
+      <a routerLink="/admin/settings" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-settings icon"></span>
+        <span>Paramètres</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2" (click)="logout()">
+      <span class="ion-ios-log-out"></span>
+      <span>Déconnexion</span>
+    </button>
+  </div>
+</aside>

@@ -20,8 +20,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './auth/jwt.interceptor';
 import { FleetSetupComponent } from './fleet-setup/fleet-setup.component';
 import { ContactComponent } from './contact/contact.component';
-import { DriverDashboardComponent } from './driver-dashboard/driver-dashboard.component';
-
+import { RoleSwitcherComponent } from './header/role-switcher/role-switcher.component';
+import { ProfileAvatarComponent } from './header/profile-avatar/profile-avatar.component';
 
 @NgModule({
   declarations: [
@@ -37,14 +37,15 @@ import { DriverDashboardComponent } from './driver-dashboard/driver-dashboard.co
     SignupComponent,
     FleetSetupComponent,
     ContactComponent,
-    DriverDashboardComponent
+    RoleSwitcherComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
     TranslateModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    ProfileAvatarComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

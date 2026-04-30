@@ -72,54 +72,102 @@
 
         <ng-container *ngIf="authService.isLoggedIn()">
           <!-- Notifications -->
-          <li class="nav-item">
-            <button class="nav-link notification-btn" type="button" aria-label="Notifications">
+          <li class="nav-item position-relative notification-container">
+            <button class="nav-link notification-btn" type="button" aria-label="Notifications" (click)="toggleNotificationDropdown($event)">
               <span class="ion-ios-notifications-outline notification-icon"></span>
-              <span class="notification-badge"></span>
+              <span class="notification-badge" *ngIf="unreadNotificationsCount > 0">{{ unreadNotificationsCount }}</span>
             </button>
+
+            <!-- Dropdown Notifications -->
+            <div class="notification-dropdown-menu" [class.show]="isNotificationDropdownOpen">
+              <div class="notif-header d-flex align-items-center justify-content-between">
+                <h6 class="mb-0 fw-bold">Notifications</h6>
+                <button class="btn btn-link btn-sm text-primary p-0" *ngIf="unreadNotificationsCount > 0" (click)="markAllNotificationsAsRead($event)">
+                  Tout marquer lu
+                </button>
+              </div>
+
+              <div class="notif-body">
+                <div *ngIf="notifications.length === 0" class="p-4 text-center text-muted">
+                  <span class="ion-ios-notifications-off d-block mb-2" style="font-size: 2rem; opacity: 0.3;"></span>
+                  <p class="small mb-0">Aucune notification pour le moment</p>
+                </div>
+
+                <div 
+                  *ngFor="let notif of notifications" 
+                  class="notif-item" 
+                  [class.unread]="!notif.isRead"
+                  (click)="markNotificationAsRead(notif, $event)"
+                >
+                  <div class="notif-icon-wrapper" [style.background-color]="getNotificationColor(notif.type) + '15'">
+                    <span [class]="getNotificationIcon(notif.type)" [style.color]="getNotificationColor(notif.type)"></span>
+                  </div>
+                  <div class="notif-content">
+                    <p class="notif-title mb-0">{{ notif.title }}</p>
+                    <p class="notif-message mb-1 text-muted">{{ notif.message }}</p>
+                    <p class="notif-time mb-0">{{ formatTime(notif.createdAt) }}</p>
+                  </div>
+                  <div class="unread-dot" *ngIf="!notif.isRead"></div>
+                </div>
+              </div>
+
+              <div class="notif-footer text-center" *ngIf="notifications.length > 0">
+                <button class="btn btn-link btn-sm text-muted w-100 py-2">Voir toutes les notifications</button>
+              </div>
+            </div>
           </li>
 
           <!-- User Dropdown -->
           <li class="nav-item position-relative user-dropdown-container">
             <button class="nav-link user-dropdown-toggle d-flex align-items-center gap-2" type="button" (click)="toggleUserDropdown($event)">
-              <div class="user-avatar-small">
-                <img src="assets/images/person_1.jpg" alt="Avatar" class="rounded-circle" width="32" height="32">
-              </div>
-              <span class="user-name fw-bold text-dark">{{ currentUserFullName }}</span>
-              <span class="ion-ios-arrow-down ms-1 text-muted" style="font-size: 0.8rem;"></span>
+              <app-profile-avatar [firstName]="currentUser?.firstName" [lastName]="currentUser?.lastName" [photoUrl]="currentUser?.photoUrl" [size]="35"></app-profile-avatar>
+              <span class="user-name fw-bold text-dark d-none d-md-inline">{{ currentUserFullName }}</span>
+              <span class="ion-ios-arrow-down ms-1 text-muted d-none d-md-inline" style="font-size: 0.8rem;"></span>
             </button>
 
             <!-- Dropdown Menu -->
             <div class="user-dropdown-menu" [class.show]="isUserDropdownOpen">
               <div class="dropdown-header">
-                <p class="mb-0 fw-bold text-dark">Connecté en tant que</p>
-                <p class="mb-0 text-muted small">Chauffeur Partenaire</p>
+                <p class="mb-0 fw-bold text-dark" style="font-size: 1.05rem;">Bienvenue, {{ currentUser?.firstName }}</p>
+                <p class="mb-0 text-muted small mt-1">Mode <span class="text-primary fw-bold">{{ activeRoleLabel }}</span> actif</p>
               </div>
+
               <div class="dropdown-divider"></div>
-              
-              <a class="dropdown-item" routerLink="/acceuil/driver-dashboard" (click)="closeAllMenus()">
-                <span class="ion-ios-speedometer dropdown-icon"></span> Tableau de bord
+
+              <a class="dropdown-item" (click)="navigateTo(dashboardRoute)">
+                <span class="ion-speedometer dropdown-icon icon-dashboard"></span> Tableau de bord
               </a>
-              <a class="dropdown-item" routerLink="/acceuil/mes-courses" (click)="closeAllMenus()">
-                <span class="ion-ios-car dropdown-icon"></span> Mes courses
+
+              <a class="dropdown-item" (click)="navigateTo('/acceuil/profile?tab=account')">
+                <span class="ion-ios-person dropdown-icon icon-profile"></span> Mon profil
               </a>
-              <a class="dropdown-item" routerLink="/acceuil/revenus" (click)="closeAllMenus()">
-                <span class="ion-ios-wallet dropdown-icon"></span> Revenus
+
+              <a class="dropdown-item" (click)="toggleNotificationDropdown($event)">
+                <span class="ion-ios-notifications dropdown-icon icon-notif"></span> Notifications
+                <span class="ms-auto badge bg-danger rounded-pill" *ngIf="unreadNotificationsCount > 0" style="font-size: 10px;">{{ unreadNotificationsCount }}</span>
               </a>
-              <a class="dropdown-item" routerLink="/acceuil/mon-vehicule" (click)="closeAllMenus()">
-                <span class="ion-ios-settings dropdown-icon"></span> Mon véhicule
-              </a>
-              <a class="dropdown-item" routerLink="/acceuil/disponibilite" (click)="closeAllMenus()">
-                <span class="ion-ios-time dropdown-icon"></span> Disponibilité
-              </a>
-              <a class="dropdown-item" routerLink="/acceuil/parametres" (click)="closeAllMenus()">
-                <span class="ion-ios-options dropdown-icon"></span> Paramètres
-              </a>
-              
+
               <div class="dropdown-divider"></div>
-              <button class="dropdown-item text-danger fw-bold" (click)="logout()">
-                <span class="ion-ios-log-out dropdown-icon text-danger"></span> Déconnexion
-              </button>
+
+              <a class="dropdown-item" (click)="navigateTo('/acceuil/profile')">
+                <span class="ion-refresh dropdown-icon icon-sync"></span> Changer de rôle
+              </a>
+
+              <div class="dropdown-divider"></div>
+
+              <a class="dropdown-item" (click)="navigateTo('/acceuil/profile?tab=settings')">
+                <span class="ion-ios-gear dropdown-icon icon-settings"></span> Paramètres
+              </a>
+
+              <a class="dropdown-item" (click)="navigateTo('/acceuil/contact')">
+                <span class="ion-help dropdown-icon icon-help"></span> Aide
+              </a>
+
+              <div class="dropdown-divider"></div>
+
+              <a class="dropdown-item logout-item" (click)="logout()">
+                <span class="ion-ios-log-out dropdown-icon icon-logout"></span> Déconnexion
+              </a>
             </div>
           </li>
         </ng-container>

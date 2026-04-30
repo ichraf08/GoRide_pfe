@@ -1,0 +1,37 @@
+.driver-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 280px;
+  transition: margin-left 0.3s ease;
+}
+
+.content-area {
+  padding: 24px 32px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 80px;
+  }
+  .content-area {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+  .content-area {
+    padding: 16px;
+  }
+}

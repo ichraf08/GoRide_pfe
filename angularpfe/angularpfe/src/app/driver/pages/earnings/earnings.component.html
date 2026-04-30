@@ -1,0 +1,112 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Revenus</h1>
+    <p class="page-subtitle">Suivez vos gains et consultez vos transactions.</p>
+  </div>
+</div>
+
+<!-- Revenue Stats -->
+<div class="revenue-stats" *ngIf="stats">
+  <div class="rev-card rev-primary">
+    <span class="rev-label">Aujourd'hui</span>
+    <span class="rev-value">{{ stats.todayEarnings | number:'1.2-2' }} DT</span>
+    <span class="rev-sub">{{ stats.todayRides }} courses</span>
+  </div>
+  <div class="rev-card">
+    <span class="rev-label">Cette semaine</span>
+    <span class="rev-value">{{ stats.weekEarnings | number:'1.2-2' }} DT</span>
+    <span class="rev-sub">{{ stats.weekRides }} courses</span>
+  </div>
+  <div class="rev-card">
+    <span class="rev-label">Ce mois</span>
+    <span class="rev-value">{{ stats.monthEarnings | number:'1.2-2' }} DT</span>
+    <span class="rev-sub">{{ stats.monthRides }} courses</span>
+  </div>
+  <div class="rev-card">
+    <span class="rev-label">Moyenne / Course</span>
+    <span class="rev-value">{{ stats.averagePerRide | number:'1.2-2' }} DT</span>
+    <span class="rev-sub">Sur le mois</span>
+  </div>
+</div>
+
+<div class="content-grid">
+  <!-- Chart -->
+  <div class="chart-section">
+    <div class="section-header">
+      <h3 class="section-title">Revenus de la semaine</h3>
+    </div>
+    <div class="chart-wrapper">
+      <canvas baseChart
+        [data]="chartData"
+        [options]="chartOptions"
+        [type]="chartType">
+      </canvas>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary-section">
+    <h3 class="section-title">Résumé financier</h3>
+    <div class="summary-list">
+      <div class="summary-item">
+        <span class="summary-label">Total brut</span>
+        <span class="summary-value">{{ (totalNet + totalCommission) | number:'1.2-2' }} DT</span>
+      </div>
+      <div class="summary-item text-red">
+        <span class="summary-label">Commission GoRide (15%)</span>
+        <span class="summary-value">-{{ totalCommission | number:'1.2-2' }} DT</span>
+      </div>
+      <div class="summary-item text-green">
+        <span class="summary-label">Pourboires</span>
+        <span class="summary-value">+{{ totalTips | number:'1.2-2' }} DT</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item summary-total">
+        <span class="summary-label">Total net</span>
+        <span class="summary-value">{{ totalNet | number:'1.2-2' }} DT</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Transactions Table -->
+<div class="transactions-section" *ngIf="!loading">
+  <div class="section-header">
+    <h3 class="section-title">Historique des transactions</h3>
+  </div>
+  <div class="table-responsive">
+    <table class="transactions-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Course</th>
+          <th>Passager</th>
+          <th>Trajet</th>
+          <th>Brut</th>
+          <th>Commission</th>
+          <th>Pourboire</th>
+          <th>Net</th>
+          <th>Paiement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let e of earnings">
+          <td class="text-muted">{{ e.date }}</td>
+          <td class="fw-bold">#{{ e.rideId }}</td>
+          <td>{{ e.passengerName }}</td>
+          <td class="text-muted">{{ e.from }} → {{ e.to }}</td>
+          <td>{{ e.grossAmount | number:'1.2-2' }} DT</td>
+          <td class="text-red">-{{ e.commission | number:'1.2-2' }}</td>
+          <td class="text-green" *ngIf="e.tip > 0">+{{ e.tip | number:'1.2-2' }}</td>
+          <td *ngIf="e.tip === 0">—</td>
+          <td class="fw-bold">{{ e.netAmount | number:'1.2-2' }} DT</td>
+          <td>
+            <span class="payment-badge" [class.badge-cash]="e.paymentMethod === 'cash'" [class.badge-card]="e.paymentMethod === 'card'">
+              {{ e.paymentMethod === 'cash' ? 'Espèces' : 'Carte' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

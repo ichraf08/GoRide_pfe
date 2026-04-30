@@ -1,0 +1,72 @@
+.search-animation {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+}
+
+.pulse-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid #2563eb;
+  animation: pulse-ring 2s infinite;
+}
+
+.car-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.5); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.ride-item {
+  cursor: pointer;
+  padding: 1rem;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  background: #f8fafc;
+}
+
+.ride-item:hover {
+  background: #f1f5f9;
+}
+
+.ride-item.active {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.ride-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+}
+
+.gradient-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.gradient-purple { background: linear-gradient(135deg, #a855f7, #9333ea); }
+
+.ride-info { flex: 1; }
+.ride-name { display: block; font-weight: 700; }
+.ride-desc { display: block; font-size: 11px; color: #64748b; }
+.ride-price { font-weight: 800; color: #1e293b; }
+
+.map-card { height: 500px; }
+.map-bg { width: 100%; height: 100%; object-fit: cover; }

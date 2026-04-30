@@ -1,0 +1,128 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Mon Véhicule</h1>
+    <p class="page-subtitle">Gérez les informations de votre véhicule et suivez les échéances.</p>
+  </div>
+  <button class="btn-edit" *ngIf="vehicle && !isEditing" (click)="startEditing()">
+    <span class="ion-ios-create"></span> Modifier
+  </button>
+</div>
+
+<!-- Success Toast -->
+<div class="success-toast" *ngIf="saveSuccess">
+  <span class="ion-ios-checkmark-circle"></span> Informations mises à jour avec succès !
+</div>
+
+<div *ngIf="vehicle && !loading">
+  <!-- Vehicle Card -->
+  <div class="vehicle-hero" *ngIf="!isEditing">
+    <div class="hero-left">
+      <div class="vehicle-image-wrapper">
+        <img [src]="vehicle.image" alt="Véhicule" class="vehicle-image" onerror="this.src='assets/images/car_default.png'">
+        <span class="vehicle-status-badge" [ngClass]="getStatusClass(vehicle.status)">
+          {{ getStatusLabel(vehicle.status) }}
+        </span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <h2 class="vehicle-name">{{ vehicle.brand }} {{ vehicle.model }}</h2>
+      <span class="vehicle-year">{{ vehicle.year }} · {{ vehicle.color }}</span>
+      <div class="vehicle-plate">{{ vehicle.plateNumber }}</div>
+      <div class="vehicle-specs">
+        <div class="spec-item">
+          <span class="ion-ios-car spec-icon"></span>
+          <div><span class="spec-label">Type</span><span class="spec-value">{{ vehicle.type }}</span></div>
+        </div>
+        <div class="spec-item">
+          <span class="ion-ios-speedometer spec-icon"></span>
+          <div><span class="spec-label">Kilométrage</span><span class="spec-value">{{ vehicle.mileage | number }} km</span></div>
+        </div>
+        <div class="spec-item">
+          <span class="ion-ios-flash spec-icon"></span>
+          <div><span class="spec-label">Carburant</span><span class="spec-value">{{ vehicle.fuelType }}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expiry Alerts -->
+  <div class="alerts-section" *ngIf="!isEditing">
+    <h3 class="section-title">Documents & Échéances</h3>
+    <div class="alerts-grid">
+      <div class="alert-card" [class.alert-warning]="getDaysUntil(vehicle.insuranceExpiry) < 90" [class.alert-ok]="getDaysUntil(vehicle.insuranceExpiry) >= 90">
+        <span class="ion-ios-document alert-icon"></span>
+        <div>
+          <span class="alert-label">Assurance</span>
+          <span class="alert-date">Expire le {{ vehicle.insuranceExpiry }}</span>
+          <span class="alert-days" *ngIf="getDaysUntil(vehicle.insuranceExpiry) > 0">
+            {{ getDaysUntil(vehicle.insuranceExpiry) }} jours restants
+          </span>
+          <span class="alert-days text-danger" *ngIf="getDaysUntil(vehicle.insuranceExpiry) <= 0">
+            Expirée !
+          </span>
+        </div>
+      </div>
+      <div class="alert-card" [class.alert-warning]="getDaysUntil(vehicle.technicalControlExpiry) < 90" [class.alert-ok]="getDaysUntil(vehicle.technicalControlExpiry) >= 90">
+        <span class="ion-ios-clipboard alert-icon"></span>
+        <div>
+          <span class="alert-label">Contrôle Technique</span>
+          <span class="alert-date">Expire le {{ vehicle.technicalControlExpiry }}</span>
+          <span class="alert-days" *ngIf="getDaysUntil(vehicle.technicalControlExpiry) > 0">
+            {{ getDaysUntil(vehicle.technicalControlExpiry) }} jours restants
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Form -->
+  <div class="edit-form" *ngIf="isEditing">
+    <h3 class="section-title">Modifier les informations</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Marque</label>
+        <input type="text" [(ngModel)]="editForm.brand" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>Modèle</label>
+        <input type="text" [(ngModel)]="editForm.model" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>Année</label>
+        <input type="number" [(ngModel)]="editForm.year" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>Couleur</label>
+        <input type="text" [(ngModel)]="editForm.color" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>Immatriculation</label>
+        <input type="text" [(ngModel)]="editForm.plateNumber" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>Carburant</label>
+        <select [(ngModel)]="editForm.fuelType" class="form-input">
+          <option>Essence</option>
+          <option>Diesel</option>
+          <option>Électrique</option>
+          <option>Hybride</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Kilométrage</label>
+        <input type="number" [(ngModel)]="editForm.mileage" class="form-input">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" (click)="cancelEditing()">Annuler</button>
+      <button class="btn-save" (click)="saveChanges()">
+        <span class="ion-ios-checkmark"></span> Enregistrer
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="loading-state" *ngIf="loading">
+  <div class="spinner"></div>
+  <p>Chargement du véhicule...</p>
+</div>

@@ -1,0 +1,57 @@
+<div class="requests-page">
+  <div class="mb-4">
+    <h4 class="fw-bold mb-1">Demandes de location</h4>
+    <p class="text-muted small">Gérez les demandes de réservation de vos clients.</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12">
+      <div class="content-card shadow-sm bg-white rounded-4 p-0 overflow-hidden">
+        <div class="p-3 border-bottom bg-light d-flex gap-3">
+          <button class="btn btn-sm btn-white border rounded-pill px-3 active">Toutes</button>
+          <button class="btn btn-sm btn-white border rounded-pill px-3">En attente</button>
+          <button class="btn btn-sm btn-white border rounded-pill px-3">Validées</button>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <tbody>
+              <tr *ngFor="let i of [1,2,3]">
+                <td class="ps-4 py-3">
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="assets/images/person_2.jpg" class="rounded-circle" width="40" height="40">
+                    <div>
+                      <span class="fw-bold d-block">Ahmed Ben Ali</span>
+                      <span class="tiny text-muted">Inscrit le 12/01/2026</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="text-muted small d-block">Véhicule</span>
+                  <span class="fw-bold small">VW Golf 7 (154 TN 2024)</span>
+                </td>
+                <td>
+                  <span class="text-muted small d-block">Dates</span>
+                  <span class="small fw-bold">15 Mai - 18 Mai (3 jours)</span>
+                </td>
+                <td>
+                  <span class="text-muted small d-block">Montant</span>
+                  <span class="fw-bold text-primary">285.0 DT</span>
+                </td>
+                <td>
+                  <span class="badge bg-warning-soft text-warning">En attente</span>
+                </td>
+                <td class="text-end pe-4">
+                  <div class="d-flex gap-2 justify-content-end">
+                    <button class="btn btn-success btn-sm rounded-pill px-3">Accepter</button>
+                    <button class="btn btn-outline-danger btn-sm rounded-pill px-3">Refuser</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

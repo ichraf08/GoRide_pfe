@@ -1,0 +1,59 @@
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="search-bar d-none d-md-flex">
+      <span class="ion-ios-search icon"></span>
+      <input type="text" placeholder="Rechercher une course...">
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <div class="status-toggle" (click)="toggleStatus()" [class.offline]="!isOnline">
+      <div class="status-indicator" [class.online]="isOnline" [class.off]="!isOnline"></div>
+      <span class="status-text fw-bold">{{ isOnline ? 'En Ligne' : 'Hors Ligne' }}</span>
+    </div>
+
+    <a routerLink="/driver/requests" class="notification-bell">
+      <span class="ion-ios-notifications-outline"></span>
+    </a>
+
+    <div class="user-dropdown-container position-relative">
+      <div class="profile-menu" (click)="toggleDropdown()">
+        <div class="avatar-wrapper position-relative">
+          <app-profile-avatar [firstName]="currentUser?.firstName" [lastName]="currentUser?.lastName" [photoUrl]="currentUser?.photoUrl" [size]="40"></app-profile-avatar>
+          <div class="status-online" style="position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; background-color: #10b981; border-radius: 50%; border: 2px solid white; z-index: 10;" [class.offline]="!isOnline"></div>
+        </div>
+        <div class="profile-info d-none d-md-block">
+          <span class="name">{{ profile?.firstName }} {{ profile?.lastName }}</span>
+          <span class="role">Chauffeur Pro</span>
+        </div>
+        <span class="ion-ios-arrow-down ms-2 text-muted"></span>
+      </div>
+
+      <!-- Dropdown Menu -->
+      <div class="dropdown-menu-custom shadow-lg" *ngIf="isUserDropdownOpen">
+        <div class="dropdown-header px-3 py-2 border-bottom">
+           <span class="text-muted small fw-bold">BASCIULER LE MODE</span>
+        </div>
+        <div class="role-list p-2">
+          <button 
+            *ngFor="let role of availableRoles" 
+            class="role-item btn w-100 text-start d-flex align-items-center gap-2 mb-1"
+            [class.active]="role.id === authService.getActiveRole()"
+            (click)="switchRole(role.id, role.route)"
+          >
+            <span [class]="role.icon" [style.color]="role.color"></span>
+            <span>{{ role.label }}</span>
+            <span class="ms-auto ion-ios-checkmark-circle" *ngIf="role.id === authService.getActiveRole()"></span>
+          </button>
+        </div>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item px-3 py-2 d-flex align-items-center gap-2" (click)="goToProfile()">
+          <span class="ion-ios-person-outline"></span> Mon Compte
+        </a>
+        <a class="dropdown-item px-3 py-2 d-flex align-items-center gap-2 text-danger" (click)="authService.logout()">
+          <span class="ion-ios-log-out text-danger"></span> Déconnexion
+        </a>
+      </div>
+    </div>
+  </div>
+</header>

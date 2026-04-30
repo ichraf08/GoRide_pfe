@@ -1,0 +1,158 @@
+<div class="dashboard-home">
+  <!-- Stats Section -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-3">
+      <div class="stats-card gradient-blue shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="stats-label">Total Trajets</p>
+              <h2 class="stats-value">42</h2>
+            </div>
+            <div class="stats-icon">
+              <span class="ion-ios-car"></span>
+            </div>
+          </div>
+          <div class="stats-footer">
+            <span class="text-success"><span class="ion-ios-trending-up"></span> +12%</span>
+            <span class="ms-2 small opacity-75">ce mois</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stats-card gradient-purple shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="stats-label">Dépenses</p>
+              <h2 class="stats-value">1,250 DT</h2>
+            </div>
+            <div class="stats-icon">
+              <span class="ion-ios-wallet"></span>
+            </div>
+          </div>
+          <div class="stats-footer">
+            <span class="text-white small opacity-75">Total cumulé</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stats-card gradient-green shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="stats-label">Points Fidélité</p>
+              <h2 class="stats-value">850</h2>
+            </div>
+            <div class="stats-icon">
+              <span class="ion-ios-star"></span>
+            </div>
+          </div>
+          <div class="stats-footer">
+            <span class="small opacity-75">Niveau Or</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stats-card gradient-orange shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="stats-label">Avis Donnés</p>
+              <h2 class="stats-value">15</h2>
+            </div>
+            <div class="stats-icon">
+              <span class="ion-ios-thumbs-up"></span>
+            </div>
+          </div>
+          <div class="stats-footer">
+            <span class="small opacity-75">Moyenne 4.8/5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Active Bookings -->
+    <div class="col-lg-8">
+      <div class="content-card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center p-3 border-bottom">
+          <h5 class="mb-0 fw-bold">Trajets Récents</h5>
+          <a routerLink="/client/history" class="btn btn-sm btn-light">Voir tout</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th class="ps-3">Date</th>
+                <th>Destination</th>
+                <th>Chauffeur</th>
+                <th>Montant</th>
+                <th>Statut</th>
+                <th class="text-end pe-3">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="ps-3">
+                  <span class="fw-bold">Aujourd'hui</span>
+                  <br><small class="text-muted">14:30</small>
+                </td>
+                <td>
+                  <span class="d-block text-truncate" style="max-width: 150px;">Aéroport Tunis-Carthage</span>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="assets/images/person_2.jpg" class="rounded-circle" width="30" height="30">
+                    <span>Ahmed K.</span>
+                  </div>
+                </td>
+                <td><span class="fw-bold">25.0 DT</span></td>
+                <td><span class="badge bg-success-soft text-success">Terminé</span></td>
+                <td class="text-end pe-3">
+                  <button class="btn btn-sm btn-outline-primary">Détails</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="ps-3">
+                  <span class="fw-bold">Hier</span>
+                  <br><small class="text-muted">10:15</small>
+                </td>
+                <td>
+                  <span class="d-block text-truncate" style="max-width: 150px;">Centre Urbain Nord</span>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="assets/images/person_3.jpg" class="rounded-circle" width="30" height="30">
+                    <span>Sami B.</span>
+                  </div>
+                </td>
+                <td><span class="fw-bold">12.0 DT</span></td>
+                <td><span class="badge bg-success-soft text-success">Terminé</span></td>
+                <td class="text-end pe-3">
+                  <button class="btn btn-sm btn-outline-primary">Détails</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Promo Card -->
+    <div class="col-lg-4">
+      <div class="content-card shadow-sm bg-primary text-white p-4 h-100 promo-banner">
+        <h4 class="fw-bold mb-3">Parrainez un ami !</h4>
+        <p class="mb-4 opacity-75">Offrez 10 DT à un ami et recevez 10 DT après son premier trajet.</p>
+        <button class="btn btn-light fw-bold px-4">Partager mon code</button>
+        <div class="promo-img">
+          <span class="ion-ios-gift"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<aside class="sidebar shadow-sm">
+  <div class="sidebar-brand">
+    <div class="logo-wrapper">
+      <svg viewBox="0 0 100 100" width="32" height="32">
+        <path d="M 65 15 A 35 35 0 0 0 15 50" stroke="#2563eb" stroke-width="12" fill="none" />
+        <path d="M 18 68 A 35 35 0 0 0 50 85" stroke="#2563eb" stroke-width="12" fill="none" />
+        <path d="M 50 45 C 50 25, 80 25, 80 45 C 80 65, 65 95, 65 95 C 65 95, 50 65, 50 45 Z" fill="#2563eb"/>
+      </svg>
+      <span class="logo-text">GO<span class="text-primary">RIDE</span></span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <p class="section-title">Menu Principal</p>
+      <a routerLink="/client/home" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-apps icon"></span>
+        <span>Tableau de bord</span>
+      </a>
+      <a *ngIf="hasRole('ROLE_USER') || hasRole('USER')" routerLink="/client/book-ride" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-car icon"></span>
+        <span>Commander un trajet</span>
+      </a>
+      <a *ngIf="hasRole('ROLE_CLIENT') || hasRole('CLIENT')" routerLink="/client/rent-vehicle" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-key icon"></span>
+        <span>Louer un véhicule</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <p class="section-title">Mes Activités</p>
+      <a routerLink="/client/my-bookings" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-list-box icon"></span>
+        <span>Mes réservations</span>
+        <span class="badge badge-primary ms-auto">2</span>
+      </a>
+      <a routerLink="/client/history" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-time icon"></span>
+        <span>Historique</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <p class="section-title">Compte</p>
+      <a routerLink="/client/payments" routerLinkActive="active" class="nav-item">
+        <span class="ion-ios-wallet icon"></span>
+        <span>Paiements</span>
+      </a>
+      <a routerLink="/acceuil/profile" class="nav-item">
+        <span class="ion-ios-person icon"></span>
+        <span>Mon Profil</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2" (click)="logout()">
+      <span class="ion-ios-log-out"></span>
+      <span>Déconnexion</span>
+    </button>
+  </div>
+</aside>

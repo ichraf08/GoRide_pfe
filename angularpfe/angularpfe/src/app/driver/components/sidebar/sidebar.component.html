@@ -1,0 +1,67 @@
+<aside class="sidebar" [class.collapsed]="isCollapsed">
+  <div class="sidebar-header">
+    <div class="logo">
+      <span class="ion-ios-car text-primary"></span>
+      <h2 *ngIf="!isCollapsed">Go<span>Ride</span></h2>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a routerLink="/driver/home" routerLinkActive="active" class="nav-link">
+          <span class="ion-ios-apps icon"></span>
+          <span class="text" *ngIf="!isCollapsed">Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/driver/rides" class="nav-link">
+          <span class="ion-ios-navigate icon"></span>
+          <span class="text" *ngIf="!isCollapsed">Mes Courses</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/driver/requests" class="nav-link">
+          <span class="ion-ios-notifications icon"></span>
+          <span class="text" *ngIf="!isCollapsed">Demandes</span>
+          <span class="badge" *ngIf="!isCollapsed">3</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/driver/vehicle" class="nav-link">
+          <span class="ion-ios-car icon"></span>
+          <span class="text" *ngIf="!isCollapsed">Véhicule</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/driver/earnings" class="nav-link">
+          <span class="ion-ios-cash icon"></span>
+          <span class="text" *ngIf="!isCollapsed">Revenus</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/driver/profile" [queryParams]="{tab: 'reviews'}" class="nav-link">
+          <span class="ion-ios-star icon"></span>
+          <span class="text" *ngIf="!isCollapsed">Avis Clients</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="nav-divider" *ngIf="!isCollapsed">Paramètres</div>
+
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a routerLink="/driver/profile" class="nav-link">
+          <span class="ion-ios-person icon"></span>
+          <span class="text" *ngIf="!isCollapsed">Profil</span>
+        </a>
+      </li>
+      <li class="nav-item mt-4">
+        <a href="javascript:void(0)" (click)="logout()" class="nav-link text-danger">
+          <span class="ion-ios-log-out icon"></span>
+          <span class="text" *ngIf="!isCollapsed">Déconnexion</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside>

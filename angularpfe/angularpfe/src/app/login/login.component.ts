@@ -60,10 +60,28 @@ export class LoginComponent {
       .subscribe({
         next: () => {
           const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-          if (this.authService.hasRole('ROLE_DRIVER')) {
-            this.router.navigateByUrl('/acceuil/driver-dashboard');
-          } else {
-            this.router.navigateByUrl(returnUrl || '/acceuil');
+          if (returnUrl) {
+            this.router.navigateByUrl(returnUrl);
+            return;
+          }
+
+          const activeRole = this.authService.getActiveRole();
+          switch (activeRole) {
+            case 'ROLE_DRIVER':
+              this.router.navigateByUrl('/driver/home');
+              break;
+            case 'ROLE_FLEET_OWNER':
+              this.router.navigateByUrl('/fleet/home');
+              break;
+            case 'ROLE_COMPANY':
+              this.router.navigateByUrl('/company/home');
+              break;
+            case 'ROLE_ADMIN':
+              this.router.navigateByUrl('/admin/home');
+              break;
+            default:
+              this.router.navigateByUrl('/acceuil');
+              break;
           }
         },
         error: (err: any) => {

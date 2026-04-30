@@ -1,18 +1,24 @@
+/* Profile Component Styles */
+.profile-section {
+  padding: 60px 0;
+  min-height: calc(100vh - 100px);
+}
+
 .profile-card {
-  background: #fff;
-  border-radius: 15px;
+  background: #ffffff;
+  border-radius: 20px;
   overflow: hidden;
   border: none;
 }
 
 .profile-header {
   position: relative;
-  height: 160px;
+  height: 180px;
 }
 
 .profile-cover {
   height: 100%;
-  background: linear-gradient(135deg, #1089ff 0%, #01d28e 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
 }
 
 .profile-avatar-container {
@@ -24,85 +30,78 @@
 .profile-avatar {
   width: 100px;
   height: 100px;
-  background: #f8f9fa;
+  background: #ffffff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 50px;
-  color: #1089ff;
-  border: 5px solid #fff;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  color: #2563eb;
+  border: 5px solid #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .profile-body {
-  padding-top: 50px !important;
+  padding-top: 60px !important;
+}
+
+.badge-roles .badge {
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  letter-spacing: 0.3px;
+  font-size: 11px;
+  text-transform: uppercase;
 }
 
 .profile-menu .list-group-item {
   border: none;
   padding: 12px 20px;
+  border-radius: 12px;
   margin-bottom: 5px;
-  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s;
-  font-weight: 500;
-  color: #495057;
+  font-weight: 600;
+  color: #4b5563;
+  transition: all 0.2s ease;
 }
 
 .profile-menu .list-group-item:hover {
-  background: rgba(16, 137, 255, 0.05);
-  color: #1089ff;
+  background: #f8fafc;
+  color: #2563eb;
 }
 
 .profile-menu .list-group-item.active {
-  background: #1089ff;
-  color: #fff;
+  background: #eff6ff;
+  color: #2563eb;
 }
 
-.badge-roles .badge {
-  font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 20px;
+/* Role Promo Cards */
+.role-promo-card {
+  transition: all 0.3s ease;
+  border-radius: 16px !important;
 }
 
-.h6.border-bottom {
-  min-height: 35px;
+.role-promo-card:hover {
+  transform: translateY(-5px);
+  background: #ffffff !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 767.98px) {
-  /* Stack sidebar and content vertically */
-  .profile-avatar-container {
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -50px;
-  }
-
-  .profile-body {
-    text-align: center;
-    padding-top: 60px !important;
-  }
-
-  .profile-menu .list-group-item {
-    padding: 10px 14px;
-    font-size: 0.9rem;
-  }
-
-  .badge-roles .badge {
-    font-size: 0.75rem;
-    padding: 4px 10px;
-  }
+.promo-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
 }
 
-@media (max-width: 575.98px) {
-  .profile-header {
-    height: 130px;
-  }
-
-  .profile-avatar {
-    width: 80px;
-    height: 80px;
-    font-size: 40px;
-  }
+.btn-sm {
+  border-radius: 8px;
+  font-weight: 700;
+  padding: 8px 15px;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
 }

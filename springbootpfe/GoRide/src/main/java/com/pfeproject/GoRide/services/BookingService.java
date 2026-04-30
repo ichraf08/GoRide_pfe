@@ -7,6 +7,7 @@ import com.pfeproject.GoRide.entities.UserEntity;
 import com.pfeproject.GoRide.repositories.BookingRepository;
 import com.pfeproject.GoRide.repositories.TripRepository;
 import com.pfeproject.GoRide.repositories.UserRepo;
+import com.pfeproject.GoRide.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,9 @@ public class BookingService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private NotificationService notificationService;
 
     /**
      * Réserve des places sur un trajet pour un passager.
@@ -73,7 +77,28 @@ public class BookingService {
         }
         tripRepository.save(trip);
 
-        return bookingRepository.save(booking);
+        Booking savedBooking = bookingRepository.save(booking);
+
+        // --- Notifications ---
+        // 1. Pour le passager
+        notificationService.createNotification(
+                passengerId,
+                "Réservation confirmée",
+                "Votre réservation pour le trajet " + trip.getDeparture() + " -> " + trip.getDestination() + " a été acceptée.",
+                "SUCCESS",
+                "/acceuil/trajets"
+        );
+
+        // 2. Pour le chauffeur
+        notificationService.createNotification(
+                trip.getDriver().getId(),
+                "Nouvelle réservation",
+                passenger.getFirstName() + " a réservé " + seats + " place(s) sur votre trajet.",
+                "INFO",
+                "/driver/rides"
+        );
+
+        return savedBooking;
     }
 
     /**
@@ -102,6 +127,15 @@ public class BookingService {
 
         booking.setStatus("CANCELLED");
         bookingRepository.save(booking);
+
+        // --- Notification pour le chauffeur ---
+        notificationService.createNotification(
+                trip.getDriver().getId(),
+                "Réservation annulée",
+                booking.getPassenger().getFirstName() + " a annulé sa réservation pour votre trajet vers " + trip.getDestination() + ".",
+                "WARNING",
+                "/driver/rides"
+        );
     }
 
     /**

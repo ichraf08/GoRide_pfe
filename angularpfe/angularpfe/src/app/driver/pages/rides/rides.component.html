@@ -1,0 +1,93 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Mes Courses</h1>
+    <p class="page-subtitle">Historique complet de vos trajets et courses actives.</p>
+  </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="quick-stats">
+  <div class="qs-card">
+    <span class="ion-ios-checkmark-circle qs-icon text-green"></span>
+    <div>
+      <span class="qs-value">{{ completedCount }}</span>
+      <span class="qs-label">Terminées</span>
+    </div>
+  </div>
+  <div class="qs-card">
+    <span class="ion-ios-wallet qs-icon text-blue"></span>
+    <div>
+      <span class="qs-value">{{ totalEarnings | number:'1.2-2' }} DT</span>
+      <span class="qs-label">Total Gains</span>
+    </div>
+  </div>
+  <div class="qs-card">
+    <span class="ion-ios-car qs-icon text-purple"></span>
+    <div>
+      <span class="qs-value">{{ rides.length }}</span>
+      <span class="qs-label">Total Courses</span>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Tabs -->
+<div class="filter-tabs">
+  <button *ngFor="let f of filterOptions"
+    class="filter-btn"
+    [class.active]="activeFilter === f.value"
+    (click)="filterByStatus(f.value)">
+    {{ f.label }}
+    <span class="filter-count" *ngIf="f.value === 'all'">{{ rides.length }}</span>
+  </button>
+</div>
+
+<!-- Rides List -->
+<div class="rides-list" *ngIf="!loading">
+  <div class="ride-card" *ngFor="let ride of filteredRides">
+    <div class="ride-left">
+      <img [src]="ride.passengerAvatar" class="ride-avatar" alt="">
+      <div class="ride-info">
+        <div class="ride-id-row">
+          <span class="ride-id">#{{ ride.id }}</span>
+          <span class="ride-badge" [ngClass]="getStatusClass(ride.status)">{{ getStatusLabel(ride.status) }}</span>
+        </div>
+        <span class="ride-passenger fw-semibold">{{ ride.passengerName }}</span>
+        <div class="ride-route">
+          <div class="route-point">
+            <span class="route-dot dot-green"></span>
+            <span>{{ ride.from }}</span>
+          </div>
+          <div class="route-line"></div>
+          <div class="route-point">
+            <span class="route-dot dot-red"></span>
+            <span>{{ ride.to }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ride-right">
+      <div class="ride-meta">
+        <span class="ride-date">{{ ride.date }}, {{ ride.time }}</span>
+        <span class="ride-distance">{{ ride.distance }} · {{ ride.duration }}</span>
+      </div>
+      <div class="ride-amount">{{ ride.amount | number:'1.2-2' }} DT</div>
+      <span class="ride-payment">
+        <span class="ion-ios-card" *ngIf="ride.paymentMethod === 'card'"></span>
+        <span class="ion-ios-cash" *ngIf="ride.paymentMethod === 'cash'"></span>
+        {{ ride.paymentMethod === 'cash' ? 'Espèces' : 'Carte' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="filteredRides.length === 0">
+    <span class="ion-ios-car empty-icon"></span>
+    <h3>Aucune course trouvée</h3>
+    <p>Aucune course ne correspond à ce filtre.</p>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-state" *ngIf="loading">
+  <div class="spinner"></div>
+  <p>Chargement des courses...</p>
+</div>

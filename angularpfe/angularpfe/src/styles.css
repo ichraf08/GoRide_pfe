@@ -79,3 +79,21 @@
   opacity: 1 !important;
   background-color: #2563eb !important;
 }
+
+/* Dashboard Placeholder Styles */
+.dashboard-placeholder {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  background-color: #f8fafc;
+}
+
+.icon-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}

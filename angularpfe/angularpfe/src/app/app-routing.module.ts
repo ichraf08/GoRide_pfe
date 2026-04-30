@@ -10,7 +10,6 @@ import { SignupComponent } from './signup/signup.component';
 import { FleetSetupComponent } from './fleet-setup/fleet-setup.component';
 import { ContactComponent } from './contact/contact.component';
 import { AuthGuard } from './auth/auth.guard';
-import { DriverDashboardComponent } from './driver-dashboard/driver-dashboard.component';
 
 const routes: Routes = [
   {
@@ -21,8 +20,7 @@ const routes: Routes = [
        { path: 'services', component: ServicesComponent },
        { path: 'about', component: AboutComponent },
        { path: 'contact', component: ContactComponent },
-       { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-       { path: 'driver-dashboard', component: DriverDashboardComponent, canActivate: [AuthGuard] }
+       { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
      ]
    },
    // Login/Signup en plein écran
@@ -31,6 +29,11 @@ const routes: Routes = [
    { path: 'signup/driver', component: SignupComponent },
    { path: 'signup/fleet', component: SignupComponent },
    { path: 'fleet/setup', component: FleetSetupComponent },
+   { path: 'client', loadChildren: () => import('./client/client.module').then(m => m.ClientModule), canActivate: [AuthGuard], data: { role: 'ROLE_CLIENT' } },
+   { path: 'driver', loadChildren: () => import('./driver/driver.module').then(m => m.DriverModule), canActivate: [AuthGuard], data: { role: 'ROLE_DRIVER' } },
+   { path: 'fleet', loadChildren: () => import('./fleet/fleet.module').then(m => m.FleetModule), canActivate: [AuthGuard], data: { role: 'ROLE_FLEET_OWNER' } },
+   { path: 'company', loadChildren: () => import('./company/company.module').then(m => m.CompanyModule), canActivate: [AuthGuard], data: { role: 'ROLE_COMPANY' } },
+   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard], data: { role: 'ROLE_ADMIN' } },
    {path:'', redirectTo:'acceuil', pathMatch: 'full'}
 ];
 @NgModule({

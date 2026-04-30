@@ -1,0 +1,45 @@
+<div class="history-page">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0">Historique des Trajets</h4>
+    <button class="btn btn-outline-primary btn-sm rounded-pill px-3">Exporter PDF</button>
+  </div>
+
+  <div class="history-list" *ngIf="history.length > 0; else emptyState">
+    <div class="card border-0 shadow-sm rounded-4 mb-3 p-3" *ngFor="let ride of history">
+      <div class="row align-items-center">
+        <div class="col-md-1 text-center">
+          <div class="ride-icon-small bg-light text-primary rounded-circle">
+            <span class="ion-ios-car"></span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <span class="text-muted tiny text-uppercase fw-bold d-block">Destination</span>
+          <span class="fw-bold">{{ ride.destination }}</span>
+        </div>
+        <div class="col-md-2">
+          <span class="text-muted tiny text-uppercase fw-bold d-block">Date</span>
+          <span class="small">{{ ride.date | date:'dd MMM yyyy, HH:mm' }}</span>
+        </div>
+        <div class="col-md-2">
+          <span class="text-muted tiny text-uppercase fw-bold d-block">Prix</span>
+          <span class="fw-bold text-dark">{{ ride.price }} DT</span>
+        </div>
+        <div class="col-md-2">
+          <span class="badge bg-success-soft text-success rounded-pill px-3">{{ ride.status }}</span>
+        </div>
+        <div class="col-md-1 text-end">
+          <button class="btn btn-icon-only text-muted"><span class="ion-ios-arrow-forward"></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyState>
+    <div class="text-center py-5">
+      <img src="assets/images/empty-history.svg" width="150" class="mb-3 opacity-50">
+      <h5 class="text-muted">Aucun trajet trouvé</h5>
+      <p class="text-muted small">Vos futurs trajets apparaîtront ici.</p>
+      <button class="btn btn-primary rounded-pill px-4 mt-2" routerLink="/client/book-ride">Réserver maintenant</button>
+    </div>
+  </ng-template>
+</div>

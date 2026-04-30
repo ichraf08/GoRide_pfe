@@ -1,0 +1,20 @@
+.vehicle-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.vehicle-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+
+.category-filters .btn-light {
+  background-color: #f1f5f9;
+  border: none;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.category-filters .btn-primary {
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+}

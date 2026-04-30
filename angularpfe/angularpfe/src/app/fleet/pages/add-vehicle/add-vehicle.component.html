@@ -1,0 +1,53 @@
+<div class="add-vehicle">
+  <div class="mb-4">
+    <button class="btn btn-link text-muted p-0 text-decoration-none mb-2" routerLink="/fleet/vehicles">
+      <span class="ion-ios-arrow-back"></span> Retour à la liste
+    </button>
+    <h4 class="fw-bold">Ajouter un nouveau véhicule</h4>
+  </div>
+
+  <div class="content-card shadow-sm bg-white rounded-4 p-4">
+    <form (ngSubmit)="onSubmit()">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <label class="form-label fw-bold small">Marque</label>
+          <input type="text" class="form-control rounded-3" [(ngModel)]="vehicle.brand" name="brand" placeholder="Ex: Volkswagen" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-bold small">Modèle</label>
+          <input type="text" class="form-control rounded-3" [(ngModel)]="vehicle.model" name="model" placeholder="Ex: Golf 7" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-bold small">Immatriculation</label>
+          <input type="text" class="form-control rounded-3" [(ngModel)]="vehicle.plate" name="plate" placeholder="Ex: 154 TN 2024" required>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-bold small">Catégorie</label>
+          <select class="form-select rounded-3" [(ngModel)]="vehicle.type" name="type">
+            <option>Économique</option>
+            <option>Berline</option>
+            <option>SUV</option>
+            <option>Luxe</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold small">Année</label>
+          <input type="number" class="form-control rounded-3" [(ngModel)]="vehicle.year" name="year" placeholder="2024">
+        </div>
+
+        <div class="col-12 pt-3 border-top mt-4 text-center" *ngIf="isSubmitting">
+          <div class="spinner-border text-primary" role="status"></div>
+          <p class="text-muted mt-2">Enregistrement en cours...</p>
+        </div>
+
+        <div class="col-12 pt-3 border-top mt-4" *ngIf="!isSubmitting">
+          <div class="d-flex justify-content-end gap-3">
+            <button type="button" class="btn btn-light rounded-pill px-4" routerLink="/fleet/my-vehicles">Annuler</button>
+            <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold shadow">Enregistrer le véhicule</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

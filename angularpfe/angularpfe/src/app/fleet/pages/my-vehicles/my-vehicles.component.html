@@ -1,0 +1,50 @@
+<div class="my-vehicles">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0">Ma Flotte</h4>
+    <button class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" routerLink="/fleet/add-vehicle">
+      <span class="ion-ios-add me-2"></span> Ajouter un véhicule
+    </button>
+  </div>
+
+  <div class="content-card shadow-sm bg-white rounded-4 overflow-hidden">
+    <div class="table-responsive" *ngIf="vehicles.length > 0; else emptyVehicles">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th class="ps-4">Véhicule</th>
+            <th>Immatriculation</th>
+            <th>Statut</th>
+            <th class="text-end pe-4">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let v of vehicles">
+            <td class="ps-4">
+              <div class="d-flex align-items-center gap-3">
+                <img [src]="v.image" class="rounded-3" width="60" height="40" style="object-fit: cover;">
+                <div class="d-flex flex-column">
+                  <span class="fw-bold small">{{ v.brand }} {{ v.model }}</span>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge bg-light text-dark border fw-bold">{{ v.plate }}</span></td>
+            <td>
+              <span class="badge" [class.bg-success-soft]="v.status === 'Disponible' || v.status === 'En service'" [class.text-success]="v.status === 'Disponible' || v.status === 'En service'" [class.bg-warning-soft]="v.status !== 'Disponible' && v.status !== 'En service'">
+                {{ v.status }}
+              </span>
+            </td>
+            <td class="text-end pe-4">
+              <button class="btn btn-icon-only text-primary"><span class="ion-ios-create"></span></button>
+              <button class="btn btn-icon-only text-danger ms-2" (click)="deleteVehicle(v.id)"><span class="ion-ios-trash"></span></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #emptyVehicles>
+      <div class="text-center py-5">
+        <p class="text-muted">Aucun véhicule dans votre flotte.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

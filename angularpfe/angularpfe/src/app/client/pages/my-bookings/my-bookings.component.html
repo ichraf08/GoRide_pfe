@@ -1,0 +1,37 @@
+<div class="my-bookings">
+  <div class="content-card shadow-sm">
+    <div class="card-header p-3 border-bottom">
+      <h5 class="mb-0 fw-bold">Réservations Actives</h5>
+    </div>
+    <div class="p-4 text-center" *ngIf="false">
+      <div class="empty-state">
+        <span class="ion-ios-calendar fs-1 text-muted opacity-25"></span>
+        <p class="text-muted mt-3">Vous n'avez aucune réservation active pour le moment.</p>
+        <button class="btn btn-primary rounded-pill px-4" routerLink="/client/book-ride">Réserver maintenant</button>
+      </div>
+    </div>
+    
+    <div class="booking-list p-3">
+      <div class="booking-item border rounded-4 p-3 mb-3">
+        <div class="row align-items-center">
+          <div class="col-md-2 text-center">
+            <div class="date-box bg-light p-2 rounded-3">
+              <span class="d-block fw-bold">12</span>
+              <span class="small text-muted">MAI</span>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <h6 class="fw-bold mb-1">Location Volkswagen Golf 7</h6>
+            <span class="text-muted small">Durée : 3 jours (12 Mai - 15 Mai)</span>
+          </div>
+          <div class="col-md-3">
+            <span class="badge bg-warning-soft text-warning px-3 py-2 rounded-pill">En attente de validation</span>
+          </div>
+          <div class="col-md-2 text-end">
+            <button class="btn btn-outline-danger btn-sm rounded-pill">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
