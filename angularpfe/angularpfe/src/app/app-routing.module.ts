@@ -10,6 +10,8 @@ import { SignupComponent } from './signup/signup.component';
 import { FleetSetupComponent } from './fleet-setup/fleet-setup.component';
 import { ContactComponent } from './contact/contact.component';
 import { AuthGuard } from './auth/auth.guard';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -28,6 +30,8 @@ const routes: Routes = [
    { path: 'signup', component: SignupComponent },
    { path: 'signup/driver', component: SignupComponent },
    { path: 'signup/fleet', component: SignupComponent },
+   { path: 'forgot-password', component: ForgotPasswordComponent },
+   { path: 'reset-password/:token', component: ResetPasswordComponent },
    { path: 'fleet/setup', component: FleetSetupComponent },
    { path: 'client', loadChildren: () => import('./client/client.module').then(m => m.ClientModule), canActivate: [AuthGuard], data: { role: 'ROLE_CLIENT' } },
    { path: 'driver', loadChildren: () => import('./driver/driver.module').then(m => m.DriverModule), canActivate: [AuthGuard], data: { role: 'ROLE_DRIVER' } },

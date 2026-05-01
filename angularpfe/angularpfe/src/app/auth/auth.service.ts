@@ -31,6 +31,7 @@ export interface JwtResponse {
   email: string;
   firstName: string;
   lastName: string;
+  secondaryEmail?: string;
   roles: string[];
   photoUrl?: string;
 }
@@ -202,6 +203,20 @@ export class AuthService {
       localStorage.setItem(USER_KEY, JSON.stringify(user));
       this.userSubject.next(user);
     }
+  }
+
+  /**
+   * Demander un lien de réinitialisation de mot de passe.
+   */
+  forgotPassword(email: string): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(API_URL + 'forgot-password', { email });
+  }
+
+  /**
+   * Réinitialiser le mot de passe avec le token.
+   */
+  resetPassword(request: any): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(API_URL + 'reset-password', request);
   }
 
   private hasToken(): boolean {

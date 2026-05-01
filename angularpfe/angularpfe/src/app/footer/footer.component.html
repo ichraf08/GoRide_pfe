@@ -75,8 +75,13 @@
         <h4>{{ 'FOOTER.NEWSLETTER' | translate }}</h4>
         <p [innerHTML]="'FOOTER.NEWSLETTER_DESC' | translate"></p>
         <form class="newsletter-form">
-          <input type="email" [placeholder]="'FOOTER.ENTER_EMAIL' | translate">
-          <button type="submit" [attr.aria-label]="'FOOTER.SUBSCRIBE' | translate">
+          <div class="input-with-icon" style="flex: 1;">
+            <span class="ion-ios-mail input-icon" style="left: 15px; color: #fff; opacity: 0.7;"></span>
+            <input type="email" 
+                   [placeholder]="'FOOTER.ENTER_EMAIL' | translate" 
+                   style="padding-left: 45px !important; background: rgba(255,255,255,0.1) !important; border: 1px solid rgba(255,255,255,0.2) !important; color: #fff !important; height: 50px !important; border-radius: 12px !important; width: 100%;">
+          </div>
+          <button type="submit" [attr.aria-label]="'FOOTER.SUBSCRIBE' | translate" style="height: 50px; width: 50px; border-radius: 12px; margin-left: 10px;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
           </button>
         </form>

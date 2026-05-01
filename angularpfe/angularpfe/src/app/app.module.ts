@@ -22,6 +22,8 @@ import { FleetSetupComponent } from './fleet-setup/fleet-setup.component';
 import { ContactComponent } from './contact/contact.component';
 import { RoleSwitcherComponent } from './header/role-switcher/role-switcher.component';
 import { ProfileAvatarComponent } from './header/profile-avatar/profile-avatar.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { ProfileAvatarComponent } from './header/profile-avatar/profile-avatar.c
     SignupComponent,
     FleetSetupComponent,
     ContactComponent,
-    RoleSwitcherComponent
+    RoleSwitcherComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

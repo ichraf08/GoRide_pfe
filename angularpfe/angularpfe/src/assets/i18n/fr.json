@@ -294,6 +294,32 @@
     "SEATS": "Nombre de places",
     "SKIP": "Passer pour le moment",
     "SUBMIT": "Enregistrer le véhicule"
+  },
+  "FORGOT_PASSWORD": {
+    "TITLE": "Mot de passe oublié ?",
+    "SUBTITLE": "Entrez votre adresse e-mail pour recevoir un lien de réinitialisation sécurisé.",
+    "BACK": "Retour à la connexion",
+    "EMAIL_LABEL": "ADRESSE E-MAIL",
+    "EMAIL_PLACEHOLDER": "exemple@email.com",
+    "SUBMIT": "Envoyer le lien",
+    "SUBMITTING": "Envoi en cours...",
+    "SUCCESS": "Un lien de réinitialisation a été envoyé à votre adresse email.",
+    "SECURITY_NOTICE": "Votre sécurité est notre priorité"
+  },
+  "RESET_PASSWORD": {
+    "TITLE": "Nouveau mot de passe",
+    "SUBTITLE": "Choisissez un mot de passe fort pour sécuriser votre compte GoRide.",
+    "PASSWORD_LABEL": "NOUVEAU MOT DE PASSE",
+    "CONFIRM_LABEL": "CONFIRMER LE MOT DE PASSE",
+    "SUBMIT": "Mettre à jour le mot de passe",
+    "SUBMITTING": "Mise à jour...",
+    "SUCCESS": "Votre mot de passe a été modifié avec succès. Redirection...",
+    "REQ_MIN": "8 caractères minimum",
+    "REQ_PATTERN": "Majuscule, chiffre & caractère spécial",
+    "MISMATCH": "Les mots de passe ne correspondent pas.",
+    "TOKEN_MISSING": "Token de réinitialisation manquant.",
+    "INVALID_LINK": "Lien de réinitialisation non valide ou expiré.",
+    "NEW_REQUEST": "Nouvelle demande"
   }
 }
 

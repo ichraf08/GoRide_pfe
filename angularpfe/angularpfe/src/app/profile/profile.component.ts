@@ -9,12 +9,12 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user: any = null;
+  user: any = {}; // Initialisation pour éviter les erreurs de binding
   loading = true;
   error: string | null = null;
   successMessage: string | null = null;
   isAddingRole = false;
-  activeTab = 'account'; // 'account', 'reservations', 'notifications', 'settings'
+  activeTab = 'overview'; // 'overview', 'infos', 'details', 'roles', 'security', 'activities', 'payments', 'documents', 'preferences', 'notifications'
   
   // Edit mode
   isEditing = false;
@@ -39,6 +39,15 @@ export class ProfileComponent implements OnInit {
     this.fetchProfile();
     this.activeRole = this.authService.getActiveRole();
     this.setupAvailableRoles();
+
+    // Synchronisation automatique via BehaviorSubject
+    this.authService.user$.subscribe(user => {
+      if (user) {
+        console.log('Profil synchronisé via Session (UserSubject):', user);
+        this.user = { ...this.user, ...user };
+        this.setupAvailableRoles();
+      }
+    });
     
     // Lire l'onglet depuis l'URL
     this.route.queryParams.subscribe(params => {
@@ -82,15 +91,22 @@ export class ProfileComponent implements OnInit {
 
   saveProfile(): void {
     this.loading = true;
-    // Simulation d'appel API pour la mise à jour
-    setTimeout(() => {
-      this.user = { ...this.editUser };
-      this.authService.updateUser(this.user);
-      this.isEditing = false;
-      this.loading = false;
-      this.successMessage = "Profil mis à jour avec succès !";
-      setTimeout(() => this.successMessage = null, 3000);
-    }, 1000);
+    this.http.patch('http://localhost:8081/api/users/me', this.user).subscribe({
+      next: (updatedUser: any) => {
+        this.user = { ...this.user, ...updatedUser };
+        this.authService.updateUser(this.user);
+        this.isEditing = false;
+        this.loading = false;
+        this.successMessage = "Email secondaire mis à jour";
+        setTimeout(() => this.successMessage = null, 3000);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la mise à jour:', err);
+        this.error = "Erreur lors de la sauvegarde du profil.";
+        this.loading = false;
+        setTimeout(() => this.error = null, 5000);
+      }
+    });
   }
 
   setTab(tab: string): void {
@@ -100,8 +116,10 @@ export class ProfileComponent implements OnInit {
   fetchProfile(): void {
     this.loading = true;
     this.http.get('http://localhost:8081/api/users/me').subscribe({
-      next: (data) => {
+      next: (data: any) => {
+        console.log('Données brutes reçues de /api/users/me:', data);
         this.user = data;
+        this.authService.updateUser(data); 
         this.loading = false;
         this.error = null;
         this.setupAvailableRoles();
@@ -120,7 +138,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  getRoleLabel(role: string): string {
+  translateRole(role: string): string {
     const roles: any = {
       'ROLE_CLIENT': 'Client',
       'ROLE_USER': 'Client',

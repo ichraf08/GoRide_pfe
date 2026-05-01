@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   statsAnimated: boolean = false;
   selectedSubject: string = 'Choisissez votre demande';
   isDropdownOpen: boolean = false;
+  homeContactEmail: string = '';
   
   // Auth state
   isLoggedIn: boolean = false;
@@ -27,9 +28,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs: Subscription = new Subscription();
 
   private roleDefinitions: Record<string, any> = {
-    'ROLE_CLIENT': { id: 'ROLE_CLIENT', label: 'Client', icon: 'ion-ios-person', route: '/client/home', color: '#10b981', action: 'Réserver un trajet' },
-    'ROLE_USER': { id: 'ROLE_USER', label: 'Client', icon: 'ion-ios-person', route: '/client/home', color: '#10b981', action: 'Louer un véhicule' },
-    'ROLE_DRIVER': { id: 'ROLE_DRIVER', label: 'Chauffeur', icon: 'ion-ios-car', route: '/driver/home', color: '#2563eb', action: 'Prendre le volant' },
+    'ROLE_CLIENT': { id: 'ROLE_CLIENT', label: 'Client (Location)', icon: 'ion-ios-car', route: '/client/home', color: '#10b981', action: 'Réserver un trajet' },
+    'ROLE_USER': { id: 'ROLE_USER', label: 'Client (Trajets)', icon: 'ion-ios-navigate', route: '/client/home', color: '#10b981', action: 'Commander un trajet' },
+    'ROLE_DRIVER': { id: 'ROLE_DRIVER', label: 'Chauffeur', icon: 'ion-ios-speedometer', route: '/driver/home', color: '#2563eb', action: 'Prendre le volant' },
     'ROLE_FLEET_OWNER': { id: 'ROLE_FLEET_OWNER', label: 'Propriétaire', icon: 'ion-ios-people', route: '/fleet/home', color: '#f59e0b', action: 'Gérer ma flotte' },
     'ROLE_COMPANY': { id: 'ROLE_COMPANY', label: 'Entreprise', icon: 'ion-ios-business', route: '/company/home', color: '#4b5563', action: 'Espace Entreprise' },
     'ROLE_ADMIN': { id: 'ROLE_ADMIN', label: 'Admin', icon: 'ion-ios-settings', route: '/admin/home', color: '#ef4444', action: 'Administration' }
@@ -75,14 +76,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loadUserRoles(): void {
     if (this.user && this.user.roles) {
-      const userRoles = [...this.user.roles];
-      this.availableRoles = userRoles
-        .map((roleName: string) => {
+      this.availableRoles = this.user.roles
+        .map((r: any) => {
+          const roleName = typeof r === 'string' ? r : (r.name || '');
           const normalizedRole = roleName.startsWith('ROLE_') ? roleName : 'ROLE_' + roleName;
           return this.roleDefinitions[normalizedRole] || { id: normalizedRole, label: roleName, icon: 'ion-ios-settings', route: '/acceuil', color: '#6c757d', action: 'Ouvrir' };
         })
         .filter((role: any, index: number, self: any[]) => 
-          index === self.findIndex((r) => r.label === role.label)
+          role.id && index === self.findIndex((r) => r.id === role.id)
         );
     }
   }

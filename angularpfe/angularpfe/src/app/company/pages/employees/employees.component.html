@@ -57,7 +57,23 @@
       </div>
       <div class="mb-3">
         <label class="form-label small fw-bold">Email professionnel</label>
-        <input type="email" class="form-control rounded-3" [(ngModel)]="newEmployee.email" placeholder="email@entreprise.tn">
+        <div class="input-with-icon">
+          <span class="ion-ios-mail input-icon" style="top: 50%; transform: translateY(-50%); font-size: 1.1rem; left: 15px;"></span>
+          <input type="email" 
+                 class="custom-input" 
+                 style="height: 48px !important; padding-left: 45px !important;"
+                 [(ngModel)]="newEmployee.email" 
+                 #empEmail="ngModel" 
+                 required 
+                 email
+                 [class.is-invalid]="empEmail.invalid && (empEmail.dirty || empEmail.touched)"
+                 [class.is-valid]="empEmail.valid && (empEmail.dirty || empEmail.touched)"
+                 placeholder="email@entreprise.tn">
+          <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="empEmail.valid && empEmail.dirty" style="font-size: 1.1rem; right: 15px;"></span>
+        </div>
+        <div class="text-danger small mt-1" *ngIf="empEmail.invalid && (empEmail.dirty || empEmail.touched)" style="font-size: 0.75rem;">
+          Email professionnel valide requis.
+        </div>
       </div>
       <div class="mb-4">
         <label class="form-label small fw-bold">Département</label>

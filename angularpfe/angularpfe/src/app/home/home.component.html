@@ -762,9 +762,19 @@
               </div>
             </div>
             <div class="col-md-6">
-              <div class="input-group-premium">
-                <input type="email" class="form-control" placeholder="Votre email">
-                <span class="ion-ios-mail icon-field"></span>
+              <div class="input-with-icon">
+                <span class="ion-ios-mail input-icon" style="top: 50%; transform: translateY(-50%); font-size: 1.3rem; left: 18px;"></span>
+                <input type="email" 
+                       class="custom-input" 
+                       [(ngModel)]="homeContactEmail" 
+                       name="email" 
+                       #homeEmailRef="ngModel" 
+                       required 
+                       email
+                       [class.is-invalid]="homeEmailRef.invalid && (homeEmailRef.dirty || homeEmailRef.touched)"
+                       [class.is-valid]="homeEmailRef.valid && (homeEmailRef.dirty || homeEmailRef.touched)"
+                       placeholder="Votre email">
+                <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="homeEmailRef.valid && homeEmailRef.dirty" style="right: 18px;"></span>
               </div>
             </div>
             <div class="col-12">

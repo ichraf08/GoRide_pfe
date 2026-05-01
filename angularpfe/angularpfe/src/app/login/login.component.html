@@ -59,9 +59,14 @@
               autocomplete="email"
               [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate"
             />
+            <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="f['email'].valid && f['email'].dirty"></span>
           </div>
-          <div class="invalid-feedback small mt-1" *ngIf="f['email'].errors?.['required'] && (f['email'].dirty || f['email'].touched)">L'adresse email est requise.</div>
-          <div class="invalid-feedback small mt-1" *ngIf="f['email'].errors?.['email'] && (f['email'].dirty || f['email'].touched)">Le format de l'email est invalide.</div>
+          <div class="invalid-feedback small mt-1" *ngIf="f['email'].errors?.['required'] && (f['email'].dirty || f['email'].touched)">
+            {{ 'LOGIN.ERROR.EMAIL_REQUIRED' | translate }}
+          </div>
+          <div class="invalid-feedback small mt-1" *ngIf="f['email'].errors?.['email'] && (f['email'].dirty || f['email'].touched)">
+            {{ 'LOGIN.ERROR.EMAIL_INVALID' | translate }}
+          </div>
         </div>
 
         <div class="form-group mb-4 pb-2">
@@ -91,7 +96,7 @@
             <input type="checkbox" style="width: 18px; height: 18px; accent-color: #2563eb; flex-shrink: 0; cursor: pointer;" />
             <span class="text-muted small" style="margin: 0; line-height: 1.2;">{{ 'LOGIN.REMEMBER' | translate }}</span>
           </label>
-          <a class="custom-link small fw-bold" href="javascript:void(0)" (click)="$event.preventDefault()">
+          <a class="custom-link small fw-bold" routerLink="/forgot-password">
             {{ 'LOGIN.FORGOT' | translate }}
           </a>
         </div>

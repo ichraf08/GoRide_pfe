@@ -66,8 +66,20 @@
                 <label class="form-label-custom">Votre Email</label>
                 <div class="input-with-icon">
                   <span class="ion-ios-mail input-icon"></span>
-                  <input type="email" class="form-control custom-input" placeholder="Ex: nom@domaine.com">
+                  <input type="email" 
+                         class="form-control custom-input" 
+                         [(ngModel)]="contactEmail" 
+                         name="email" 
+                         #emailRef="ngModel" 
+                         required 
+                         email
+                         [class.is-invalid]="emailRef.invalid && (emailRef.dirty || emailRef.touched)"
+                         [class.is-valid]="emailRef.valid && (emailRef.dirty || emailRef.touched)"
+                         placeholder="Ex: nom@domaine.com">
+                  <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="emailRef.valid && emailRef.dirty"></span>
                 </div>
+                <div class="invalid-feedback small mt-1" *ngIf="emailRef.errors?.['required'] && (emailRef.dirty || emailRef.touched)">Email requis.</div>
+                <div class="invalid-feedback small mt-1" *ngIf="emailRef.errors?.['email'] && (emailRef.dirty || emailRef.touched)">Format email invalide.</div>
               </div>
             </div>
 
