@@ -43,6 +43,26 @@ public class UserEntity {
     @Column(name = "has_fleet")
     private Boolean hasFleet = false;
 
+    @Column(name = "wallet_balance")
+    @Builder.Default
+    private Double walletBalance = 0.0;
+
+    @Column(name = "loyalty_points")
+    @Builder.Default
+    private Integer loyaltyPoints = 0;
+
+    @Column(name = "loyalty_tier")
+    @Builder.Default
+    private String loyaltyTier = "Bronze";
+
+    @Column(name = "verification_status")
+    @Builder.Default
+    private String verificationStatus = "PENDING"; // PENDING, VERIFIED, REJECTED
+
+    @Column(name = "profile_completion")
+    @Builder.Default
+    private Integer profileCompletion = 0;
+
     @Column(nullable = false)
     @Builder.Default
     private Boolean enabled = true;

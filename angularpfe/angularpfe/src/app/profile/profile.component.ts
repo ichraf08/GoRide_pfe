@@ -143,6 +143,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchProfile();
+    this.fetchTransactions();
+    this.fetchActivities();
+    
     this.activeRole = this.authService.getActiveRole();
     this.setupAvailableRoles();
     
@@ -156,6 +159,73 @@ export class ProfileComponent implements OnInit {
     const localUser = this.authService.getCurrentUser();
     if (localUser?.photoUrl) {
       this.photoPreview = localUser.photoUrl;
+    }
+  }
+
+  fetchTransactions(): void {
+    this.http.get<any[]>('http://localhost:8081/api/users/me/transactions').subscribe({
+      next: (data) => {
+        if (data && data.length > 0) {
+          this.paymentHistory = data.map(t => ({
+            id: '#' + t.transactionId,
+            date: new Date(t.createdAt).toLocaleDateString('fr-FR'),
+            method: t.type === 'RECHARGE' ? 'D17 / Carte' : 'Portefeuille',
+            amount: t.amount.toString(),
+            status: t.status === 'COMPLETED' ? 'Payé' : t.status,
+            type: t.title,
+            icon: t.type === 'RECHARGE' ? 'ion-ios-wallet' : 'ion-ios-car'
+          }));
+        }
+      },
+      error: (err) => console.error('Erreur transactions:', err)
+    });
+  }
+
+  fetchActivities(): void {
+    this.http.get<any[]>('http://localhost:8081/api/users/me/activities').subscribe({
+      next: (data) => {
+        if (data && data.length > 0) {
+          this.allActivities = data.map(a => ({
+            id: a.id,
+            type: a.type.toLowerCase(),
+            text: a.title,
+            date: new Date(a.createdAt).toLocaleDateString('fr-FR'),
+            details: a.description,
+            icon: this.getActivityIcon(a.type),
+            color: this.getActivityColor(a.category),
+            bg: this.getActivityBg(a.category),
+            meta: a.type
+          }));
+        }
+      },
+      error: (err) => console.error('Erreur activités:', err)
+    });
+  }
+
+  private getActivityIcon(type: string): string {
+    switch(type) {
+      case 'TRIP': return 'ion-ios-car';
+      case 'SECURITY': return 'ion-ios-lock';
+      case 'PAYMENT': return 'ion-ios-wallet';
+      default: return 'ion-ios-information-circle';
+    }
+  }
+
+  private getActivityColor(category: string): string {
+    switch(category) {
+      case 'success': return '#10b981';
+      case 'warning': return '#f59e0b';
+      case 'danger': return '#ef4444';
+      default: return '#3b82f6';
+    }
+  }
+
+  private getActivityBg(category: string): string {
+    switch(category) {
+      case 'success': return '#ecfdf5';
+      case 'warning': return '#fffbeb';
+      case 'danger': return '#fef2f2';
+      default: return '#eff6ff';
     }
   }
 
@@ -248,8 +318,12 @@ export class ProfileComponent implements OnInit {
   fetchProfile(): void {
     this.loading = true;
     this.http.get('http://localhost:8081/api/users/me').subscribe({
-      next: (data) => {
+      next: (data: any) => {
         this.user = data;
+        // Sync wallet and loyalty from real data
+        if (data.walletBalance !== undefined) this.walletBalance = data.walletBalance;
+        if (data.loyaltyPoints !== undefined) this.userStats.rewardsPoints = data.loyaltyPoints;
+        
         this.loading = false;
         this.error = null;
         this.setupAvailableRoles();

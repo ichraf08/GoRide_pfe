@@ -46,6 +46,26 @@ public class UserController {
     }
 
     /**
+     * GET /api/users/me/transactions
+     * Retourne l'historique des transactions de l'utilisateur connecté.
+     */
+    @GetMapping("/me/transactions")
+    public ResponseEntity<?> getMyTransactions(Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        return ResponseEntity.ok(userService.getUserTransactions(userDetails.getId()));
+    }
+
+    /**
+     * GET /api/users/me/activities
+     * Retourne l'historique des activités de l'utilisateur connecté.
+     */
+    @GetMapping("/me/activities")
+    public ResponseEntity<?> getMyActivities(Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        return ResponseEntity.ok(userService.getUserActivities(userDetails.getId()));
+    }
+
+    /**
      * DELETE /api/admin/users/{id}
      * Supprime un utilisateur (Admin uniquement).
      */

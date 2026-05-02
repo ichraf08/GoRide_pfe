@@ -1,10 +1,15 @@
 package com.pfeproject.GoRide.services;
 
+import com.pfeproject.GoRide.entities.Activity;
+import com.pfeproject.GoRide.entities.Transaction;
 import com.pfeproject.GoRide.entities.UserEntity;
+import com.pfeproject.GoRide.repositories.ActivityRepository;
+import com.pfeproject.GoRide.repositories.TransactionRepository;
 import com.pfeproject.GoRide.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,6 +20,12 @@ public class UserService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
+
+    @Autowired
+    private ActivityRepository activityRepository;
 
     public Optional<UserEntity> findById(Long id) {
         return userRepo.findById(id);
@@ -40,5 +51,13 @@ public class UserService {
             throw new RuntimeException("Utilisateur non trouvé avec l'id : " + id);
         }
         userRepo.deleteById(id);
+    }
+
+    public List<Transaction> getUserTransactions(Long userId) {
+        return transactionRepository.findByUserIdOrderByCreatedAtDesc(userId);
+    }
+
+    public List<Activity> getUserActivities(Long userId) {
+        return activityRepository.findByUserIdOrderByCreatedAtDesc(userId);
     }
 }
