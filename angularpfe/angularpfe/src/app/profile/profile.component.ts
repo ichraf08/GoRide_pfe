@@ -145,6 +145,8 @@ export class ProfileComponent implements OnInit {
     this.fetchProfile();
     this.fetchTransactions();
     this.fetchActivities();
+    this.fetchDocuments();
+    this.fetchBookings();
     
     this.activeRole = this.authService.getActiveRole();
     this.setupAvailableRoles();
@@ -229,17 +231,74 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  fetchDocuments(): void {
+    this.http.get<any[]>('http://localhost:8081/api/users/me/documents').subscribe({
+      next: (data) => {
+        if (data && data.length > 0) {
+          this.userDocuments = data.map(d => ({
+            id: d.id,
+            name: d.name,
+            type: d.type,
+            status: d.status,
+            date: d.status === 'verified' ? 'Vérifié' : (d.status === 'pending' ? 'En attente' : 'À refaire'),
+            icon: this.getDocumentIcon(d.type),
+            color: this.getDocumentColor(d.status),
+            reason: d.rejectionReason
+          }));
+        }
+      },
+      error: (err) => console.error('Erreur documents:', err)
+    });
+  }
+
+  fetchBookings(): void {
+    this.http.get<any[]>('http://localhost:8081/api/users/me/bookings').subscribe({
+      next: (data) => {
+        if (data && data.length > 0) {
+          this.upcomingBookings = data.map(b => ({
+            id: '#' + b.id,
+            type: 'Trajet GoRide',
+            date: b.pickupLocation,
+            from: b.pickupLocation,
+            to: b.destination,
+            status: b.status,
+            icon: 'ion-ios-car',
+            color: '#3b82f6'
+          }));
+        }
+      },
+      error: (err) => console.error('Erreur réservations:', err)
+    });
+  }
+
+  private getDocumentIcon(type: string): string {
+    if (type === 'CIN') return 'ion-ios-card';
+    if (type === 'LICENSE') return 'ion-ios-list';
+    return 'ion-ios-document';
+  }
+
+  private getDocumentColor(status: string): string {
+    if (status === 'verified') return '#10b981';
+    if (status === 'pending') return '#f59e0b';
+    if (status === 'rejected') return '#ef4444';
+    return '#94a3b8';
+  }
+
+  allAvailableRoles = [
+    { id: 'ROLE_USER', label: 'Client (Trajets)', icon: 'ion-ios-navigate', color: '#10b981', description: 'Commander des trajets au quotidien.' },
+    { id: 'ROLE_CLIENT', label: 'Client (Location)', icon: 'ion-ios-car', color: '#2563eb', description: 'Louer des véhicules pour vos besoins.' },
+    { id: 'ROLE_DRIVER', label: 'Chauffeur', icon: 'ion-ios-speedometer', color: '#6366f1', description: 'Gagner de l\'argent en conduisant.' },
+    { id: 'ROLE_FLEET_OWNER', label: 'Propriétaire', icon: 'ion-ios-people', color: '#f59e0b', description: 'Gérer votre propre flotte de véhicules.' },
+    { id: 'ROLE_COMPANY', label: 'Entreprise', icon: 'ion-ios-briefcase', color: '#7c3aed', description: 'Solutions de transport pour entreprises.' }
+  ];
+
   setupAvailableRoles(): void {
     const roles = this.authService.getCurrentUser()?.roles || [];
-    const allRoles = [
-      { id: 'ROLE_USER', label: 'Client (Trajets)', icon: 'ion-ios-navigate', color: '#10b981' },
-      { id: 'ROLE_CLIENT', label: 'Client (Location)', icon: 'ion-ios-car', color: '#2563eb' },
-      { id: 'ROLE_DRIVER', label: 'Chauffeur', icon: 'ion-ios-speedometer', color: '#6366f1' },
-      { id: 'ROLE_FLEET_OWNER', label: 'Propriétaire', icon: 'ion-ios-people', color: '#f59e0b' },
-      { id: 'ROLE_COMPANY', label: 'Entreprise', icon: 'ion-ios-briefcase', color: '#7c3aed' }
-    ];
+    this.availableRoles = this.allAvailableRoles.filter(r => roles.includes(r.id));
+  }
 
-    this.availableRoles = allRoles.filter(r => roles.includes(r.id));
+  hasRole(roleId: string): boolean {
+    return this.authService.hasRole(roleId);
   }
 
   switchRole(roleId: string): void {
@@ -247,6 +306,28 @@ export class ProfileComponent implements OnInit {
     this.authService.setActiveRole(roleShortName);
     this.activeRole = roleId;
     window.location.reload(); // Recharger pour appliquer le nouveau dashboard
+  }
+
+  requestNewRole(role: string): void {
+    this.authService.addRole(role).subscribe({
+      next: (res) => {
+        alert(res.message);
+        this.fetchProfile(); // Rafraîchir pour voir le nouveau rôle
+      },
+      error: (err) => alert(err.error?.message || 'Erreur lors de l\'ajout du rôle.')
+    });
+  }
+
+  deleteRole(role: string): void {
+    if (confirm(`Êtes-vous sûr de vouloir supprimer le rôle ${role} ?`)) {
+      this.authService.removeRole(role).subscribe({
+        next: (res) => {
+          alert(res.message);
+          this.fetchProfile(); // Rafraîchir pour mettre à jour la liste
+        },
+        error: (err) => alert(err.error?.message || 'Erreur lors de la suppression.')
+      });
+    }
   }
 
   toggleEdit(): void {
@@ -324,8 +405,18 @@ export class ProfileComponent implements OnInit {
         if (data.walletBalance !== undefined) this.walletBalance = data.walletBalance;
         if (data.loyaltyPoints !== undefined) this.userStats.rewardsPoints = data.loyaltyPoints;
         
+        // Sync preferences
+        this.userPreferences.theme = data.theme || 'light';
+        this.userPreferences.language = data.language || 'fr';
+        this.userPreferences.notifications.email = data.notifEmail;
+        this.userPreferences.notifications.sms = data.notifSms;
+        this.userPreferences.notifications.push = data.notifPush;
+
         this.loading = false;
         this.error = null;
+        
+        // Synchroniser avec le localStorage pour que le reste de l'app (Sidebar, Header) soit à jour
+        this.authService.updateUser(this.user);
         this.setupAvailableRoles();
       },
       error: (err) => {
@@ -354,40 +445,7 @@ export class ProfileComponent implements OnInit {
     return roles[role] || role;
   }
 
-  hasRole(role: string): boolean {
-    if (!this.user || !this.user.roles) return false;
-    return this.user.roles.some((r: any) => (r.name === role || r === role));
-  }
 
-  requestNewRole(role: string): void {
-    console.log('Tentative d\'activation du rôle:', role);
-    const roleToCheck = role.startsWith('ROLE_') ? role : 'ROLE_' + role;
-    
-    if (this.hasRole(role) || this.hasRole(roleToCheck)) {
-      console.warn('L\'utilisateur possède déjà ce rôle.');
-      return;
-    }
-
-    this.isAddingRole = true;
-    this.successMessage = null;
-    this.error = null;
-
-    this.authService.addRole(role).subscribe({
-      next: (response) => {
-        console.log('Rôle ajouté via API:', response);
-        this.successMessage = response.message;
-        this.updateLocalUserRoles(roleToCheck);
-        this.isAddingRole = false;
-        this.fetchProfile();
-      },
-      error: (err) => {
-        console.error('Erreur API (simulation locale activée):', err);
-        this.successMessage = "Mode activé avec succès !";
-        this.updateLocalUserRoles(roleToCheck);
-        this.isAddingRole = false;
-      }
-    });
-  }
 
   private updateLocalUserRoles(roleToCheck: string): void {
     const currentUser = this.authService.getCurrentUser();

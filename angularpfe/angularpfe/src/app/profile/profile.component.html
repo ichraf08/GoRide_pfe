@@ -422,6 +422,37 @@
               </a>
             </section>
 
+            <!-- ROLE MANAGEMENT -->
+            <section class="role-management-card-premium mt-4">
+              <div class="rm-header">
+                <div class="header-left">
+                  <h3>Gestion des Rôles</h3>
+                  <p>Développez vos capacités sur GoRide</p>
+                </div>
+                <div class="role-count-badge">{{ user?.roles?.length }} actifs</div>
+              </div>
+              
+              <div class="roles-selection-list">
+                <div *ngFor="let r of allAvailableRoles" class="role-item-compact" [class.owned]="hasRole(r.id)">
+                  <div class="role-icon-box" [style.color]="r.color" [style.backgroundColor]="r.color + '10'">
+                    <i [class]="r.icon"></i>
+                  </div>
+                  <div class="role-text-box">
+                    <h4>{{ r.label }}</h4>
+                    <p>{{ r.description }}</p>
+                  </div>
+                  <div class="role-action-box">
+                    <button *ngIf="!hasRole(r.id)" class="btn-activate-role" (click)="requestNewRole(r.id)">
+                      Activer
+                    </button>
+                    <button *ngIf="hasRole(r.id)" class="btn-delete-role" (click)="deleteRole(r.id)" [disabled]="user?.roles?.length <= 1" title="Supprimer ce rôle">
+                      <i class="ion-ios-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
           </div>
         </div>
 

@@ -173,12 +173,14 @@ export class AuthService {
    * Ajoute un rôle à l'utilisateur actuel (API).
    */
   addRole(role: string): Observable<MessageResponse> {
-    return this.http.post<MessageResponse>(API_URL + 'add-role', { role }).pipe(
-      tap(() => {
-        // Optionnel : on pourrait rafraîchir les infos utilisateur ici
-        // Mais pour l'instant on laisse l'utilisateur basculer manuellement
-      })
-    );
+    return this.http.post<MessageResponse>(API_URL + 'add-role', { role });
+  }
+
+  /**
+   * Supprime un rôle de l'utilisateur actuel (API).
+   */
+  removeRole(role: string): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(API_URL + 'remove-role', { role });
   }
 
   /**
