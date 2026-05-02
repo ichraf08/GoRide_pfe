@@ -63,6 +63,27 @@ public class UserEntity {
     @Builder.Default
     private Integer profileCompletion = 0;
 
+    // Preferences
+    @Column(name = "theme")
+    @Builder.Default
+    private String theme = "light";
+
+    @Column(name = "language")
+    @Builder.Default
+    private String language = "fr";
+
+    @Column(name = "notif_email")
+    @Builder.Default
+    private Boolean notifEmail = true;
+
+    @Column(name = "notif_sms")
+    @Builder.Default
+    private Boolean notifSms = false;
+
+    @Column(name = "notif_push")
+    @Builder.Default
+    private Boolean notifPush = true;
+
     @Column(nullable = false)
     @Builder.Default
     private Boolean enabled = true;

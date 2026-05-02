@@ -164,14 +164,11 @@ public class AuthController {
 
         // 2. Déterminer le rôle à ajouter
         String requestedRole = roleRequest.getRole().toUpperCase();
-        ERole eRole;
-        switch (requestedRole) {
-            case "DRIVER": eRole = ERole.ROLE_DRIVER; break;
-            case "FLEET_OWNER": eRole = ERole.ROLE_FLEET_OWNER; break;
-            case "COMPANY": eRole = ERole.ROLE_COMPANY; break;
-            default: eRole = ERole.ROLE_CLIENT; break;
+        if (!requestedRole.startsWith("ROLE_")) {
+            requestedRole = "ROLE_" + requestedRole;
         }
 
+        ERole eRole = ERole.valueOf(requestedRole);
         Role role = roleRepository.findByName(eRole)
                 .orElseThrow(() -> new RuntimeException("Erreur : Le rôle " + eRole + " n'existe pas."));
 
@@ -185,5 +182,43 @@ public class AuthController {
         userRepo.save(user);
 
         return ResponseEntity.ok(new MessageResponse("Rôle " + requestedRole + " ajouté avec succès !"));
+    }
+
+    /**
+     * POST /api/auth/remove-role
+     * Supprime un rôle de l'utilisateur connecté.
+     */
+    @PostMapping("/remove-role")
+    public ResponseEntity<?> removeRoleFromUser(@Valid @RequestBody RoleRequest roleRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        UserEntity user = userRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Erreur : Utilisateur non trouvé."));
+
+        String requestedRole = roleRequest.getRole().toUpperCase();
+        if (!requestedRole.startsWith("ROLE_")) {
+            requestedRole = "ROLE_" + requestedRole;
+        }
+
+        ERole eRole = ERole.valueOf(requestedRole);
+        Role role = roleRepository.findByName(eRole)
+                .orElseThrow(() -> new RuntimeException("Erreur : Le rôle " + eRole + " n'existe pas."));
+
+        if (!user.getRoles().contains(role)) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("L'utilisateur ne possède pas ce rôle."));
+        }
+
+        // Empêcher de supprimer son dernier rôle
+        if (user.getRoles().size() <= 1) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Vous devez garder au moins un rôle actif."));
+        }
+
+        user.getRoles().remove(role);
+        userRepo.save(user);
+
+        return ResponseEntity.ok(new MessageResponse("Rôle " + requestedRole + " supprimé avec succès !"));
     }
 }

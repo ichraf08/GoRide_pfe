@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import java.time.LocalDateTime;
 
 /**
  * Initialise les rôles en base de données au démarrage de l'application.
@@ -22,7 +23,10 @@ public class DataInitializer {
     CommandLineRunner initDatabase(RoleRepository roleRepository, 
                                  com.pfeproject.GoRide.repositories.UserRepo userRepo,
                                  com.pfeproject.GoRide.repositories.TransactionRepository transactionRepo,
-                                 com.pfeproject.GoRide.repositories.ActivityRepository activityRepo) {
+                                 com.pfeproject.GoRide.repositories.ActivityRepository activityRepo,
+                                 com.pfeproject.GoRide.repositories.BookingRepository bookingRepo,
+                                 com.pfeproject.GoRide.repositories.UserDocumentRepository documentRepo,
+                                 com.pfeproject.GoRide.repositories.TripRepository tripRepo) {
         return args -> {
             // Init Roles
             for (ERole eRole : ERole.values()) {
@@ -45,6 +49,11 @@ public class DataInitializer {
                         .loyaltyTier("Gold")
                         .verificationStatus("VERIFIED")
                         .profileCompletion(85)
+                        .theme("light")
+                        .language("fr")
+                        .notifEmail(true)
+                        .notifSms(false)
+                        .notifPush(true)
                         .enabled(true)
                         .build();
                 
@@ -61,15 +70,6 @@ public class DataInitializer {
                         .user(user)
                         .build());
 
-                transactionRepo.save(com.pfeproject.GoRide.entities.Transaction.builder()
-                        .title("Trajet GoRide — Tunis Centre")
-                        .type("TRIP")
-                        .amount(-12.50)
-                        .status("COMPLETED")
-                        .transactionId("TRX-789012")
-                        .user(user)
-                        .build());
-
                 // Seed Activities
                 activityRepo.save(com.pfeproject.GoRide.entities.Activity.builder()
                         .title("Connexion détectée")
@@ -79,11 +79,45 @@ public class DataInitializer {
                         .user(user)
                         .build());
 
-                activityRepo.save(com.pfeproject.GoRide.entities.Activity.builder()
-                        .title("Trajet terminé")
-                        .description("Vous avez terminé un trajet de 15km")
-                        .type("TRIP")
-                        .category("success")
+                // Seed Trip
+                com.pfeproject.GoRide.entities.Trip trip = com.pfeproject.GoRide.entities.Trip.builder()
+                        .departure("Tunis Aéroport")
+                        .destination("Carthage")
+                        .departureTime(LocalDateTime.now().plusDays(1))
+                        .pricePerSeat(15.0)
+                        .driver(user)
+                        .build();
+                tripRepo.save(trip);
+
+                // Seed Bookings
+                bookingRepo.save(com.pfeproject.GoRide.entities.Booking.builder()
+                        .status("CONFIRMED")
+                        .trip(trip)
+                        .passenger(user)
+                        .seatsBooked(1)
+                        .totalPrice(15.0)
+                        .build());
+
+                // Seed Documents
+                documentRepo.save(com.pfeproject.GoRide.entities.UserDocument.builder()
+                        .name("Carte d'Identité Nationale")
+                        .type("CIN")
+                        .status("verified")
+                        .user(user)
+                        .build());
+                
+                documentRepo.save(com.pfeproject.GoRide.entities.UserDocument.builder()
+                        .name("Permis de Conduire")
+                        .type("LICENSE")
+                        .status("pending")
+                        .user(user)
+                        .build());
+
+                documentRepo.save(com.pfeproject.GoRide.entities.UserDocument.builder()
+                        .name("Assurance Véhicule")
+                        .type("INSURANCE")
+                        .status("rejected")
+                        .rejectionReason("Document illisible ou expiré.")
                         .user(user)
                         .build());
             }

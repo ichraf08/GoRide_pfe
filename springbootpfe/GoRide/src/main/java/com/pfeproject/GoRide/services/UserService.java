@@ -1,10 +1,14 @@
 package com.pfeproject.GoRide.services;
 
 import com.pfeproject.GoRide.entities.Activity;
+import com.pfeproject.GoRide.entities.Booking;
 import com.pfeproject.GoRide.entities.Transaction;
+import com.pfeproject.GoRide.entities.UserDocument;
 import com.pfeproject.GoRide.entities.UserEntity;
 import com.pfeproject.GoRide.repositories.ActivityRepository;
+import com.pfeproject.GoRide.repositories.BookingRepository;
 import com.pfeproject.GoRide.repositories.TransactionRepository;
+import com.pfeproject.GoRide.repositories.UserDocumentRepository;
 import com.pfeproject.GoRide.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,12 @@ public class UserService {
 
     @Autowired
     private ActivityRepository activityRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
+
+    @Autowired
+    private UserDocumentRepository userDocumentRepository;
 
     public Optional<UserEntity> findById(Long id) {
         return userRepo.findById(id);
@@ -59,5 +69,13 @@ public class UserService {
 
     public List<Activity> getUserActivities(Long userId) {
         return activityRepository.findByUserIdOrderByCreatedAtDesc(userId);
+    }
+
+    public List<Booking> getUserBookings(Long userId) {
+        return bookingRepository.findByPassengerId(userId);
+    }
+
+    public List<UserDocument> getUserDocuments(Long userId) {
+        return userDocumentRepository.findByUserId(userId);
     }
 }

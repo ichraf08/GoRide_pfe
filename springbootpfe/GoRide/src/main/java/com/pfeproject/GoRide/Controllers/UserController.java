@@ -66,6 +66,26 @@ public class UserController {
     }
 
     /**
+     * GET /api/users/me/bookings
+     * Retourne les réservations de l'utilisateur connecté.
+     */
+    @GetMapping("/me/bookings")
+    public ResponseEntity<?> getMyBookings(Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        return ResponseEntity.ok(userService.getUserBookings(userDetails.getId()));
+    }
+
+    /**
+     * GET /api/users/me/documents
+     * Retourne les documents de l'utilisateur connecté.
+     */
+    @GetMapping("/me/documents")
+    public ResponseEntity<?> getMyDocuments(Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        return ResponseEntity.ok(userService.getUserDocuments(userDetails.getId()));
+    }
+
+    /**
      * DELETE /api/admin/users/{id}
      * Supprime un utilisateur (Admin uniquement).
      */
