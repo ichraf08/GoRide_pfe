@@ -18,10 +18,10 @@
 
 .profile-page-wrapper {
   background: linear-gradient(180deg, #F8FAFC 0%, #F4F7FB 100%);
-  min-height: 100vh;
+  /* Suppression du min-height:100vh — géré par le layout flex du headerfooter */
   font-family: 'Inter', sans-serif;
   color: var(--go-text-dark);
-  padding-bottom: 60px;
+  padding-bottom: 24px;
 }
 
 .layout-container {
@@ -2701,9 +2701,10 @@
   background: #ffffff;
   border: 1px solid #EEF2F7;
   border-radius: 22px;
-  padding: 28px 34px;
+  padding: 22px 34px;
   box-shadow: 0 8px 28px rgba(15, 23, 42, 0.04);
-  margin-top: 34px;
+  margin-top: 20px;
+  /* Suppression des marges excessives — layout géré par flex parent */
 }
 
 .benefits-main-title {
