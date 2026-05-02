@@ -67,29 +67,67 @@
         
         <!-- QUICK STATS ROW -->
         <div class="stats-row-premium">
-          <div class="stat-card-premium">
-            <div class="stat-icon blue"><i class="ion-ios-navigate"></i></div>
-            <div class="stat-data">
-              <span class="stat-value">{{ userStats.totalRides }}</span>
-              <span class="stat-label">Trajets effectués</span>
+          <!-- CARD 1: RIDES -->
+          <div class="kpi-card-v2">
+            <div class="kpi-header">
+              <div class="kpi-icon-circle blue">
+                <i class="ion-ios-navigate"></i>
+              </div>
+              <div class="kpi-trend green">
+                <i class="ion-ios-trending-up"></i> +12%
+              </div>
             </div>
-            <div class="stat-trend positive">+12%</div>
+            <div class="kpi-content">
+              <div class="kpi-main">
+                <h3 class="kpi-value">{{ userStats.totalRides }}</h3>
+                <p class="kpi-label">Trajets effectués</p>
+              </div>
+              <div class="kpi-meta">
+                <span>Dernier trajet : Aujourd'hui</span>
+              </div>
+            </div>
           </div>
-          <div class="stat-card-premium">
-            <div class="stat-icon orange"><i class="ion-ios-star"></i></div>
-            <div class="stat-data">
-              <span class="stat-value">{{ userStats.rewardsPoints }}</span>
-              <span class="stat-label">Points GoRide</span>
+
+          <!-- CARD 2: POINTS -->
+          <div class="kpi-card-v2 loyalty">
+            <div class="kpi-header">
+              <div class="kpi-icon-circle gold">
+                <i class="ion-ios-star"></i>
+              </div>
+              <div class="kpi-badge silver">Niv. Argent</div>
             </div>
-            <div class="stat-trend">Niv. Argent</div>
+            <div class="kpi-content">
+              <div class="kpi-main">
+                <h3 class="kpi-value">{{ userStats.rewardsPoints }}</h3>
+                <p class="kpi-label">Points GoRide cumulés</p>
+              </div>
+              <div class="loyalty-progress-box">
+                <div class="progress-bar-v2">
+                  <div class="progress-fill" [style.width]="'80%'"></div>
+                </div>
+                <span class="progress-info">Plus que <strong>250 pts</strong> pour le rang Or</span>
+              </div>
+            </div>
           </div>
-          <div class="stat-card-premium">
-            <div class="stat-icon green"><i class="ion-ios-shield-checkmark"></i></div>
-            <div class="stat-data">
-              <span class="stat-value">{{ userStats.securityScore }}%</span>
-              <span class="stat-label">Score de sécurité</span>
+
+          <!-- CARD 3: SECURITY -->
+          <div class="kpi-card-v2">
+            <div class="kpi-header">
+              <div class="kpi-icon-circle green">
+                <i class="ion-ios-checkmark-circle"></i>
+              </div>
+              <div class="kpi-status-badge excellent">Excellent</div>
             </div>
-            <div class="stat-trend positive">Excellent</div>
+            <div class="kpi-content security">
+              <div class="kpi-main">
+                <h3 class="kpi-value">{{ userStats.securityScore }}%</h3>
+                <p class="kpi-label">Score de sécurité</p>
+              </div>
+              <div class="security-meta">
+                <span><i class="ion-ios-checkmark-circle-outline"></i> 0 incident</span>
+                <span><i class="ion-ios-lock"></i> 2FA activé</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -99,78 +137,172 @@
           <!-- LEFT COLUMN -->
           <div class="col-left-v2">
             
-            <!-- Missing Documents Alert -->
-            <div class="alert-premium-v2 warning" *ngIf="userStats.missingDocs > 0">
-              <div class="alert-icon"><i class="ion-ios-alert"></i></div>
-              <div class="alert-text">
-                <strong>Documents manquants ({{ userStats.missingDocs }})</strong>
-                <p>Veuillez soumettre votre permis de conduire et justificatif de domicile pour activer toutes les fonctionnalités.</p>
+            <!-- Missing Documents Action Card -->
+            <div class="action-card-premium warning" *ngIf="userStats.missingDocs > 0">
+              <div class="action-card-left">
+                <div class="action-icon-circle">
+                  <i class="ion-ios-alert"></i>
+                </div>
+                <div class="action-info">
+                  <h4 class="action-title">Documents requis pour activer votre compte</h4>
+                  <p class="action-subtitle">{{ userStats.missingDocs }} éléments en attente : permis de conduire, justificatif de domicile</p>
+                  <span class="action-badge">Profil complété à 75%</span>
+                </div>
               </div>
-              <button class="alert-action">Compléter</button>
+              <div class="action-card-right">
+                <button class="btn-action-primary" (click)="setTab('documents')">
+                  Compléter maintenant <i class="ion-ios-arrow-forward"></i>
+                </button>
+              </div>
             </div>
 
-            <!-- Progression du profil -->
-            <section class="section-box-v2 mt-4">
-              <div class="section-header-v2">
-                <h3>Progression du profil</h3>
-                <span class="text-link-v2">Détails</span>
+            <!-- PREMIUM COMPLETION CARD -->
+            <section class="premium-completion-card animate__animated animate__fadeInUp">
+              <div class="pcc-header">
+                <div class="pcc-title-group">
+                  <div class="pcc-icon-box">
+                    <i class="ion-ios-rocket"></i>
+                  </div>
+                  <h3>Progression du profil</h3>
+                </div>
+                <div class="pcc-badge">75% complété</div>
               </div>
-              <div class="progression-layout-v2">
-                <div class="prog-chart-v2">
-                  <div class="circle-progress-v2">
-                    <svg viewBox="0 0 36 36" class="svg-chart-v2">
-                      <path class="circle-bg-v2" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                      <path class="circle-v2" stroke-dasharray="75, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                      <text x="18" y="20.35" class="perc-v2">75%</text>
-                      <text x="18" y="26" class="lbl-v2">Force</text>
+
+              <div class="pcc-body">
+                <!-- Left: Modern Progress Ring -->
+                <div class="pcc-visual">
+                  <div class="modern-ring-wrapper">
+                    <svg viewBox="0 0 100 100" class="modern-ring-svg">
+                      <defs>
+                        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#3b82f6" />
+                          <stop offset="100%" stop-color="#1d4ed8" />
+                        </linearGradient>
+                      </defs>
+                      <circle class="ring-track" cx="50" cy="50" r="42"></circle>
+                      <circle class="ring-fill" cx="50" cy="50" r="42" stroke="url(#progressGradient)" stroke-dasharray="264" stroke-dashoffset="66"></circle>
                     </svg>
+                    <div class="ring-content">
+                      <span class="ring-number">75</span>
+                      <span class="ring-symbol">%</span>
+                    </div>
                   </div>
                 </div>
-                <div class="prog-info-v2">
-                  <h4 class="title-accent-v2">Votre profil est presque prêt !</h4>
-                  <p class="desc-v2">Un profil complet augmente vos chances d'être accepté rapidement par les chauffeurs et partenaires.</p>
-                  <div class="checklist-v2-grid">
-                    <div class="check-item-v2 done"><i class="ion-ios-checkmark-circle"></i> Photo de profil</div>
-                    <div class="check-item-v2 done"><i class="ion-ios-checkmark-circle"></i> Email vérifié</div>
-                    <div class="check-item-v2 done"><i class="ion-ios-checkmark-circle"></i> Téléphone</div>
-                    <div class="check-item-v2"><i class="ion-ios-radio-button-off"></i> Permis valide</div>
-                    <div class="check-item-v2"><i class="ion-ios-radio-button-off"></i> Justificatif</div>
+
+                <!-- Center: Content & Checklist -->
+                <div class="pcc-main-content">
+                  <div class="pcc-text-block">
+                    <h4>Votre profil est presque prêt !</h4>
+                    <p>Ajoutez les derniers éléments pour débloquer toutes les fonctionnalités.</p>
                   </div>
+
+                  <div class="pcc-checklist-grid">
+                    <!-- Completed Column -->
+                    <div class="pcc-check-col">
+                      <div class="pcc-item done">
+                        <div class="pcc-check-icon"><i class="ion-ios-checkmark-circle"></i></div>
+                        <span>Photo de profil</span>
+                      </div>
+                      <div class="pcc-item done">
+                        <div class="pcc-check-icon"><i class="ion-ios-checkmark-circle"></i></div>
+                        <span>Téléphone</span>
+                      </div>
+                      <div class="pcc-item done">
+                        <div class="pcc-check-icon"><i class="ion-ios-checkmark-circle"></i></div>
+                        <span>Email vérifié</span>
+                      </div>
+                    </div>
+                    <!-- Pending Column -->
+                    <div class="pcc-check-col">
+                      <div class="pcc-item pending">
+                        <div class="pcc-check-icon"><i class="ion-ios-radio-button-off"></i></div>
+                        <span>Permis valide</span>
+                      </div>
+                      <div class="pcc-item pending">
+                        <div class="pcc-check-icon"><i class="ion-ios-radio-button-off"></i></div>
+                        <span>Justificatif</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right: CTA -->
+                <div class="pcc-actions">
+                  <button class="pcc-cta-btn" (click)="setTab('documents')">
+                    <span>Compléter maintenant</span>
+                    <i class="ion-ios-arrow-round-forward"></i>
+                  </button>
                 </div>
               </div>
             </section>
 
-            <!-- Informations personnelles Summary -->
-            <section class="section-box-v2 mt-4">
-              <div class="section-header-v2">
-                <h3>Informations personnelles</h3>
-                <button class="btn-icon-v2"><i class="ion-ios-create-outline"></i></button>
+            <!-- PREMIUM PERSONAL INFO BLOCK -->
+            <section class="personal-info-block animate__animated animate__fadeInUp">
+              <div class="block-header">
+                <div class="title-with-badge">
+                  <h3>Informations personnelles</h3>
+                  <span class="status-indicator">À jour</span>
+                </div>
+                <button class="btn-edit-premium" (click)="setTab('informations')">
+                  <i class="ion-ios-create-outline"></i>
+                  <span>Modifier</span>
+                </button>
               </div>
-              <div class="info-grid-premium">
-                <div class="info-box-premium">
-                  <label>EMAIL</label>
-                  <div class="info-val">
-                    <span>{{ user?.email }}</span>
-                    <i class="ion-ios-checkmark-circle text-green"></i>
+
+              <div class="info-cards-grid">
+                <!-- Email Card -->
+                <div class="info-card-v3">
+                  <div class="card-icon-box blue">
+                    <i class="ion-ios-mail"></i>
+                  </div>
+                  <div class="card-content-v3">
+                    <label>Email principal</label>
+                    <div class="value-row">
+                      <span class="val-text">{{ user?.email }}</span>
+                      <span class="badge-v3 verified"><i class="ion-ios-checkmark-circle"></i> Vérifié</span>
+                    </div>
                   </div>
                 </div>
-                <div class="info-box-premium">
-                  <label>TÉLÉPHONE</label>
-                  <div class="info-val">
-                    <span>{{ user?.phone || '+216 50 123 456' }}</span>
-                    <i class="ion-ios-checkmark-circle text-green"></i>
+
+                <!-- Phone Card -->
+                <div class="info-card-v3">
+                  <div class="card-icon-box green">
+                    <i class="ion-ios-call"></i>
+                  </div>
+                  <div class="card-content-v3">
+                    <label>Téléphone</label>
+                    <div class="value-row">
+                      <span class="val-text">{{ user?.phone || '+216 20 221 365' }}</span>
+                      <span class="badge-v3 verified"><i class="ion-ios-checkmark-circle"></i> Vérifié</span>
+                    </div>
                   </div>
                 </div>
-                <div class="info-box-premium">
-                  <label>ADRESSE</label>
-                  <div class="info-val">
-                    <span>{{ user?.residence || 'Tunis, Tunisie' }}</span>
+
+                <!-- Address Card -->
+                <div class="info-card-v3">
+                  <div class="card-icon-box orange">
+                    <i class="ion-ios-pin"></i>
+                  </div>
+                  <div class="card-content-v3">
+                    <label>Adresse</label>
+                    <div class="value-stack">
+                      <span class="val-text">{{ user?.residence || 'Tunis, Tunisie' }}</span>
+                      <span class="sub-val">Adresse par défaut</span>
+                    </div>
                   </div>
                 </div>
-                <div class="info-box-premium">
-                  <label>PIÈCE D'IDENTITÉ</label>
-                  <div class="info-val">
-                    <span class="status-pill-v2 green">Validée</span>
+
+                <!-- Identity Card -->
+                <div class="info-card-v3">
+                  <div class="card-icon-box purple">
+                    <i class="ion-ios-card"></i>
+                  </div>
+                  <div class="card-content-v3">
+                    <label>Pièce d'identité</label>
+                    <div class="value-row">
+                      <span class="val-text">CIN validée</span>
+                      <span class="badge-v3 status-green">Validée</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -182,108 +314,118 @@
           <div class="col-right-v2">
             
             <!-- Activité récente -->
-            <section class="section-box-v2">
-              <div class="section-header-v2">
-                <h3>Activité récente</h3>
-                <a href="#" class="view-all-v2">Voir tout</a>
+            <section class="activity-feed-card">
+              <div class="activity-header">
+                <div class="header-left">
+                  <h3>Activité récente</h3>
+                  <span class="activity-count">{{ recentActivities?.length || 4 }} événements</span>
+                </div>
+                <a href="javascript:void(0)" class="btn-link-premium">Voir tout</a>
               </div>
-              <div class="timeline-premium-v2">
-                <div class="timeline-item-premium" *ngFor="let act of recentActivities">
-                  <div class="tl-icon-v2" [style.backgroundColor]="act.bg" [style.color]="act.color">
-                    <i [class]="act.icon"></i>
+              
+              <div class="activity-timeline">
+                <div class="activity-item" *ngFor="let act of recentActivities; let last = last">
+                  <div class="item-visual">
+                    <div class="icon-wrap" [style.backgroundColor]="act.bg" [style.color]="act.color">
+                      <i [class]="act.icon"></i>
+                    </div>
+                    <div class="line" *ngIf="!last"></div>
                   </div>
-                  <div class="tl-content-v2">
-                    <div class="tl-title-v2">{{ act.text }}</div>
-                    <div class="tl-time-v2">{{ act.date }}</div>
+                  <div class="item-body">
+                    <div class="item-header">
+                      <span class="item-title">{{ act.text }}</span>
+                      <span class="item-time">{{ act.date }}</span>
+                    </div>
+                    <p class="item-detail">{{ act.detail }}</p>
                   </div>
                 </div>
               </div>
             </section>
 
-            <!-- Sécurité du compte Score -->
-            <section class="section-box-v2 mt-4 bg-gradient-blue">
-              <div class="section-title-v2 text-white">
-                <div class="sec-icon-box-v2 white"><i class="ion-ios-lock"></i></div>
-                <div>
-                  <h3 class="text-white">Sécurité & Confidentialité</h3>
-                  <p class="text-white-50 small">Protégez vos données.</p>
+            <!-- Sécurité du compte Status Card -->
+            <section class="security-status-card">
+              <div class="security-card-header">
+                <div class="sec-icon-circle">
+                  <i class="ion-ios-lock"></i>
+                </div>
+                <div class="sec-header-text">
+                  <h3>Sécurité du compte</h3>
+                  <p>Protection active et surveillance continue</p>
                 </div>
               </div>
-              <div class="security-score-v2">
-                <div class="score-bar-v2">
-                  <div class="score-fill-v2" style="width: 85%"></div>
+              
+              <div class="security-score-main">
+                <div class="score-data">
+                  <span class="score-number">85/100</span>
+                  <div class="score-badge-wrap">
+                    <span class="score-status-pill">Élevé</span>
+                  </div>
                 </div>
-                <div class="score-legend-v2">
-                  <span class="text-white">Niveau : Élevé</span>
-                  <span class="text-white-50">85/100</span>
+                <div class="security-progress-v2">
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 85%"></div>
+                  </div>
                 </div>
               </div>
-              <div class="sec-quick-actions-v2">
-                <div class="sec-action-v2">
-                  <span class="text-white-50">2FA</span>
-                  <span class="badge-tag-v2 green">ACTIF</span>
+              
+              <div class="security-footer-grid">
+                <div class="footer-col">
+                  <div class="col-label"><i class="ion-ios-checkmark-circle"></i> 2FA ACTIVÉE</div>
+                  <div class="col-val">Depuis mars 2026</div>
                 </div>
-                <div class="sec-action-v2">
-                  <span class="text-white-50">MDP</span>
-                  <button class="btn-link-white">Changer</button>
+                <div class="footer-col">
+                  <div class="col-label"><i class="ion-ios-key"></i> MOT DE PASSE</div>
+                  <div class="col-val">Mis à jour il y a 21 jours</div>
+                  <a href="javascript:void(0)" class="btn-change">Changer</a>
                 </div>
               </div>
             </section>
 
             <!-- Upcoming Bookings Card -->
-            <section class="section-box-v2 mt-4">
-              <div class="section-header-v2">
-                <h3>Réservations à venir</h3>
-                <span class="badge-count-v2">{{ upcomingBookings.length }}</span>
-              </div>
-              <div class="upcoming-list-v2">
-                <div class="booking-item-v2" *ngFor="let booking of upcomingBookings">
-                  <div class="booking-icon-v2" [style.color]="booking.color" [style.backgroundColor]="booking.color + '15'">
-                    <i [class]="booking.icon"></i>
-                  </div>
-                  <div class="booking-info-v2">
-                    <div class="booking-title-v2">{{ booking.type }}</div>
-                    <div class="booking-meta-v2">
-                      <span>{{ booking.date }}</span>
-                      <span class="dot"></span>
-                      <span>{{ booking.from }} → {{ booking.to }}</span>
-                    </div>
-                  </div>
-                  <div class="booking-status-v2" [class]="booking.status">{{ booking.status }}</div>
+            <section class="upcoming-bookings-premium">
+              <div class="bookings-header">
+                <div class="header-left">
+                  <h3>Réservations à venir</h3>
+                  <span class="count-pill">{{ upcomingBookings.length }}</span>
                 </div>
               </div>
-              <button class="btn-text-v2 full-width mt-3">Gérer mes réservations</button>
+              
+              <div class="bookings-list">
+                <div class="booking-card-mini" *ngFor="let booking of upcomingBookings">
+                  <div class="booking-top">
+                    <div class="booking-type">
+                      <div class="type-icon" [style.color]="booking.color" [style.backgroundColor]="booking.color + '15'">
+                        <i [class]="booking.icon"></i>
+                      </div>
+                      <span class="type-name">{{ booking.type }}</span>
+                    </div>
+                    <span class="status-pill-mini" [class]="booking.status">
+                      {{ booking.status === 'confirmé' ? 'Confirmé' : 'En attente' }}
+                    </span>
+                  </div>
+                  
+                  <div class="booking-route">
+                    <span class="city">{{ booking.from }}</span>
+                    <i class="ion-ios-arrow-round-forward"></i>
+                    <span class="city">{{ booking.to }}</span>
+                  </div>
+                  
+                  <div class="booking-time">
+                    <i class="ion-ios-calendar"></i>
+                    <span>{{ booking.date }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <a href="javascript:void(0)" class="manage-bookings-link">
+                Gérer mes réservations <i class="ion-ios-arrow-forward"></i>
+              </a>
             </section>
 
           </div>
         </div>
 
-        <!-- FOOTER ADVANTAGES -->
-        <section class="advantages-footer-v2 mt-5">
-          <div class="adv-grid-v2">
-            <div class="adv-item-v2">
-              <div class="adv-icon-v2 blue"><i class="ion-ios-headset"></i></div>
-              <div class="adv-text-v2">
-                <strong>Support Premium</strong>
-                <span>Assistance prioritaire 24/7</span>
-              </div>
-            </div>
-            <div class="adv-item-v2">
-              <div class="adv-icon-v2 green"><i class="ion-ios-lock"></i></div>
-              <div class="adv-text-v2">
-                <strong>Données cryptées</strong>
-                <span>Sécurité bancaire 256-bit</span>
-              </div>
-            </div>
-            <div class="adv-item-v2">
-              <div class="adv-icon-v2 purple"><i class="ion-ios-star"></i></div>
-              <div class="adv-text-v2">
-                <strong>Loyalty Program</strong>
-                <span>Cumulez des GoPoints</span>
-              </div>
-            </div>
-          </div>
-        </section>
+
 
       </div>
 
@@ -1096,16 +1238,63 @@
         </div>
 
       </div>
-    <!-- FINAL FOOTER -->
-    <footer class="final-footer-v2">
-      <div class="footer-links-v2">
-        <a href="#">Conditions</a>
-        <a href="#">Confidentialité</a>
-        <a href="#">Aide</a>
+    <!-- PREMIUM MODERN FOOTER -->
+    <footer class="premium-dashboard-footer">
+      <!-- Top Row: Advantages Cards -->
+      <div class="footer-advantages-grid">
+        <div class="adv-mini-card">
+          <div class="adv-icon-circle blue">
+            <i class="ion-ios-headset"></i>
+          </div>
+          <div class="adv-content">
+            <strong>Support Premium</strong>
+            <span>Assistance prioritaire 24/7</span>
+          </div>
+        </div>
+
+        <div class="adv-mini-card">
+          <div class="adv-icon-circle green">
+            <i class="ion-ios-lock"></i>
+          </div>
+          <div class="adv-content">
+            <strong>Données sécurisées</strong>
+            <span>Chiffrement bancaire 256-bit</span>
+          </div>
+        </div>
+
+        <div class="adv-mini-card">
+          <div class="adv-icon-circle purple">
+            <i class="ion-ios-star"></i>
+          </div>
+          <div class="adv-content">
+            <strong>Loyalty Program</strong>
+            <span>Cumulez des GoPoints</span>
+          </div>
+        </div>
       </div>
-      <button class="btn-logout-v2">
-        <i class="ion-ios-log-out"></i> Déconnexion
-      </button>
+
+      <div class="footer-divider-premium"></div>
+
+      <!-- Bottom Row: Legal & Logout -->
+      <div class="footer-bottom-legal">
+        <div class="legal-left">
+          <span class="footer-copy">© 2026 GoRide</span>
+          <nav class="footer-nav-links">
+            <a href="javascript:void(0)">Conditions</a>
+            <span class="nav-sep">•</span>
+            <a href="javascript:void(0)">Confidentialité</a>
+            <span class="nav-sep">•</span>
+            <a href="javascript:void(0)">Aide</a>
+          </nav>
+        </div>
+        
+        <div class="legal-right">
+          <button class="btn-logout-ghost" (click)="onLogout()">
+            <i class="ion-ios-log-out"></i>
+            <span>Déconnexion</span>
+          </button>
+        </div>
+      </div>
     </footer>
 
   </div>

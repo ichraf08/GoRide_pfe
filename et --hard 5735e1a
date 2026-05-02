@@ -1,0 +1,9 @@
+[33m88cd2c7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Feat: Intégration du système de réinitialisation de mot de passe et mises à jour de sécurité backend
+[33m921a637[m Feat: Redesign complet du Dashboard Profil GoRide (Paiements, Documents, Préférences, Notifications) avec une interface premium SaaS
+[33m5735e1a[m feat: modernize UI (hero, cards, booking, profile) with premium glassmorphism and animations
+[33m2b7eacd[m feat: modernize connected home and profile with split layout and premium corporate aesthetic
+[33md7bf087[m Refactor: Enhance user profile experience, premium header dropdown, and navigation hierarchy
+[33m5fbcd16[m Update frontend and backend: implement driver dashboard, fix backend auth errors, redesign header navbar with driver dropdown, add password visibility toggle
+[33m7d811ef[m update backend
+[33mc42b2dd[m update frontend
+[33me6153e0[m Initial commit: GoRide Platform (Angular + Spring Boot)

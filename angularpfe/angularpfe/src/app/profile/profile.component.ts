@@ -39,10 +39,10 @@ export class ProfileComponent implements OnInit {
 
   // Activities Mock
   recentActivities = [
-    { type: 'login', text: 'Connexion réussie', date: 'Aujourd\'hui à 14:22', icon: 'ion-ios-unlock', color: '#22c55e', bg: '#f0fdf4' },
-    { type: 'edit', text: 'Profil modifié', date: 'Il y a 2 jours', icon: 'ion-ios-create', color: '#3b82f6', bg: '#eff6ff' },
-    { type: 'role', text: 'Nouveau rôle Chauffeur activé', date: 'Il y a 3 jours', icon: 'ion-ios-people', color: '#8b5cf6', bg: '#f5f3ff' },
-    { type: 'phone', text: 'Téléphone vérifié', date: 'Il y a 5 jours', icon: 'ion-ios-call', color: '#22c55e', bg: '#f0fdf4' }
+    { type: 'login', text: 'Connexion réussie', detail: 'Windows • Tunis, TN', date: 'Aujourd\'hui à 14:22', icon: 'ion-ios-unlock', color: '#22c55e', bg: '#f0fdf4' },
+    { type: 'edit', text: 'Profil modifié', detail: 'Informations personnelles mises à jour', date: 'Il y a 2 jours', icon: 'ion-ios-create', color: '#3b82f6', bg: '#eff6ff' },
+    { type: 'role', text: 'Nouveau rôle Chauffeur activé', detail: 'Accès complet à la plateforme chauffeur', date: 'Il y a 3 jours', icon: 'ion-ios-people', color: '#8b5cf6', bg: '#f5f3ff' },
+    { type: 'phone', text: 'Téléphone vérifié', detail: 'Code de sécurité validé par SMS', date: 'Il y a 5 jours', icon: 'ion-ios-call', color: '#22c55e', bg: '#f0fdf4' }
   ];
 
   // Security Sessions Mock
@@ -97,8 +97,8 @@ export class ProfileComponent implements OnInit {
   ];
 
   upcomingBookings = [
-    { id: '#BK-9521', type: 'Course Uber', date: 'Demain, 08:30', from: 'Tunis', to: 'Aéroport Carthage', status: 'confirmé', icon: 'ion-ios-airplane', color: '#3b82f6' },
-    { id: '#BK-9588', type: 'Location Véhicule', date: '05 Mai 2026', from: 'Sousse', to: 'Monastir', status: 'en attente', icon: 'ion-ios-car', color: '#f59e0b' }
+    { id: '#BK-9521', type: 'Course Uber', date: 'Demain, 08:30', from: 'Tunis Aéroport', to: 'Carthage', status: 'confirmé', icon: 'ion-ios-airplane', color: '#3b82f6' },
+    { id: '#BK-8412', type: 'Location véhicule', date: '05 Mai 2026', from: 'Sousse', to: 'Monastir', status: 'pending', icon: 'ion-ios-car', color: '#f59e0b' }
   ];
 
   refundRequests = [
@@ -324,4 +324,20 @@ export class ProfileComponent implements OnInit {
     this.photoPreview = null;
     this.authService.updateUserPhoto('');
   }
+  // Logout action
+  onLogout(): void {
+    // Placeholder: perform logout via AuthService
+    this.authService.logout();
+  }
+
+  // Format phone number to international format (+216 xx xxx xxx)
+  formatPhone(phone: string | undefined): string {
+    if (!phone) return '';
+    const digits = phone.replace(/\D/g, '');
+    if (digits.length === 8) {
+      return `+216 ${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5)}`;
+    }
+    return phone;
+  }
+
 }
