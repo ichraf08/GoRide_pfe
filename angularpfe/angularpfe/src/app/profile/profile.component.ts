@@ -96,6 +96,15 @@ export class ProfileComponent implements OnInit {
     { id: 5, name: 'Photo de Profil Officielle', type: 'PROFILE_PHOTO', status: 'verified', date: 'Vérifié le 15/01/2026', icon: 'ion-ios-contact', color: '#10b981' }
   ];
 
+  upcomingBookings = [
+    { id: '#BK-9521', type: 'Course Uber', date: 'Demain, 08:30', from: 'Tunis', to: 'Aéroport Carthage', status: 'confirmé', icon: 'ion-ios-airplane', color: '#3b82f6' },
+    { id: '#BK-9588', type: 'Location Véhicule', date: '05 Mai 2026', from: 'Sousse', to: 'Monastir', status: 'en attente', icon: 'ion-ios-car', color: '#f59e0b' }
+  ];
+
+  refundRequests = [
+    { id: '#RF-221', date: '25 Avril 2026', amount: '15.000', status: 'Traité', reason: 'Trajet annulé par chauffeur' }
+  ];
+
   // Preferences Mock
   userPreferences = {
     theme: 'light',

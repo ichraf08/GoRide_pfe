@@ -31,14 +31,30 @@
     </header>
 
     <!-- TABS -->
-    <nav class="card-tabs-v2">
-      <button class="tab-btn-v2" [class.active]="activeTab === 'account'" (click)="setTab('account')">Aperçu</button>
-      <button class="tab-btn-v2" [class.active]="activeTab === 'informations'" (click)="setTab('informations')">Informations</button>
-      <button class="tab-btn-v2" [class.active]="activeTab === 'security'" (click)="setTab('security')">Sécurité</button>
-      <button class="tab-btn-v2" [class.active]="activeTab === 'activities'" (click)="setTab('activities')">Activités</button>
-      <button class="tab-btn-v2" [class.active]="activeTab === 'payments'" (click)="setTab('payments')">Paiements</button>
-      <button class="tab-btn-v2" [class.active]="activeTab === 'documents'" (click)="setTab('documents')">Documents</button>
-      <button class="tab-btn-v2" [class.active]="activeTab === 'preferences'" (click)="setTab('preferences')">Préférences</button>
+    <nav class="card-tabs-v2-premium">
+      <div class="tabs-scroll-wrapper">
+        <button class="tab-btn-v2-p" [class.active]="activeTab === 'account'" (click)="setTab('account')">
+          <i class="ion-ios-apps"></i> Aperçu
+        </button>
+        <button class="tab-btn-v2-p" [class.active]="activeTab === 'informations'" (click)="setTab('informations')">
+          <i class="ion-ios-person"></i> Profil
+        </button>
+        <button class="tab-btn-v2-p" [class.active]="activeTab === 'security'" (click)="setTab('security')">
+          <i class="ion-ios-lock"></i> Sécurité
+        </button>
+        <button class="tab-btn-v2-p" [class.active]="activeTab === 'activities'" (click)="setTab('activities')">
+          <i class="ion-ios-list"></i> Activités
+        </button>
+        <button class="tab-btn-v2-p" [class.active]="activeTab === 'payments'" (click)="setTab('payments')">
+          <i class="ion-ios-wallet"></i> Paiements
+        </button>
+        <button class="tab-btn-v2-p" [class.active]="activeTab === 'documents'" (click)="setTab('documents')">
+          <i class="ion-ios-document"></i> Documents
+        </button>
+        <button class="tab-btn-v2-p" [class.active]="activeTab === 'preferences'" (click)="setTab('preferences')">
+          <i class="ion-ios-options"></i> Réglages
+        </button>
+      </div>
     </nav>
 
     <!-- CONTENT -->
@@ -209,6 +225,31 @@
                   <button class="btn-link-white">Changer</button>
                 </div>
               </div>
+            </section>
+
+            <!-- Upcoming Bookings Card -->
+            <section class="section-box-v2 mt-4">
+              <div class="section-header-v2">
+                <h3>Réservations à venir</h3>
+                <span class="badge-count-v2">{{ upcomingBookings.length }}</span>
+              </div>
+              <div class="upcoming-list-v2">
+                <div class="booking-item-v2" *ngFor="let booking of upcomingBookings">
+                  <div class="booking-icon-v2" [style.color]="booking.color" [style.backgroundColor]="booking.color + '15'">
+                    <i [class]="booking.icon"></i>
+                  </div>
+                  <div class="booking-info-v2">
+                    <div class="booking-title-v2">{{ booking.type }}</div>
+                    <div class="booking-meta-v2">
+                      <span>{{ booking.date }}</span>
+                      <span class="dot"></span>
+                      <span>{{ booking.from }} → {{ booking.to }}</span>
+                    </div>
+                  </div>
+                  <div class="booking-status-v2" [class]="booking.status">{{ booking.status }}</div>
+                </div>
+              </div>
+              <button class="btn-text-v2 full-width mt-3">Gérer mes réservations</button>
             </section>
 
           </div>
@@ -754,9 +795,55 @@
             </section>
 
           </div>
-        </div>
 
+          <!-- RIGHT: Refunds & Security -->
+          <div class="pay-col-right">
+            
+            <!-- Refund Requests -->
+            <section class="section-box-v2">
+              <div class="section-header-v2">
+                <h3>Remboursements</h3>
+                <i class="ion-ios-undo text-blue"></i>
+              </div>
+              <div class="refund-list-v2">
+                <div class="refund-item-v2" *ngFor="let ref of refundRequests">
+                  <div class="refund-info-v2">
+                    <strong>{{ ref.id }}</strong>
+                    <span>{{ ref.reason }}</span>
+                  </div>
+                  <div class="refund-status-v2">
+                    <span class="status-pill-v2 blue">{{ ref.status }}</span>
+                    <span class="refund-amount-v2">{{ ref.amount }} DT</span>
+                  </div>
+                </div>
+              </div>
+              <button class="btn-link-v2 mt-3">Suivre mes demandes</button>
+            </section>
+
+            <!-- Security Notice -->
+            <section class="section-box-v2 mt-4 bg-light-blue">
+              <div class="security-notice-v2">
+                <i class="ion-ios-shield-checkmark text-blue"></i>
+                <div>
+                  <strong>Paiements sécurisés</strong>
+                  <p>Vos transactions sont protégées par un cryptage SSL de bout en bout et les normes PCI DSS.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Quick Tip -->
+            <div class="payment-tip-v2 mt-4">
+              <div class="tip-header-v2">
+                <i class="ion-ios-bulb text-orange"></i>
+                <span>Astuce GoRide</span>
+              </div>
+              <p>Évitez les frais de transaction en rechargeant votre portefeuille via virement bancaire.</p>
+            </div>
+
+          </div>
+        </div>
       </div>
+
 
       <!-- DOCUMENTS TAB -->
       <div *ngIf="activeTab === 'documents'" class="tab-content-animate">
