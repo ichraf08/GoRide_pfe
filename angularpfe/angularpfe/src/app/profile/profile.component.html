@@ -1,167 +1,124 @@
-<div class="dashboard-layout">
-  
-  <!-- SIDEBAR (LEFT) -->
-  <aside class="dashboard-sidebar">
-    <div class="sidebar-logo">
-      <img src="assets/images/logo.png" alt="GoRide" class="logo-img">
-    </div>
+<div class="profile-premium-wrapper">
+  <div class="main-card-container animate__animated animate__fadeIn">
 
-    <div class="sidebar-user">
-      <div class="sidebar-avatar">
-        <div class="avatar-circle-sm">IO</div>
+    <!-- HEADER -->
+    <header class="card-header-v2">
+      <div class="header-content-left">
+        <div class="avatar-box-v2">
+          <div class="avatar-circle-v2">IO</div>
+          <div class="online-indicator"></div>
+        </div>
+        <div class="header-text-v2">
+          <div class="name-badge-v2">
+            <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+            <span class="badge-verified-v2"><i class="ion-ios-checkmark-circle"></i> Compte vérifié</span>
+          </div>
+          <p class="welcome-msg-v2">Bonjour {{ user.firstName }} ! Voici un aperçu rapide de votre activité aujourd'hui.
+          </p>
+          <div class="status-tags-v2">
+            <span class="tag-v2 online"><span class="dot"></span> EN LIGNE MAINTENANT</span>
+            <span class="tag-v2 history">DERNIÈRE CONNEXION : HIER 18:42</span>
+          </div>
+        </div>
       </div>
-      <div class="sidebar-user-info">
-        <h3>{{ user.firstName }} {{ user.lastName }}</h3>
-        <span class="verified-text">Compte vérifié <i class="ion-ios-checkmark-circle"></i></span>
+      <div class="header-content-right">
+        <button class="btn-primary-v2">
+          <i class="ion-ios-create-outline"></i> Modifier mon profil
+        </button>
       </div>
-    </div>
+    </header>
 
-    <nav class="sidebar-nav">
-      <a href="javascript:void(0)" class="nav-item active">
-        <i class="ion-ios-home-outline"></i> Aperçu
-      </a>
-      <a href="javascript:void(0)" class="nav-item">
-        <i class="ion-ios-person-outline"></i> Informations
-      </a>
-      <a href="javascript:void(0)" class="nav-item">
-        <i class="ion-ios-lock-outline"></i> Sécurité
-      </a>
-      <a href="javascript:void(0)" class="nav-item">
-        <i class="ion-ios-time-outline"></i> Activités
-      </a>
-      <a href="javascript:void(0)" class="nav-item">
-        <i class="ion-ios-card-outline"></i> Paiements
-      </a>
-      <a href="javascript:void(0)" class="nav-item">
-        <i class="ion-ios-document-outline"></i> Documents
-      </a>
-      <a href="javascript:void(0)" class="nav-item">
-        <i class="ion-ios-settings-outline"></i> Préférences
-      </a>
-      <a href="javascript:void(0)" class="nav-item">
-        <i class="ion-ios-notifications-outline"></i> Notifications
-      </a>
+    <!-- TABS -->
+    <nav class="card-tabs-v2">
+      <button class="tab-btn-v2 active">Aperçu</button>
+      <button class="tab-btn-v2">Informations</button>
+      <button class="tab-btn-v2">Sécurité</button>
+      <button class="tab-btn-v2">Activités</button>
+      <button class="tab-btn-v2">Paiements</button>
+      <button class="tab-btn-v2">Documents</button>
+      <button class="tab-btn-v2">Préférences</button>
     </nav>
 
-    <div class="sidebar-promo-card">
-      <div class="promo-content">
-        <h4>Devenez partenaire GoRide</h4>
-        <p>Ensemble, développons la mobilité de demain.</p>
-        <button class="btn-promo">En savoir plus</button>
-      </div>
-      <img src="assets/images/blue-car-promo.png" alt="Car" class="promo-car-img">
-    </div>
+    <!-- CONTENT -->
+    <div class="card-body-v2">
+      <div class="grid-container-v2">
 
-    <button class="btn-sidebar-logout">
-      <i class="ion-ios-log-out-outline"></i> Se déconnecter
-    </button>
-  </aside>
+        <!-- LEFT COLUMN -->
+        <div class="col-left-v2">
 
-  <!-- MAIN CONTENT (RIGHT) -->
-  <main class="dashboard-main">
-    
-    <div class="dashboard-card-wrapper animate__animated animate__fadeIn">
-      <div class="dashboard-card">
-        
-        <!-- CARD HEADER -->
-        <header class="card-header-premium">
-          <div class="header-left">
-            <div class="avatar-container-lg">
-              <div class="avatar-circle-lg">IO</div>
-              <div class="status-indicator-green"></div>
+          <!-- Informations personnelles -->
+          <section class="section-box-v2">
+            <div class="section-title-v2">
+              <h3>Informations personnelles</h3>
+              <i class="ion-ios-arrow-forward arrow-link"></i>
             </div>
-            <div class="welcome-section">
-              <h2>Bonjour {{ user.firstName }} 👋</h2>
-              <p>Heureux de vous revoir sur GoRide. Voici un résumé de votre compte et de vos activités récentes.</p>
-              <div class="status-pill-row">
-                <span class="status-pill green">
-                  <i class="ion-ios-radio-button-on"></i> EN LIGNE MAINTENANT
-                </span>
-                <span class="status-pill blue-outline">
-                  DERNIÈRE CONNEXION : HIER 18:42
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="header-right">
-            <div class="activity-timestamp">Dernière activité : Hier à 18:42</div>
-            <div class="verified-badge-large">
-              <i class="ion-ios-radio-button-on"></i> Statut : Vérifié
-            </div>
-            <button class="btn-edit-top">
-              <i class="ion-ios-create-outline"></i> Modifier le profil
-            </button>
-          </div>
-        </header>
-
-        <!-- INTERNAL TABS -->
-        <div class="card-tabs">
-          <button class="card-tab active">Aperçu</button>
-          <button class="card-tab">Informations personnelles</button>
-          <button class="card-tab">Sécurité</button>
-          <button class="card-tab-icon"><i class="ion-ios-more"></i></button>
-          <button class="card-tab">Activités</button>
-          <button class="card-tab">Paiements</button>
-          <button class="card-tab">Documents</button>
-          <button class="card-tab">Préférences</button>
-        </div>
-
-        <!-- OVERVIEW CONTENT -->
-        <div class="card-body-content">
-          <div class="overview-grid">
-            
-            <!-- Informations personnelles -->
-            <section class="overview-section">
-              <div class="section-header">
-                <h3>Informations personnelles</h3>
-                <button class="btn-icon-edit"><i class="ion-ios-create-outline"></i></button>
-              </div>
-              <div class="info-items-list">
-                <div class="info-item">
-                  <div class="info-icon blue"><i class="ion-ios-mail"></i></div>
-                  <div class="info-details">
-                    <label>EMAIL</label>
+            <div class="info-rows-v2">
+              <div class="info-row-v2">
+                <div class="icon-v2 blue"><i class="ion-ios-mail"></i></div>
+                <div class="details-v2">
+                  <label>EMAIL</label>
+                  <div class="val-tag-v2">
                     <strong>{{ user.email }}</strong>
-                    <span class="text-verified-sm">Email vérifié</span>
+                    <span class="status-badge-v2 green">Vérifié</span>
                   </div>
                 </div>
-                <div class="info-item">
-                  <div class="info-icon blue"><i class="ion-ios-call"></i></div>
-                  <div class="info-details">
-                    <label>TÉLÉPHONE</label>
-                    <strong>+216 50 123 456</strong>
-                    <span class="text-verified-sm green">Téléphone vérifié</span>
-                  </div>
-                </div>
-                <div class="info-item">
-                  <div class="info-icon blue"><i class="ion-ios-contact"></i></div>
-                  <div class="info-details">
-                    <label>PIÈCE D'IDENTITÉ</label>
-                    <span class="text-verified-sm green">Vérifiée</span>
-                  </div>
-                </div>
-                <div class="info-item mt-3">
-                  <div class="info-icon plain"><i class="ion-ios-pin"></i></div>
-                  <div class="info-details">
-                    <label>ADRESSE</label>
-                    <p class="text-muted-sm">Tunis, Tunisie</p>
-                  </div>
-                </div>
+                <i class="ion-ios-arrow-forward row-chevron-v2"></i>
               </div>
-            </section>
+              <div class="info-row-v2">
+                <div class="icon-v2 green"><i class="ion-ios-call"></i></div>
+                <div class="details-v2">
+                  <label>TÉLÉPHONE</label>
+                  <div class="val-tag-v2">
+                    <strong>{{ user.phone || '20221365' }}</strong>
+                    <span class="status-badge-v2 green">Vérifié</span>
+                  </div>
+                </div>
+                <i class="ion-ios-arrow-forward row-chevron-v2"></i>
+              </div>
+              <div class="info-row-v2">
+                <div class="icon-v2 purple"><i class="ion-ios-pin"></i></div>
+                <div class="details-v2">
+                  <label>ADRESSE DE RÉSIDENCE</label>
+                  <strong>{{ user.residence || 'Tunis, Tunisie' }}</strong>
+                </div>
+                <i class="ion-ios-arrow-forward row-chevron-v2"></i>
+              </div>
+              <div class="info-row-v2">
+                <div class="icon-v2 orange"><i class="ion-ios-contact"></i></div>
+                <div class="details-v2">
+                  <label>PIÈCE D'IDENTITÉ (CIN)</label>
+                  <div class="val-tag-v2">
+                    <strong>********</strong>
+                    <span class="status-badge-v2 green">Validée</span>
+                  </div>
+                </div>
+                <i class="ion-ios-arrow-forward row-chevron-v2"></i>
+              </div>
+            </div>
+          </section>
 
-            <!-- Progression du profil -->
-            <section class="overview-section">
-              <div class="section-header">
-                <h3>Progression du profil</h3>
-              </div>
-              <div class="progress-container">
-                <div class="progress-score">
-                  <span class="score-num">80%</span>
-                  <span class="score-label">Profil complété</span>
+          <!-- Progression du profil -->
+          <section class="section-box-v2 mt-4">
+            <div class="section-title-v2">
+              <h3>Progression du profil</h3>
+            </div>
+            <div class="progression-layout-v2">
+              <div class="prog-chart-v2">
+                <div class="circle-progress-v2">
+                  <svg viewBox="0 0 36 36" class="svg-chart-v2">
+                    <path class="circle-bg-v2"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path class="circle-v2" stroke-dasharray="60, 100"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <text x="18" y="20.35" class="perc-v2">60%</text>
+                    <text x="18" y="26" class="lbl-v2">Complété</text>
+                  </svg>
                 </div>
-                <div class="progress-bar-main">
-                  <div class="progress-bar-fill" style="width: 80%"></div>
+              </div>
+              <div class="prog-info-v2">
+                <h4>Profil presque complet !</h4>
+                <div class="bar-v2-container">
+                  <div class="bar-v2-fill" style="width: 60%"></div>
                 </div>
                 <ul class="checklist-v2">
                   <li class="done"><i class="ion-ios-checkmark-circle"></i> Photo de profil ajoutée</li>
@@ -171,102 +128,122 @@
                   <li><i class="ion-ios-radio-button-off"></i> Ajouter pièce d'identité</li>
                 </ul>
               </div>
-            </section>
-
-            <!-- Activité récente -->
-            <section class="overview-section">
-              <div class="section-header">
-                <h3>Activité récente</h3>
-                <a href="javascript:void(0)" class="link-view-all">Voir tout</a>
-              </div>
-              <div class="activity-list-v2">
-                <div class="activity-item-v2">
-                  <div class="act-icon-v2 green"><i class="ion-ios-checkmark"></i></div>
-                  <div class="act-content-v2">
-                    <strong>Connexion réussie</strong>
-                    <span>Aujourd'hui à 14:22</span>
-                  </div>
-                </div>
-                <div class="activity-item-v2">
-                  <div class="act-icon-v2 blue"><i class="ion-ios-create"></i></div>
-                  <div class="act-content-v2">
-                    <strong>Profil modifié</strong>
-                    <span>Il y a 2 jours</span>
-                  </div>
-                </div>
-                <div class="activity-item-v2">
-                  <div class="act-icon-v2 purple"><i class="ion-ios-people"></i></div>
-                  <div class="act-content-v2">
-                    <strong>Nouveau rôle Chauffeur activé</strong>
-                    <span>Il y a 3 jours</span>
-                  </div>
-                </div>
-                <div class="activity-item-v2">
-                  <div class="act-icon-v2 green"><i class="ion-ios-call"></i></div>
-                  <div class="act-content-v2">
-                    <strong>Téléphone vérifié</strong>
-                    <span>Il y a 5 jours</span>
-                  </div>
-                </div>
-                <div class="activity-item-v2">
-                  <div class="act-icon-v2 blue"><i class="ion-ios-document"></i></div>
-                  <div class="act-content-v2">
-                    <strong>Document CIN validé</strong>
-                    <span>Il y a 1 semaine</span>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-          </div>
-
-          <!-- SECURITY SECTION BOTTOM -->
-          <div class="security-bottom-section">
-            <div class="security-left-side">
-              <div class="security-title-main">
-                <i class="ion-ios-shield-outline"></i>
-                <div>
-                  <h3>Sécurité du compte</h3>
-                  <p>Protégez votre compte avec ces paramètres de sécurité.</p>
-                </div>
-              </div>
-              
-              <div class="security-options-grid">
-                <div class="sec-card">
-                  <div class="sec-card-header">
-                    <i class="ion-ios-key"></i>
-                    <span>Mot de passe</span>
-                  </div>
-                  <p class="sec-card-meta">Dernière modification il y a 30 jours</p>
-                  <button class="btn-sec-action">Changer</button>
-                </div>
-                <div class="sec-card">
-                  <div class="sec-card-header">
-                    <i class="ion-ios-checkmark-circle-outline"></i>
-                    <span>Vérification en deux étapes</span>
-                  </div>
-                  <p class="sec-status text-green">Activée</p>
-                  <button class="btn-sec-action">Gérer</button>
-                </div>
-                <div class="sec-card">
-                  <div class="sec-card-header">
-                    <i class="ion-ios-desktop"></i>
-                    <span>Sessions actives</span>
-                  </div>
-                  <p class="sec-card-meta">2 appareils connectés</p>
-                  <button class="btn-sec-action">Voir</button>
+              <div class="prog-img-v2">
+                <div class="doc-icon-box">
+                  <i class="ion-ios-document"></i>
+                  <div class="floating-check-v2"><i class="ion-ios-checkmark"></i></div>
                 </div>
               </div>
             </div>
-            <div class="security-illustration">
-              <img src="assets/images/shield-illustration.png" alt="Shield" class="shield-img">
-            </div>
-          </div>
+          </section>
 
         </div>
 
+        <!-- RIGHT COLUMN -->
+        <div class="col-right-v2">
+
+          <!-- Activité récente -->
+          <section class="section-box-v2">
+            <div class="section-title-v2">
+              <h3>Activité récente</h3>
+              <a href="#" class="view-all-v2">Voir tout</a>
+            </div>
+            <div class="timeline-v2">
+              <div class="timeline-item-v2">
+                <div class="tl-icon-v2 green"><i class="ion-ios-unlock"></i></div>
+                <div class="tl-text-v2">
+                  <strong>Connexion réussie</strong>
+                  <span>Aujourd'hui à 14:22</span>
+                </div>
+              </div>
+              <div class="timeline-item-v2">
+                <div class="tl-icon-v2 blue"><i class="ion-ios-create"></i></div>
+                <div class="tl-text-v2">
+                  <strong>Profil modifié</strong>
+                  <span>Il y a 2 jours</span>
+                </div>
+              </div>
+              <div class="timeline-item-v2">
+                <div class="tl-icon-v2 purple"><i class="ion-ios-people"></i></div>
+                <div class="tl-text-v2">
+                  <strong>Nouveau rôle Chauffeur activé</strong>
+                  <span>Il y a 3 jours</span>
+                </div>
+              </div>
+              <div class="timeline-item-v2">
+                <div class="tl-icon-v2 green"><i class="ion-ios-call"></i></div>
+                <div class="tl-text-v2">
+                  <strong>Téléphone vérifié</strong>
+                  <span>Il y a 5 jours</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Sécurité du compte -->
+          <section class="section-box-v2 mt-4">
+            <div class="section-title-v2">
+              <div class="sec-icon-box-v2"><i class="ion-ios-shield"></i></div>
+              <div>
+                <h3>Sécurité du compte</h3>
+                <p class="sec-sub-v2">Protégez vos données personnelles.</p>
+              </div>
+            </div>
+            <div class="sec-rows-v2">
+              <div class="sec-row-v2">
+                <span>Mot de passe</span>
+                <button class="btn-outline-v2">Changer</button>
+              </div>
+              <div class="sec-row-v2">
+                <span>Double authentification (2FA)</span>
+                <span class="badge-tag-v2">Activée</span>
+              </div>
+            </div>
+          </section>
+
+        </div>
       </div>
+
+      <!-- FOOTER ADVANTAGES -->
+      <section class="advantages-footer-v2">
+        <div class="adv-grid-v2">
+          <div class="adv-item-v2">
+            <div class="adv-icon-v2 blue"><i class="ion-ios-headset"></i></div>
+            <div class="adv-text-v2">
+              <strong>Support 24/7</strong>
+              <span>Une équipe à votre écoute à tout moment</span>
+            </div>
+          </div>
+          <div class="adv-item-v2">
+            <div class="adv-icon-v2 green"><i class="ion-ios-lock"></i></div>
+            <div class="adv-text-v2">
+              <strong>Paiements sécurisés</strong>
+              <span>Transactions cryptées et 100% sécurisées</span>
+            </div>
+          </div>
+          <div class="adv-item-v2">
+            <div class="adv-icon-v2 purple"><i class="ion-ios-star"></i></div>
+            <div class="adv-text-v2">
+              <strong>Programme Fidélité</strong>
+              <span>Cumulez des points et profitez d'avantages</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
 
-  </main>
+    <!-- FINAL FOOTER -->
+    <footer class="final-footer-v2">
+      <div class="footer-links-v2">
+        <a href="#">Conditions d'utilisation</a>
+        <a href="#">Politique de confidentialité</a>
+        <a href="#">Aide</a>
+      </div>
+      <button class="btn-logout-v2">
+        <i class="ion-ios-log-out"></i> Déconnexion
+      </button>
+    </footer>
+
+  </div>
 </div>
