@@ -6,8 +6,10 @@
       <div class="header-content-left">
         <div class="avatar-box-v2">
           <div class="avatar-circle-v2">
-            <span *ngIf="!user?.photoUrl">{{ user?.firstName?.charAt(0) }}{{ user?.lastName?.charAt(0) }}</span>
-            <img *ngIf="user?.photoUrl" [src]="user.photoUrl" alt="Avatar">
+            <div class="avatar-inner-v2">
+              <span *ngIf="!user?.photoUrl">{{ (user?.firstName?.charAt(0) || '') | uppercase }}{{ (user?.lastName?.charAt(0) || '') | uppercase }}</span>
+              <img *ngIf="user?.photoUrl" [src]="user.photoUrl" alt="Avatar">
+            </div>
           </div>
           <div class="online-indicator"></div>
         </div>
@@ -16,7 +18,7 @@
             <h1>{{ user?.firstName }} {{ user?.lastName }}</h1>
             <span class="badge-verified-v2"><i class="ion-ios-checkmark-circle"></i> Compte vérifié</span>
           </div>
-          <p class="welcome-msg-v2">Bonjour {{ user?.firstName }} ! Voici un aperçu rapide de votre activité aujourd'hui.</p>
+          <p class="welcome-msg-v2">Bienvenue, voici un aperçu intelligent de votre activité aujourd’hui.</p>
           <div class="status-tags-v2">
             <span class="tag-v2 online"><span class="dot"></span> EN LIGNE MAINTENANT</span>
             <span class="tag-v2 history">DERNIÈRE CONNEXION : HIER 18:42</span>
