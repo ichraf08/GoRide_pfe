@@ -16,26 +16,31 @@
 }
 
 .profile-premium-wrapper {
-  background-color: #fcfcfc;
+  background-color: #f8fafc;
   min-height: 100vh;
-  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 12px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--go-text-dark);
 }
 
 .main-card-container {
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
   background: white;
   border-radius: var(--card-radius);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   overflow: hidden;
   border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
 }
 
 /* HEADER */
 .card-header-v2 {
-  padding: 32px 40px;
+  padding: 24px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -197,7 +202,8 @@
 
 /* BODY CONTENT */
 .card-body-v2 {
-  padding: 32px 40px;
+  padding: 24px 40px;
+  flex: 1;
 }
 
 .grid-container-v2 {
@@ -529,8 +535,8 @@
 
 /* ADVANTAGES */
 .advantages-footer-v2 {
-  margin-top: 40px;
-  padding-top: 40px;
+  margin-top: 32px;
+  padding-top: 32px;
   border-top: 1px solid var(--border-color);
 }
 
@@ -574,11 +580,12 @@
 
 /* FINAL FOOTER */
 .final-footer-v2 {
-  padding: 32px 40px;
+  padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: white;
+  background: #fcfdfe;
+  border-top: 1px solid var(--border-color);
 }
 
 .footer-links-v2 {
