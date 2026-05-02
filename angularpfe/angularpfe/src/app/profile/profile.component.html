@@ -1,20 +1,22 @@
 <div class="profile-premium-wrapper">
   <div class="main-card-container animate__animated animate__fadeIn">
-
+    
     <!-- HEADER -->
     <header class="card-header-v2">
       <div class="header-content-left">
         <div class="avatar-box-v2">
-          <div class="avatar-circle-v2">IO</div>
+          <div class="avatar-circle-v2">
+            <span *ngIf="!user?.photoUrl">{{ user?.firstName?.charAt(0) }}{{ user?.lastName?.charAt(0) }}</span>
+            <img *ngIf="user?.photoUrl" [src]="user.photoUrl" alt="Avatar">
+          </div>
           <div class="online-indicator"></div>
         </div>
         <div class="header-text-v2">
           <div class="name-badge-v2">
-            <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+            <h1>{{ user?.firstName }} {{ user?.lastName }}</h1>
             <span class="badge-verified-v2"><i class="ion-ios-checkmark-circle"></i> Compte vérifié</span>
           </div>
-          <p class="welcome-msg-v2">Bonjour {{ user.firstName }} ! Voici un aperçu rapide de votre activité aujourd'hui.
-          </p>
+          <p class="welcome-msg-v2">Bonjour {{ user?.firstName }} ! Voici un aperçu rapide de votre activité aujourd'hui.</p>
           <div class="status-tags-v2">
             <span class="tag-v2 online"><span class="dot"></span> EN LIGNE MAINTENANT</span>
             <span class="tag-v2 history">DERNIÈRE CONNEXION : HIER 18:42</span>
@@ -22,7 +24,7 @@
         </div>
       </div>
       <div class="header-content-right">
-        <button class="btn-primary-v2">
+        <button class="btn-primary-v2" (click)="toggleEdit()">
           <i class="ion-ios-create-outline"></i> Modifier mon profil
         </button>
       </div>
@@ -30,214 +32,985 @@
 
     <!-- TABS -->
     <nav class="card-tabs-v2">
-      <button class="tab-btn-v2 active">Aperçu</button>
-      <button class="tab-btn-v2">Informations</button>
-      <button class="tab-btn-v2">Sécurité</button>
-      <button class="tab-btn-v2">Activités</button>
-      <button class="tab-btn-v2">Paiements</button>
-      <button class="tab-btn-v2">Documents</button>
-      <button class="tab-btn-v2">Préférences</button>
+      <button class="tab-btn-v2" [class.active]="activeTab === 'account'" (click)="setTab('account')">Aperçu</button>
+      <button class="tab-btn-v2" [class.active]="activeTab === 'informations'" (click)="setTab('informations')">Informations</button>
+      <button class="tab-btn-v2" [class.active]="activeTab === 'security'" (click)="setTab('security')">Sécurité</button>
+      <button class="tab-btn-v2" [class.active]="activeTab === 'activities'" (click)="setTab('activities')">Activités</button>
+      <button class="tab-btn-v2" [class.active]="activeTab === 'payments'" (click)="setTab('payments')">Paiements</button>
+      <button class="tab-btn-v2" [class.active]="activeTab === 'documents'" (click)="setTab('documents')">Documents</button>
+      <button class="tab-btn-v2" [class.active]="activeTab === 'preferences'" (click)="setTab('preferences')">Préférences</button>
     </nav>
 
     <!-- CONTENT -->
     <div class="card-body-v2">
-      <div class="grid-container-v2">
-
-        <!-- LEFT COLUMN -->
-        <div class="col-left-v2">
-
-          <!-- Informations personnelles -->
-          <section class="section-box-v2">
-            <div class="section-title-v2">
-              <h3>Informations personnelles</h3>
-              <i class="ion-ios-arrow-forward arrow-link"></i>
+      
+      <div *ngIf="activeTab === 'account'">
+        
+        <!-- QUICK STATS ROW -->
+        <div class="stats-row-premium">
+          <div class="stat-card-premium">
+            <div class="stat-icon blue"><i class="ion-ios-navigate"></i></div>
+            <div class="stat-data">
+              <span class="stat-value">{{ userStats.totalRides }}</span>
+              <span class="stat-label">Trajets effectués</span>
             </div>
-            <div class="info-rows-v2">
-              <div class="info-row-v2">
-                <div class="icon-v2 blue"><i class="ion-ios-mail"></i></div>
-                <div class="details-v2">
-                  <label>EMAIL</label>
-                  <div class="val-tag-v2">
-                    <strong>{{ user.email }}</strong>
-                    <span class="status-badge-v2 green">Vérifié</span>
-                  </div>
-                </div>
-                <i class="ion-ios-arrow-forward row-chevron-v2"></i>
-              </div>
-              <div class="info-row-v2">
-                <div class="icon-v2 green"><i class="ion-ios-call"></i></div>
-                <div class="details-v2">
-                  <label>TÉLÉPHONE</label>
-                  <div class="val-tag-v2">
-                    <strong>{{ user.phone || '20221365' }}</strong>
-                    <span class="status-badge-v2 green">Vérifié</span>
-                  </div>
-                </div>
-                <i class="ion-ios-arrow-forward row-chevron-v2"></i>
-              </div>
-              <div class="info-row-v2">
-                <div class="icon-v2 purple"><i class="ion-ios-pin"></i></div>
-                <div class="details-v2">
-                  <label>ADRESSE DE RÉSIDENCE</label>
-                  <strong>{{ user.residence || 'Tunis, Tunisie' }}</strong>
-                </div>
-                <i class="ion-ios-arrow-forward row-chevron-v2"></i>
-              </div>
-              <div class="info-row-v2">
-                <div class="icon-v2 orange"><i class="ion-ios-contact"></i></div>
-                <div class="details-v2">
-                  <label>PIÈCE D'IDENTITÉ (CIN)</label>
-                  <div class="val-tag-v2">
-                    <strong>********</strong>
-                    <span class="status-badge-v2 green">Validée</span>
-                  </div>
-                </div>
-                <i class="ion-ios-arrow-forward row-chevron-v2"></i>
-              </div>
+            <div class="stat-trend positive">+12%</div>
+          </div>
+          <div class="stat-card-premium">
+            <div class="stat-icon orange"><i class="ion-ios-star"></i></div>
+            <div class="stat-data">
+              <span class="stat-value">{{ userStats.rewardsPoints }}</span>
+              <span class="stat-label">Points GoRide</span>
             </div>
-          </section>
-
-          <!-- Progression du profil -->
-          <section class="section-box-v2 mt-4">
-            <div class="section-title-v2">
-              <h3>Progression du profil</h3>
+            <div class="stat-trend">Niv. Argent</div>
+          </div>
+          <div class="stat-card-premium">
+            <div class="stat-icon green"><i class="ion-ios-shield-checkmark"></i></div>
+            <div class="stat-data">
+              <span class="stat-value">{{ userStats.securityScore }}%</span>
+              <span class="stat-label">Score de sécurité</span>
             </div>
-            <div class="progression-layout-v2">
-              <div class="prog-chart-v2">
-                <div class="circle-progress-v2">
-                  <svg viewBox="0 0 36 36" class="svg-chart-v2">
-                    <path class="circle-bg-v2"
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path class="circle-v2" stroke-dasharray="60, 100"
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <text x="18" y="20.35" class="perc-v2">60%</text>
-                    <text x="18" y="26" class="lbl-v2">Complété</text>
-                  </svg>
-                </div>
-              </div>
-              <div class="prog-info-v2">
-                <h4>Profil presque complet !</h4>
-                <div class="bar-v2-container">
-                  <div class="bar-v2-fill" style="width: 60%"></div>
-                </div>
-                <ul class="checklist-v2">
-                  <li class="done"><i class="ion-ios-checkmark-circle"></i> Photo de profil ajoutée</li>
-                  <li class="done"><i class="ion-ios-checkmark-circle"></i> Email vérifié</li>
-                  <li class="done"><i class="ion-ios-checkmark-circle"></i> Téléphone ajouté</li>
-                  <li><i class="ion-ios-radio-button-off"></i> Ajouter adresse</li>
-                  <li><i class="ion-ios-radio-button-off"></i> Ajouter pièce d'identité</li>
-                </ul>
-              </div>
-              <div class="prog-img-v2">
-                <div class="doc-icon-box">
-                  <i class="ion-ios-document"></i>
-                  <div class="floating-check-v2"><i class="ion-ios-checkmark"></i></div>
-                </div>
-              </div>
-            </div>
-          </section>
-
+            <div class="stat-trend positive">Excellent</div>
+          </div>
         </div>
 
-        <!-- RIGHT COLUMN -->
-        <div class="col-right-v2">
+        <!-- MAIN GRID -->
+        <div class="grid-container-v2">
+          
+          <!-- LEFT COLUMN -->
+          <div class="col-left-v2">
+            
+            <!-- Missing Documents Alert -->
+            <div class="alert-premium-v2 warning" *ngIf="userStats.missingDocs > 0">
+              <div class="alert-icon"><i class="ion-ios-alert"></i></div>
+              <div class="alert-text">
+                <strong>Documents manquants ({{ userStats.missingDocs }})</strong>
+                <p>Veuillez soumettre votre permis de conduire et justificatif de domicile pour activer toutes les fonctionnalités.</p>
+              </div>
+              <button class="alert-action">Compléter</button>
+            </div>
 
-          <!-- Activité récente -->
-          <section class="section-box-v2">
-            <div class="section-title-v2">
-              <h3>Activité récente</h3>
-              <a href="#" class="view-all-v2">Voir tout</a>
-            </div>
-            <div class="timeline-v2">
-              <div class="timeline-item-v2">
-                <div class="tl-icon-v2 green"><i class="ion-ios-unlock"></i></div>
-                <div class="tl-text-v2">
-                  <strong>Connexion réussie</strong>
-                  <span>Aujourd'hui à 14:22</span>
+            <!-- Progression du profil -->
+            <section class="section-box-v2 mt-4">
+              <div class="section-header-v2">
+                <h3>Progression du profil</h3>
+                <span class="text-link-v2">Détails</span>
+              </div>
+              <div class="progression-layout-v2">
+                <div class="prog-chart-v2">
+                  <div class="circle-progress-v2">
+                    <svg viewBox="0 0 36 36" class="svg-chart-v2">
+                      <path class="circle-bg-v2" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                      <path class="circle-v2" stroke-dasharray="75, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                      <text x="18" y="20.35" class="perc-v2">75%</text>
+                      <text x="18" y="26" class="lbl-v2">Force</text>
+                    </svg>
+                  </div>
+                </div>
+                <div class="prog-info-v2">
+                  <h4 class="title-accent-v2">Votre profil est presque prêt !</h4>
+                  <p class="desc-v2">Un profil complet augmente vos chances d'être accepté rapidement par les chauffeurs et partenaires.</p>
+                  <div class="checklist-v2-grid">
+                    <div class="check-item-v2 done"><i class="ion-ios-checkmark-circle"></i> Photo de profil</div>
+                    <div class="check-item-v2 done"><i class="ion-ios-checkmark-circle"></i> Email vérifié</div>
+                    <div class="check-item-v2 done"><i class="ion-ios-checkmark-circle"></i> Téléphone</div>
+                    <div class="check-item-v2"><i class="ion-ios-radio-button-off"></i> Permis valide</div>
+                    <div class="check-item-v2"><i class="ion-ios-radio-button-off"></i> Justificatif</div>
+                  </div>
                 </div>
               </div>
-              <div class="timeline-item-v2">
-                <div class="tl-icon-v2 blue"><i class="ion-ios-create"></i></div>
-                <div class="tl-text-v2">
-                  <strong>Profil modifié</strong>
-                  <span>Il y a 2 jours</span>
-                </div>
-              </div>
-              <div class="timeline-item-v2">
-                <div class="tl-icon-v2 purple"><i class="ion-ios-people"></i></div>
-                <div class="tl-text-v2">
-                  <strong>Nouveau rôle Chauffeur activé</strong>
-                  <span>Il y a 3 jours</span>
-                </div>
-              </div>
-              <div class="timeline-item-v2">
-                <div class="tl-icon-v2 green"><i class="ion-ios-call"></i></div>
-                <div class="tl-text-v2">
-                  <strong>Téléphone vérifié</strong>
-                  <span>Il y a 5 jours</span>
-                </div>
-              </div>
-            </div>
-          </section>
+            </section>
 
-          <!-- Sécurité du compte -->
-          <section class="section-box-v2 mt-4">
-            <div class="section-title-v2">
-              <div class="sec-icon-box-v2"><i class="ion-ios-shield"></i></div>
-              <div>
-                <h3>Sécurité du compte</h3>
-                <p class="sec-sub-v2">Protégez vos données personnelles.</p>
+            <!-- Informations personnelles Summary -->
+            <section class="section-box-v2 mt-4">
+              <div class="section-header-v2">
+                <h3>Informations personnelles</h3>
+                <button class="btn-icon-v2"><i class="ion-ios-create-outline"></i></button>
               </div>
-            </div>
-            <div class="sec-rows-v2">
-              <div class="sec-row-v2">
-                <span>Mot de passe</span>
-                <button class="btn-outline-v2">Changer</button>
+              <div class="info-grid-premium">
+                <div class="info-box-premium">
+                  <label>EMAIL</label>
+                  <div class="info-val">
+                    <span>{{ user?.email }}</span>
+                    <i class="ion-ios-checkmark-circle text-green"></i>
+                  </div>
+                </div>
+                <div class="info-box-premium">
+                  <label>TÉLÉPHONE</label>
+                  <div class="info-val">
+                    <span>{{ user?.phone || '+216 50 123 456' }}</span>
+                    <i class="ion-ios-checkmark-circle text-green"></i>
+                  </div>
+                </div>
+                <div class="info-box-premium">
+                  <label>ADRESSE</label>
+                  <div class="info-val">
+                    <span>{{ user?.residence || 'Tunis, Tunisie' }}</span>
+                  </div>
+                </div>
+                <div class="info-box-premium">
+                  <label>PIÈCE D'IDENTITÉ</label>
+                  <div class="info-val">
+                    <span class="status-pill-v2 green">Validée</span>
+                  </div>
+                </div>
               </div>
-              <div class="sec-row-v2">
-                <span>Double authentification (2FA)</span>
-                <span class="badge-tag-v2">Activée</span>
-              </div>
-            </div>
-          </section>
+            </section>
 
+          </div>
+
+          <!-- RIGHT COLUMN -->
+          <div class="col-right-v2">
+            
+            <!-- Activité récente -->
+            <section class="section-box-v2">
+              <div class="section-header-v2">
+                <h3>Activité récente</h3>
+                <a href="#" class="view-all-v2">Voir tout</a>
+              </div>
+              <div class="timeline-premium-v2">
+                <div class="timeline-item-premium" *ngFor="let act of recentActivities">
+                  <div class="tl-icon-v2" [style.backgroundColor]="act.bg" [style.color]="act.color">
+                    <i [class]="act.icon"></i>
+                  </div>
+                  <div class="tl-content-v2">
+                    <div class="tl-title-v2">{{ act.text }}</div>
+                    <div class="tl-time-v2">{{ act.date }}</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Sécurité du compte Score -->
+            <section class="section-box-v2 mt-4 bg-gradient-blue">
+              <div class="section-title-v2 text-white">
+                <div class="sec-icon-box-v2 white"><i class="ion-ios-lock"></i></div>
+                <div>
+                  <h3 class="text-white">Sécurité & Confidentialité</h3>
+                  <p class="text-white-50 small">Protégez vos données.</p>
+                </div>
+              </div>
+              <div class="security-score-v2">
+                <div class="score-bar-v2">
+                  <div class="score-fill-v2" style="width: 85%"></div>
+                </div>
+                <div class="score-legend-v2">
+                  <span class="text-white">Niveau : Élevé</span>
+                  <span class="text-white-50">85/100</span>
+                </div>
+              </div>
+              <div class="sec-quick-actions-v2">
+                <div class="sec-action-v2">
+                  <span class="text-white-50">2FA</span>
+                  <span class="badge-tag-v2 green">ACTIF</span>
+                </div>
+                <div class="sec-action-v2">
+                  <span class="text-white-50">MDP</span>
+                  <button class="btn-link-white">Changer</button>
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </div>
+
+        <!-- FOOTER ADVANTAGES -->
+        <section class="advantages-footer-v2 mt-5">
+          <div class="adv-grid-v2">
+            <div class="adv-item-v2">
+              <div class="adv-icon-v2 blue"><i class="ion-ios-headset"></i></div>
+              <div class="adv-text-v2">
+                <strong>Support Premium</strong>
+                <span>Assistance prioritaire 24/7</span>
+              </div>
+            </div>
+            <div class="adv-item-v2">
+              <div class="adv-icon-v2 green"><i class="ion-ios-lock"></i></div>
+              <div class="adv-text-v2">
+                <strong>Données cryptées</strong>
+                <span>Sécurité bancaire 256-bit</span>
+              </div>
+            </div>
+            <div class="adv-item-v2">
+              <div class="adv-icon-v2 purple"><i class="ion-ios-star"></i></div>
+              <div class="adv-text-v2">
+                <strong>Loyalty Program</strong>
+                <span>Cumulez des GoPoints</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- INFORMATIONS TAB -->
+      <div *ngIf="activeTab === 'informations'" class="tab-content-animate">
+        <div class="info-layout-grid">
+          
+          <!-- LEFT: Avatar & Main Info -->
+          <div class="info-col-left">
+            
+            <!-- Avatar Upload Card -->
+            <section class="section-box-v2 avatar-upload-section">
+              <div class="section-header-v2">
+                <h3>Photo de profil</h3>
+              </div>
+              <div class="avatar-upload-container">
+                <div class="avatar-preview-wrapper">
+                  <div class="avatar-large-preview">
+                    <img *ngIf="photoPreview || user?.photoUrl" [src]="photoPreview || user.photoUrl" alt="Avatar">
+                    <div *ngIf="!photoPreview && !user?.photoUrl" class="avatar-initials-large">
+                      {{ user?.firstName?.charAt(0) }}{{ user?.lastName?.charAt(0) }}
+                    </div>
+                  </div>
+                  <div class="upload-overlay">
+                    <label for="avatarInput" class="btn-upload-icon"><i class="ion-ios-camera"></i></label>
+                    <input type="file" id="avatarInput" hidden (change)="onFileSelected($event)" accept="image/*">
+                  </div>
+                </div>
+                <div class="avatar-upload-actions">
+                  <h4>Télécharger une nouvelle photo</h4>
+                  <p>JPG, GIF ou PNG. Taille max de 5 Mo.</p>
+                  <div class="btn-group-v2">
+                    <button class="btn-upload-v2" (click)="savePhoto()" [disabled]="!photoPreview || photoUploading">
+                      <span *ngIf="!photoUploading">Enregistrer la photo</span>
+                      <span *ngIf="photoUploading">Chargement...</span>
+                    </button>
+                    <button class="btn-remove-v2" *ngIf="user?.photoUrl || photoPreview" (click)="removePhoto()">Supprimer</button>
+                  </div>
+                  <div class="alert-inline success" *ngIf="photoSuccess">
+                    <i class="ion-ios-checkmark-circle"></i> Photo mise à jour !
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Personal Details Card -->
+            <section class="section-box-v2 mt-4">
+              <div class="section-header-v2">
+                <h3>Informations personnelles</h3>
+              </div>
+              <div class="premium-form-grid">
+                <div class="form-field-v2">
+                  <label>Prénom</label>
+                  <div class="input-wrapper-v2">
+                    <i class="ion-ios-contact input-icon-v2"></i>
+                    <input type="text" [(ngModel)]="user.firstName" placeholder="Ex: Ichraf">
+                  </div>
+                </div>
+                <div class="form-field-v2">
+                  <label>Nom</label>
+                  <div class="input-wrapper-v2">
+                    <i class="ion-ios-contact input-icon-v2"></i>
+                    <input type="text" [(ngModel)]="user.lastName" placeholder="Ex: Ouhichi">
+                  </div>
+                </div>
+                <div class="form-field-v2">
+                  <label>Date de naissance</label>
+                  <div class="input-wrapper-v2">
+                    <i class="ion-ios-calendar input-icon-v2"></i>
+                    <input type="date" [(ngModel)]="user.birthDate">
+                  </div>
+                </div>
+                <div class="form-field-v2">
+                  <label>Genre</label>
+                  <div class="input-wrapper-v2">
+                    <i class="ion-ios-transgender input-icon-v2"></i>
+                    <select [(ngModel)]="user.gender">
+                      <option value="male">Homme</option>
+                      <option value="female">Femme</option>
+                      <option value="other">Autre</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
+          <!-- RIGHT: Contact & Address -->
+          <div class="info-col-right">
+            
+            <!-- Contact Card -->
+            <section class="section-box-v2">
+              <div class="section-header-v2">
+                <h3>Coordonnées</h3>
+              </div>
+              <div class="premium-form-grid single-col">
+                <div class="form-field-v2">
+                  <label>Adresse e-mail</label>
+                  <div class="input-wrapper-v2 verified">
+                    <i class="ion-ios-mail input-icon-v2"></i>
+                    <input type="email" [(ngModel)]="user.email" readonly>
+                    <span class="input-badge-v2"><i class="ion-ios-checkmark-circle"></i></span>
+                  </div>
+                  <small class="field-hint-v2">L'e-mail ne peut être modifié que par le support.</small>
+                </div>
+                <div class="form-field-v2">
+                  <label>Numéro de téléphone</label>
+                  <div class="input-wrapper-v2">
+                    <i class="ion-ios-call input-icon-v2"></i>
+                    <input type="tel" [(ngModel)]="user.phone" placeholder="+216 -- --- ---">
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Address Card -->
+            <section class="section-box-v2 mt-4">
+              <div class="section-header-v2">
+                <h3>Adresse de résidence</h3>
+              </div>
+              <div class="premium-form-grid">
+                <div class="form-field-v2 full-width">
+                  <label>Rue / Appartement</label>
+                  <div class="input-wrapper-v2">
+                    <i class="ion-ios-pin input-icon-v2"></i>
+                    <input type="text" [(ngModel)]="user.street" placeholder="Ex: 42 Rue de la Liberté">
+                  </div>
+                </div>
+                <div class="form-field-v2">
+                  <label>Ville</label>
+                  <div class="input-wrapper-v2">
+                    <input type="text" [(ngModel)]="user.city" placeholder="Tunis">
+                  </div>
+                </div>
+                <div class="form-field-v2">
+                  <label>Code Postal</label>
+                  <div class="input-wrapper-v2">
+                    <input type="text" [(ngModel)]="user.zipCode" placeholder="1000">
+                  </div>
+                </div>
+                <div class="form-field-v2 full-width">
+                  <label>Pays</label>
+                  <div class="input-wrapper-v2">
+                    <i class="ion-ios-globe input-icon-v2"></i>
+                    <select [(ngModel)]="user.country">
+                      <option value="Tunisie">Tunisie</option>
+                      <option value="France">France</option>
+                      <option value="Maroc">Maroc</option>
+                      <option value="Algérie">Algérie</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Identity Card Card -->
+            <section class="section-box-v2 mt-4">
+              <div class="section-header-v2">
+                <h3>Pièce d'identité</h3>
+                <span class="status-pill-v2 green">Validée</span>
+              </div>
+              <div class="premium-form-grid">
+                <div class="form-field-v2">
+                  <label>Numéro CIN / Passeport</label>
+                  <div class="input-wrapper-v2">
+                    <i class="ion-ios-card input-icon-v2"></i>
+                    <input type="text" [(ngModel)]="user.idNumber" placeholder="Ex: 01234567">
+                  </div>
+                </div>
+                <div class="form-field-v2">
+                  <label>Date d'expiration</label>
+                  <div class="input-wrapper-v2">
+                    <i class="ion-ios-calendar input-icon-v2"></i>
+                    <input type="date" [(ngModel)]="user.idExpiry">
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </div>
+
+        <!-- Action Footer -->
+        <div class="form-actions-v2 mt-5">
+          <button class="btn-cancel-v2" (click)="setTab('account')">Annuler</button>
+          <button class="btn-save-v2" (click)="saveProfile()" [disabled]="loading">
+            <i class="ion-ios-save" *ngIf="!loading"></i>
+            <span *ngIf="!loading">Enregistrer les modifications</span>
+            <span *ngIf="loading">Enregistrement en cours...</span>
+          </button>
         </div>
       </div>
 
-      <!-- FOOTER ADVANTAGES -->
-      <section class="advantages-footer-v2">
-        <div class="adv-grid-v2">
-          <div class="adv-item-v2">
-            <div class="adv-icon-v2 blue"><i class="ion-ios-headset"></i></div>
-            <div class="adv-text-v2">
-              <strong>Support 24/7</strong>
-              <span>Une équipe à votre écoute à tout moment</span>
-            </div>
+      <!-- SECURITY TAB -->
+      <div *ngIf="activeTab === 'security'" class="tab-content-animate">
+        <div class="security-layout-grid">
+          
+          <!-- LEFT: Password & 2FA -->
+          <div class="sec-col-left">
+            
+            <!-- Change Password Card -->
+            <section class="section-box-v2">
+              <div class="section-header-v2">
+                <div class="title-with-icon-v2">
+                  <i class="ion-ios-key text-blue"></i>
+                  <h3>Changer le mot de passe</h3>
+                </div>
+              </div>
+              <div class="premium-form-grid single-col">
+                <div class="form-field-v2">
+                  <label>Mot de passe actuel</label>
+                  <div class="input-wrapper-v2">
+                    <input type="password" placeholder="••••••••">
+                  </div>
+                </div>
+                <div class="form-field-v2">
+                  <label>Nouveau mot de passe</label>
+                  <div class="input-wrapper-v2">
+                    <input type="password" placeholder="••••••••">
+                  </div>
+                </div>
+                <div class="form-field-v2">
+                  <label>Confirmer le mot de passe</label>
+                  <div class="input-wrapper-v2">
+                    <input type="password" placeholder="••••••••">
+                  </div>
+                </div>
+                <button class="btn-save-v2 mt-2">Mettre à jour le mot de passe</button>
+              </div>
+            </section>
+
+            <!-- 2FA Card -->
+            <section class="section-box-v2 mt-4">
+              <div class="section-header-v2">
+                <div class="title-with-icon-v2">
+                  <i class="ion-ios-phone-portrait text-purple"></i>
+                  <h3>Authentification à deux facteurs (2FA)</h3>
+                </div>
+                <span class="badge-tag-v2 green">ACTIVÉ</span>
+              </div>
+              <div class="sec-info-box-v2">
+                <p>Ajoutez une couche de sécurité supplémentaire à votre compte en exigeant un code de vérification à chaque connexion.</p>
+                <div class="toggle-list-v2">
+                  <div class="toggle-item-v2">
+                    <div class="toggle-text-v2">
+                      <strong>SMS de vérification</strong>
+                      <span>Envoyer un code au +216 50 *** 456</span>
+                    </div>
+                    <label class="switch-v2">
+                      <input type="checkbox" checked>
+                      <span class="slider-v2"></span>
+                    </label>
+                  </div>
+                  <div class="toggle-item-v2">
+                    <div class="toggle-text-v2">
+                      <strong>Application d'authentification</strong>
+                      <span>Utiliser Google Authenticator ou Authy</span>
+                    </div>
+                    <label class="switch-v2">
+                      <input type="checkbox">
+                      <span class="slider-v2"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </section>
+
           </div>
-          <div class="adv-item-v2">
-            <div class="adv-icon-v2 green"><i class="ion-ios-lock"></i></div>
-            <div class="adv-text-v2">
-              <strong>Paiements sécurisés</strong>
-              <span>Transactions cryptées et 100% sécurisées</span>
-            </div>
-          </div>
-          <div class="adv-item-v2">
-            <div class="adv-icon-v2 purple"><i class="ion-ios-star"></i></div>
-            <div class="adv-text-v2">
-              <strong>Programme Fidélité</strong>
-              <span>Cumulez des points et profitez d'avantages</span>
-            </div>
+
+          <!-- RIGHT: Sessions & Devices -->
+          <div class="sec-col-right">
+            
+            <!-- Active Sessions Card -->
+            <section class="section-box-v2">
+              <div class="section-header-v2">
+                <h3>Sessions actives</h3>
+                <button class="btn-link-v2">Tout déconnecter</button>
+              </div>
+              <div class="session-list-v2">
+                <div class="session-item-v2" *ngFor="let session of activeSessions" [class.current]="session.isCurrent">
+                  <div class="session-icon-v2">
+                    <i [class]="session.icon"></i>
+                  </div>
+                  <div class="session-details-v2">
+                    <div class="session-device-v2">
+                      <strong>{{ session.device }}</strong>
+                      <span class="status-dot" *ngIf="session.isCurrent"></span>
+                    </div>
+                    <p>{{ session.browser }} • {{ session.location }}</p>
+                    <span class="session-time-v2">{{ session.status }}</span>
+                  </div>
+                  <button class="btn-icon-v2" *ngIf="!session.isCurrent"><i class="ion-ios-close-circle-outline"></i></button>
+                </div>
+              </div>
+            </section>
+
+            <!-- Login History Card -->
+            <section class="section-box-v2 mt-4">
+              <div class="section-header-v2">
+                <h3>Historique de connexion</h3>
+              </div>
+              <div class="login-history-table-v2">
+                <div class="history-row-v2" *ngFor="let login of loginHistory">
+                  <div class="history-status-v2" [style.color]="login.color">
+                    <i [class]="login.icon"></i>
+                  </div>
+                  <div class="history-info-v2">
+                    <strong>{{ login.status }}</strong>
+                    <span>{{ login.date }}</span>
+                  </div>
+                  <div class="history-meta-v2">
+                    <span>{{ login.ip }}</span>
+                    <small>{{ login.location }}</small>
+                  </div>
+                </div>
+              </div>
+            </section>
+
           </div>
         </div>
-      </section>
 
-    </div>
+        <!-- DANGER ZONE -->
+        <section class="section-box-v2 danger-zone-v2 mt-4">
+          <div class="danger-header-v2">
+            <div class="danger-title-v2">
+              <i class="ion-ios-trash text-red"></i>
+              <div>
+                <h3>Zone de danger</h3>
+                <p>Actions irréversibles concernant votre compte.</p>
+              </div>
+            </div>
+          </div>
+          <div class="danger-content-v2">
+            <div class="danger-item-v2">
+              <div class="danger-text-v2">
+                <strong>Supprimer mon compte</strong>
+                <p>Une fois supprimé, toutes vos données (trajets, paiements, documents) seront définitivement effacées.</p>
+              </div>
+              <button class="btn-danger-v2">Supprimer le compte</button>
+            </div>
+          </div>
+        </section>
+      </div>
 
+      <!-- ACTIVITIES TAB -->
+      <div *ngIf="activeTab === 'activities'" class="tab-content-animate">
+        
+        <!-- Filter Header -->
+        <div class="activity-filter-header-v2">
+          <div class="filter-group-v2">
+            <button class="filter-pill-v2" [class.active]="activityFilter === 'all'" (click)="activityFilter = 'all'">Tous</button>
+            <button class="filter-pill-v2" [class.active]="activityFilter === 'booking'" (click)="activityFilter = 'booking'">Réservations</button>
+            <button class="filter-pill-v2" [class.active]="activityFilter === 'login'" (click)="activityFilter = 'login'">Connexions</button>
+            <button class="filter-pill-v2" [class.active]="activityFilter === 'edit'" (click)="activityFilter = 'edit'">Profil</button>
+            <button class="filter-pill-v2" [class.active]="activityFilter === 'payment'" (click)="activityFilter = 'payment'">Paiements</button>
+          </div>
+          <div class="activity-search-v2">
+            <i class="ion-ios-search"></i>
+            <input type="text" placeholder="Rechercher une activité...">
+          </div>
+        </div>
+
+        <!-- Elegant Timeline -->
+        <div class="timeline-container-v2">
+          <div class="timeline-track-v2"></div>
+          
+          <div class="timeline-day-group-v2">
+            <div class="timeline-item-v2 animate__animated animate__fadeInUp" *ngFor="let act of getFilteredActivities(); let i = index" [style.animationDelay]="(i * 0.1) + 's'">
+              
+              <!-- Timeline Marker -->
+              <div class="timeline-marker-v2" [style.backgroundColor]="act.bg" [style.color]="act.color">
+                <i [class]="act.icon"></i>
+              </div>
+
+              <!-- Activity Card -->
+              <div class="activity-card-v2">
+                <div class="activity-card-header-v2">
+                  <div class="act-main-info-v2">
+                    <span class="act-date-v2">{{ act.date }}</span>
+                    <h4 class="act-title-v2">{{ act.text }}</h4>
+                    <p class="act-desc-v2">{{ act.details }}</p>
+                  </div>
+                  <div class="act-meta-badge-v2" [style.borderColor]="act.bg" [style.color]="act.color">
+                    {{ act.meta }}
+                  </div>
+                </div>
+                <div class="activity-card-footer-v2">
+                  <button class="btn-text-v2">Voir les détails</button>
+                  <button class="btn-icon-sm-v2"><i class="ion-ios-more"></i></button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-activities-v2" *ngIf="getFilteredActivities().length === 0">
+            <div class="empty-icon-v2"><i class="ion-ios-paper-plane"></i></div>
+            <h3>Aucune activité trouvée</h3>
+            <p>Essayez de modifier vos filtres pour voir plus de résultats.</p>
+            <button class="btn-primary-v2" (click)="activityFilter = 'all'">Voir tout</button>
+          </div>
+
+        </div>
+
+        <!-- Load More -->
+        <div class="load-more-container-v2" *ngIf="getFilteredActivities().length > 0">
+          <button class="btn-outline-v2">Charger plus d'activités</button>
+        </div>
+
+      </div>
+
+      <!-- PAYMENTS TAB -->
+      <div *ngIf="activeTab === 'payments'" class="tab-content-animate">
+        
+        <div class="payments-layout-grid">
+          
+          <!-- LEFT: Wallet & Cards -->
+          <div class="pay-col-left">
+            
+            <!-- Wallet Card -->
+            <section class="section-box-v2 wallet-card-premium">
+              <div class="wallet-content-v2">
+                <div class="wallet-info-v2">
+                  <span class="wallet-label-v2">Solde GoRide</span>
+                  <h2 class="wallet-balance-v2">{{ walletBalance | number:'1.3-3' }} <span>DT</span></h2>
+                  <p class="wallet-sub-v2">Disponible pour vos prochains trajets</p>
+                </div>
+                <div class="wallet-actions-v2">
+                  <button class="btn-wallet-add-v2"><i class="ion-ios-add-circle"></i> Recharger</button>
+                </div>
+              </div>
+              <div class="wallet-footer-v2">
+                <span>Dernière recharge : 01 Mai 2026</span>
+                <a href="#" class="text-link-white">Gérer le portefeuille</a>
+              </div>
+            </section>
+
+            <!-- Saved Cards -->
+            <section class="section-box-v2 mt-4">
+              <div class="section-header-v2">
+                <h3>Modes de paiement</h3>
+                <button class="btn-link-v2"><i class="ion-ios-add"></i> Ajouter</button>
+              </div>
+              <div class="cards-grid-v2">
+                <div class="payment-card-item-v2" *ngFor="let card of savedCards">
+                  <div class="card-brand-v2" [style.color]="card.color">
+                    <i [class]="card.icon"></i>
+                    <span class="default-badge-v2" *ngIf="card.isDefault">Défaut</span>
+                  </div>
+                  <div class="card-number-v2">•••• •••• •••• {{ card.last4 }}</div>
+                  <div class="card-meta-v2">
+                    <div class="card-holder-v2">
+                      <label>TITULAIRE</label>
+                      <span>{{ card.holder }}</span>
+                    </div>
+                    <div class="card-expiry-v2">
+                      <label>EXP</label>
+                      <span>{{ card.expiry }}</span>
+                    </div>
+                  </div>
+                  <div class="card-actions-v2">
+                    <button class="btn-icon-v2"><i class="ion-ios-more"></i></button>
+                  </div>
+                </div>
+                
+                <!-- Add New Card Placeholder -->
+                <div class="add-card-placeholder-v2">
+                  <div class="add-icon-v2"><i class="ion-ios-add-circle-outline"></i></div>
+                  <span>Ajouter une carte</span>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
+          <!-- RIGHT: Payment History -->
+          <div class="pay-col-right">
+            
+            <section class="section-box-v2">
+              <div class="section-header-v2">
+                <h3>Historique des transactions</h3>
+                <button class="btn-icon-v2"><i class="ion-ios-download-outline"></i></button>
+              </div>
+              <div class="payment-history-list-v2">
+                <div class="pay-history-item-v2" *ngFor="let pay of paymentHistory">
+                  <div class="pay-icon-v2">
+                    <i [class]="pay.icon"></i>
+                  </div>
+                  <div class="pay-details-v2">
+                    <div class="pay-main-v2">
+                      <strong>{{ pay.type }}</strong>
+                      <span class="pay-id-v2">{{ pay.id }}</span>
+                    </div>
+                    <p>{{ pay.method }} • {{ pay.date }}</p>
+                  </div>
+                  <div class="pay-amount-v2">
+                    <span class="amount-val-v2">{{ pay.amount }} DT</span>
+                    <span class="status-pill-v2" [class.green]="pay.status === 'Payé'" [class.orange]="pay.status === 'Remboursé'">
+                      {{ pay.status }}
+                    </span>
+                  </div>
+                  <button class="btn-invoice-v2" title="Télécharger la facture">
+                    <i class="ion-ios-paper"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="history-footer-v2 mt-4">
+                <button class="btn-outline-v2 full-width">Voir tout l'historique</button>
+              </div>
+            </section>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DOCUMENTS TAB -->
+      <div *ngIf="activeTab === 'documents'" class="tab-content-animate">
+        
+        <!-- Verification Summary -->
+        <div class="verification-summary-v2">
+          <div class="summary-info-v2">
+            <h3>Statut de vérification</h3>
+            <p>Complétez votre profil en soumettant les documents requis pour accéder à toutes les fonctionnalités.</p>
+          </div>
+          <div class="summary-stats-v2">
+            <div class="summary-progress-v2">
+              <div class="progress-bar-v2">
+                <div class="progress-fill-v2" style="width: 60%"></div>
+              </div>
+              <span>3 sur 5 documents vérifiés</span>
+            </div>
+            <span class="status-badge-v2 pending">VÉRIFICATION EN COURS</span>
+          </div>
+        </div>
+
+        <!-- Documents Grid -->
+        <div class="docs-grid-v2">
+          <div class="doc-card-v2" *ngFor="let doc of userDocuments" [class.rejected]="doc.status === 'rejected'">
+            
+            <div class="doc-card-header-v2">
+              <div class="doc-icon-v2" [style.color]="doc.color" [style.backgroundColor]="doc.color + '15'">
+                <i [class]="doc.icon"></i>
+              </div>
+              <div class="doc-status-v2">
+                <span class="status-dot-v2" [class]="doc.status"></span>
+                <span class="status-label-v2">
+                  <ng-container [ngSwitch]="doc.status">
+                    <span *ngSwitchCase="'verified'">Vérifié</span>
+                    <span *ngSwitchCase="'pending'">En attente</span>
+                    <span *ngSwitchCase="'rejected'">Rejeté</span>
+                    <span *ngSwitchCase="'missing'">Manquant</span>
+                  </ng-container>
+                </span>
+              </div>
+            </div>
+
+            <div class="doc-card-body-v2">
+              <h4 class="doc-name-v2">{{ doc.name }}</h4>
+              <p class="doc-date-v2">{{ doc.date }}</p>
+              
+              <!-- Rejected Alert -->
+              <div class="rejected-reason-v2" *ngIf="doc.status === 'rejected'">
+                <i class="ion-ios-alert"></i>
+                <span>{{ doc.reason }}</span>
+              </div>
+            </div>
+
+            <div class="doc-card-footer-v2">
+              <button class="btn-doc-v2" *ngIf="doc.status === 'missing' || doc.status === 'rejected'">
+                <i class="ion-ios-cloud-upload"></i> Télécharger
+              </button>
+              <button class="btn-doc-outline-v2" *ngIf="doc.status === 'verified' || doc.status === 'pending'">
+                <i class="ion-ios-eye"></i> Voir le document
+              </button>
+              <button class="btn-doc-text-v2" *ngIf="doc.status === 'verified' || doc.status === 'pending'">
+                Remplacer
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="docs-help-v2 mt-5">
+          <div class="help-content-v2">
+            <i class="ion-ios-information-circle-outline"></i>
+            <div>
+              <strong>Besoin d'aide pour vos documents ?</strong>
+              <p>Consultez notre guide de soumission pour vous assurer que vos documents sont acceptés du premier coup.</p>
+            </div>
+          </div>
+          <button class="btn-outline-v2">Consulter le guide</button>
+        </div>
+
+      </div>
+
+      <!-- PREFERENCES TAB -->
+      <div *ngIf="activeTab === 'preferences'" class="tab-content-animate">
+        
+        <div class="preferences-layout-grid">
+          
+          <!-- Visual & Regional -->
+          <div class="pref-col-left">
+            
+            <section class="section-box-v2">
+              <div class="section-header-v2">
+                <h3>Apparence</h3>
+                <p>Personnalisez l'aspect visuel de votre interface.</p>
+              </div>
+              
+              <div class="theme-selector-v2">
+                <div class="theme-option-v2" [class.active]="userPreferences.theme === 'light'" (click)="userPreferences.theme = 'light'">
+                  <div class="theme-preview-v2 light">
+                    <div class="preview-header"></div>
+                    <div class="preview-content"></div>
+                  </div>
+                  <div class="theme-label-v2">
+                    <i class="ion-ios-sunny"></i> Clair
+                  </div>
+                </div>
+                <div class="theme-option-v2" [class.active]="userPreferences.theme === 'dark'" (click)="userPreferences.theme = 'dark'">
+                  <div class="theme-preview-v2 dark">
+                    <div class="preview-header"></div>
+                    <div class="preview-content"></div>
+                  </div>
+                  <div class="theme-label-v2">
+                    <i class="ion-ios-moon"></i> Sombre
+                  </div>
+                </div>
+                <div class="theme-option-v2" [class.active]="userPreferences.theme === 'system'" (click)="userPreferences.theme = 'system'">
+                  <div class="theme-preview-v2 system">
+                    <div class="preview-half light"></div>
+                    <div class="preview-half dark"></div>
+                  </div>
+                  <div class="theme-label-v2">
+                    <i class="ion-ios-settings"></i> Système
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group-v2 mt-4">
+                <label class="form-label-v2">Langue de l'interface</label>
+                <div class="segmented-control-v2">
+                  <button class="seg-btn-v2" [class.active]="userPreferences.language === 'fr'" (click)="userPreferences.language = 'fr'">Français</button>
+                  <button class="seg-btn-v2" [class.active]="userPreferences.language === 'en'" (click)="userPreferences.language = 'en'">English</button>
+                  <button class="seg-btn-v2" [class.active]="userPreferences.language === 'ar'" (click)="userPreferences.language = 'ar'">العربية</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="section-box-v2 mt-4">
+              <div class="section-header-v2">
+                <h3>Accessibilité</h3>
+                <p>Améliorez votre confort d'utilisation.</p>
+              </div>
+              <div class="toggle-list-v2">
+                <div class="toggle-item-v2">
+                  <div class="toggle-text-v2">
+                    <strong>Contraste élevé</strong>
+                    <span>Augmente la visibilité des textes et icônes.</span>
+                  </div>
+                  <label class="switch-v2">
+                    <input type="checkbox" [(ngModel)]="userPreferences.accessibility.highContrast">
+                    <span class="slider-v2"></span>
+                  </label>
+                </div>
+                <div class="toggle-item-v2">
+                  <div class="toggle-text-v2">
+                    <strong>Texte agrandi</strong>
+                    <span>Utilise des polices plus grandes partout.</span>
+                  </div>
+                  <label class="switch-v2">
+                    <input type="checkbox" [(ngModel)]="userPreferences.accessibility.largeText">
+                    <span class="slider-v2"></span>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
+          <!-- Notifications & Privacy -->
+          <div class="pref-col-right">
+            
+            <section class="section-box-v2">
+              <div class="section-header-v2">
+                <h3>Notifications</h3>
+                <p>Choisissez comment vous souhaitez être contacté.</p>
+              </div>
+              <div class="toggle-list-v2">
+                <div class="toggle-item-v2">
+                  <div class="toggle-text-v2">
+                    <strong>Notifications Email</strong>
+                    <span>Récapitulatifs de trajets et factures.</span>
+                  </div>
+                  <label class="switch-v2">
+                    <input type="checkbox" [(ngModel)]="userPreferences.notifications.email">
+                    <span class="slider-v2"></span>
+                  </label>
+                </div>
+                <div class="toggle-item-v2">
+                  <div class="toggle-text-v2">
+                    <strong>Alertes SMS</strong>
+                    <span>Arrivée du chauffeur et urgences.</span>
+                  </div>
+                  <label class="switch-v2">
+                    <input type="checkbox" [(ngModel)]="userPreferences.notifications.sms">
+                    <span class="slider-v2"></span>
+                  </label>
+                </div>
+                <div class="toggle-item-v2">
+                  <div class="toggle-text-v2">
+                    <strong>Notifications Push</strong>
+                    <span>Mises à jour en temps réel sur l'application.</span>
+                  </div>
+                  <label class="switch-v2">
+                    <input type="checkbox" [(ngModel)]="userPreferences.notifications.push">
+                    <span class="slider-v2"></span>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <section class="section-box-v2 mt-4">
+              <div class="section-header-v2">
+                <h3>Confidentialité</h3>
+                <p>Gérez la visibilité de vos données.</p>
+              </div>
+              <div class="toggle-list-v2">
+                <div class="toggle-item-v2">
+                  <div class="toggle-text-v2">
+                    <strong>Profil public</strong>
+                    <span>Permet aux chauffeurs de voir vos stats.</span>
+                  </div>
+                  <label class="switch-v2">
+                    <input type="checkbox" [(ngModel)]="userPreferences.privacy.profilePublic">
+                    <span class="slider-v2"></span>
+                  </label>
+                </div>
+                <div class="toggle-item-v2">
+                  <div class="toggle-text-v2">
+                    <strong>Historique d'activité</strong>
+                    <span>Afficher vos trajets récents sur le profil.</span>
+                  </div>
+                  <label class="switch-v2">
+                    <input type="checkbox" [(ngModel)]="userPreferences.privacy.showActivity">
+                    <span class="slider-v2"></span>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </div>
+
+        <div class="form-actions-v2 mt-4">
+          <button class="btn-cancel-v2">Réinitialiser</button>
+          <button class="btn-save-v2" (click)="saveProfile()">
+            <i class="ion-ios-checkmark-circle-outline"></i> Enregistrer les préférences
+          </button>
+        </div>
+
+      </div>
     <!-- FINAL FOOTER -->
     <footer class="final-footer-v2">
       <div class="footer-links-v2">
-        <a href="#">Conditions d'utilisation</a>
-        <a href="#">Politique de confidentialité</a>
+        <a href="#">Conditions</a>
+        <a href="#">Confidentialité</a>
         <a href="#">Aide</a>
       </div>
       <button class="btn-logout-v2">
@@ -246,4 +1019,5 @@
     </footer>
 
   </div>
+</div>
 </div>
