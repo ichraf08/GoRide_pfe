@@ -47,7 +47,7 @@
 
 /* HEADER */
 .card-header-v2 {
-  padding: 32px 40px;
+  padding: 24px 40px 18px 40px; /* Réduction du haut et du bas */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,7 +57,7 @@
 
 .header-content-left {
   display: flex;
-  align-items: center;
+  align-items: center; /* Centrage vertical de l'avatar par rapport au bloc texte */
   gap: 24px;
 }
 
@@ -68,54 +68,50 @@
 .avatar-circle-v2 {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   border-radius: 50%;
-  padding: 3px; /* Épaisseur de la bordure dégradée */
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid #ffffff;
+  /* Gradient ring soft + ombre */
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06), 0 12px 24px rgba(0, 0, 0, 0.06);
   cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  overflow: hidden;
   position: relative;
+}
+
+.avatar-circle-v2:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.1), 0 15px 30px rgba(37, 99, 235, 0.15);
 }
 
 .avatar-inner-v2 {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  position: relative;
-  border: 2px solid white; /* Liseré blanc interne pour faire ressortir le cercle bleu */
 }
 
 .avatar-circle-v2:hover {
-  transform: scale(1.08);
-  box-shadow: 0 15px 35px rgba(37, 99, 235, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
 }
 
 .avatar-inner-v2 span {
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 26px;
+  font-weight: 700;
   color: #ffffff;
-  letter-spacing: -1px;
-  font-family: 'Outfit', sans-serif;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  letter-spacing: -0.5px;
+  font-family: 'Inter', sans-serif;
 }
 
 .avatar-inner-v2 img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
-}
-
-.avatar-circle-v2:hover img {
-  transform: scale(1.15);
 }
 
 .online-indicator {
@@ -148,8 +144,8 @@
 }
 
 .badge-verified-v2 {
-  background: var(--go-blue-soft);
-  color: var(--go-blue);
+  background: #ecfdf5;
+  color: #059669;
   font-size: 11px;
   font-weight: 700;
   padding: 4px 12px;
@@ -157,6 +153,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  border: 1px solid #d1fae5;
+  white-space: nowrap;
 }
 
 .welcome-msg-v2 {
@@ -207,16 +205,17 @@
   background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
   color: white;
   border: none;
-  padding: 12px 28px;
-  border-radius: 12px;
-  font-size: 14px;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 14px;
+  font-size: 15px;
   font-weight: 700;
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -228,6 +227,20 @@
 
 .btn-primary-v2:active {
   transform: translateY(0);
+}
+
+.header-content-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.member-since-v2 {
+  font-size: 12px;
+  color: var(--go-text-light);
+  font-weight: 500;
+  opacity: 0.8;
 }
 
 /* TABS */
