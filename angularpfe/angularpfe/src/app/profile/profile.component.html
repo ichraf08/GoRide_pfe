@@ -437,78 +437,85 @@
           <div class="info-col-left">
             
             <!-- Avatar Upload Card -->
-            <section class="section-box-v2 avatar-upload-section">
-              <div class="section-header-v2">
+            <section class="premium-avatar-card">
+              <div class="pac-header">
                 <h3>Photo de profil</h3>
               </div>
-              <div class="avatar-upload-container">
-                <div class="avatar-preview-wrapper">
-                  <div class="avatar-large-preview">
+              <div class="pac-body">
+                <div class="pac-avatar-wrapper">
+                  <div class="pac-avatar-circle">
                     <img *ngIf="photoPreview || user?.photoUrl" [src]="photoPreview || user.photoUrl" alt="Avatar">
-                    <div *ngIf="!photoPreview && !user?.photoUrl" class="avatar-initials-large">
-                      {{ user?.firstName?.charAt(0) }}{{ user?.lastName?.charAt(0) }}
+                    <div *ngIf="!photoPreview && !user?.photoUrl" class="pac-initials">
+                      {{ (user?.firstName?.charAt(0) || '') | uppercase }}{{ (user?.lastName?.charAt(0) || '') | uppercase }}
                     </div>
                   </div>
-                  <div class="upload-overlay">
-                    <label for="avatarInput" class="btn-upload-icon"><i class="ion-ios-camera"></i></label>
-                    <input type="file" id="avatarInput" hidden (change)="onFileSelected($event)" accept="image/*">
-                  </div>
+                  <label for="avatarInput" class="pac-camera-badge">
+                    <i class="ion-ios-camera"></i>
+                  </label>
+                  <input type="file" id="avatarInput" hidden (change)="onFileSelected($event)" accept="image/png, image/jpeg, image/jpg">
                 </div>
-                <div class="avatar-upload-actions">
-                  <h4>Télécharger une nouvelle photo</h4>
-                  <p>JPG, GIF ou PNG. Taille max de 5 Mo.</p>
-                  <div class="btn-group-v2">
-                    <button class="btn-upload-v2" (click)="savePhoto()" [disabled]="!photoPreview || photoUploading">
-                      <span *ngIf="!photoUploading">Enregistrer la photo</span>
-                      <span *ngIf="photoUploading">Chargement...</span>
-                    </button>
-                    <button class="btn-remove-v2" *ngIf="user?.photoUrl || photoPreview" (click)="removePhoto()">Supprimer</button>
-                  </div>
-                  <div class="alert-inline success" *ngIf="photoSuccess">
-                    <i class="ion-ios-checkmark-circle"></i> Photo mise à jour !
+
+                <div class="pac-actions">
+                  <label for="avatarInput" class="pac-btn-choose">Choisir une photo</label>
+                  <button class="pac-btn-save" (click)="savePhoto()" *ngIf="photoPreview" [disabled]="photoUploading">
+                    <span *ngIf="!photoUploading">Enregistrer</span>
+                    <span *ngIf="photoUploading">Chargement...</span>
+                  </button>
+                  <button class="pac-btn-remove" *ngIf="(user?.photoUrl || photoPreview) && !photoUploading" (click)="removePhoto()">Supprimer</button>
+                  <span class="pac-hint">JPG, PNG. Max 5MB.</span>
+                  
+                  <div class="pac-alert success" *ngIf="photoSuccess">
+                    <i class="ion-ios-checkmark-circle"></i> Enregistré
                   </div>
                 </div>
               </div>
             </section>
 
             <!-- Personal Details Card -->
-            <section class="section-box-v2 mt-4">
-              <div class="section-header-v2">
+            <section class="premium-form-card mt-4">
+              <div class="pfc-header">
                 <h3>Informations personnelles</h3>
               </div>
-              <div class="premium-form-grid">
-                <div class="form-field-v2">
+              <div class="pfc-grid">
+                
+                <div class="pfc-field">
                   <label>Prénom</label>
-                  <div class="input-wrapper-v2">
-                    <i class="ion-ios-contact input-icon-v2"></i>
-                    <input type="text" [(ngModel)]="user.firstName" placeholder="Ex: Ichraf">
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-person"></i>
+                    <input type="text" [(ngModel)]="user.firstName" placeholder="ichraf">
                   </div>
                 </div>
-                <div class="form-field-v2">
+                
+                <div class="pfc-field">
                   <label>Nom</label>
-                  <div class="input-wrapper-v2">
-                    <i class="ion-ios-contact input-icon-v2"></i>
-                    <input type="text" [(ngModel)]="user.lastName" placeholder="Ex: Ouhichi">
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-person"></i>
+                    <input type="text" [(ngModel)]="user.lastName" placeholder="ouhichi">
                   </div>
                 </div>
-                <div class="form-field-v2">
+                
+                <div class="pfc-field">
                   <label>Date de naissance</label>
-                  <div class="input-wrapper-v2">
-                    <i class="ion-ios-calendar input-icon-v2"></i>
-                    <input type="date" [(ngModel)]="user.birthDate">
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-calendar"></i>
+                    <input type="date" [(ngModel)]="user.birthDate" placeholder="mm/dd/yyyy">
                   </div>
                 </div>
-                <div class="form-field-v2">
+                
+                <div class="pfc-field">
                   <label>Genre</label>
-                  <div class="input-wrapper-v2">
-                    <i class="ion-ios-transgender input-icon-v2"></i>
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-transgender"></i>
                     <select [(ngModel)]="user.gender">
+                      <option value="" disabled selected>Sélectionner...</option>
                       <option value="male">Homme</option>
                       <option value="female">Femme</option>
                       <option value="other">Autre</option>
                     </select>
+                    <i class="ion-ios-arrow-down pfc-select-arrow"></i>
                   </div>
                 </div>
+
               </div>
             </section>
 
@@ -518,24 +525,24 @@
           <div class="info-col-right">
             
             <!-- Contact Card -->
-            <section class="section-box-v2">
-              <div class="section-header-v2">
+            <section class="premium-form-card">
+              <div class="pfc-header">
                 <h3>Coordonnées</h3>
               </div>
-              <div class="premium-form-grid single-col">
-                <div class="form-field-v2">
+              <div class="pfc-grid" style="grid-template-columns: 1fr;">
+                <div class="pfc-field">
                   <label>Adresse e-mail</label>
-                  <div class="input-wrapper-v2 verified">
-                    <i class="ion-ios-mail input-icon-v2"></i>
-                    <input type="email" [(ngModel)]="user.email" readonly>
-                    <span class="input-badge-v2"><i class="ion-ios-checkmark-circle"></i></span>
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-mail"></i>
+                    <input type="email" [(ngModel)]="user.email" readonly style="color: #64748b; background: #f1f5f9; cursor: not-allowed;">
+                    <i class="ion-ios-checkmark-circle pfc-select-arrow" style="color: #10b981;"></i>
                   </div>
-                  <small class="field-hint-v2">L'e-mail ne peut être modifié que par le support.</small>
+                  <span class="pfc-hint" style="font-size: 12px; color: #94a3b8; margin-top: 4px;">L'e-mail ne peut être modifié que par le support.</span>
                 </div>
-                <div class="form-field-v2">
+                <div class="pfc-field">
                   <label>Numéro de téléphone</label>
-                  <div class="input-wrapper-v2">
-                    <i class="ion-ios-call input-icon-v2"></i>
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-call"></i>
                     <input type="tel" [(ngModel)]="user.phone" placeholder="+216 -- --- ---">
                   </div>
                 </div>
@@ -543,63 +550,66 @@
             </section>
 
             <!-- Address Card -->
-            <section class="section-box-v2 mt-4">
-              <div class="section-header-v2">
+            <section class="premium-form-card mt-4">
+              <div class="pfc-header">
                 <h3>Adresse de résidence</h3>
               </div>
-              <div class="premium-form-grid">
-                <div class="form-field-v2 full-width">
+              <div class="pfc-grid">
+                <div class="pfc-field" style="grid-column: 1 / -1;">
                   <label>Rue / Appartement</label>
-                  <div class="input-wrapper-v2">
-                    <i class="ion-ios-pin input-icon-v2"></i>
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-pin"></i>
                     <input type="text" [(ngModel)]="user.street" placeholder="Ex: 42 Rue de la Liberté">
                   </div>
                 </div>
-                <div class="form-field-v2">
+                <div class="pfc-field">
                   <label>Ville</label>
-                  <div class="input-wrapper-v2">
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-business"></i>
                     <input type="text" [(ngModel)]="user.city" placeholder="Tunis">
                   </div>
                 </div>
-                <div class="form-field-v2">
+                <div class="pfc-field">
                   <label>Code Postal</label>
-                  <div class="input-wrapper-v2">
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-keypad"></i>
                     <input type="text" [(ngModel)]="user.zipCode" placeholder="1000">
                   </div>
                 </div>
-                <div class="form-field-v2 full-width">
+                <div class="pfc-field" style="grid-column: 1 / -1;">
                   <label>Pays</label>
-                  <div class="input-wrapper-v2">
-                    <i class="ion-ios-globe input-icon-v2"></i>
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-globe"></i>
                     <select [(ngModel)]="user.country">
                       <option value="Tunisie">Tunisie</option>
                       <option value="France">France</option>
                       <option value="Maroc">Maroc</option>
                       <option value="Algérie">Algérie</option>
                     </select>
+                    <i class="ion-ios-arrow-down pfc-select-arrow"></i>
                   </div>
                 </div>
               </div>
             </section>
 
             <!-- Identity Card Card -->
-            <section class="section-box-v2 mt-4">
-              <div class="section-header-v2">
-                <h3>Pièce d'identité</h3>
-                <span class="status-pill-v2 green">Validée</span>
+            <section class="premium-form-card mt-4">
+              <div class="pfc-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0;">Pièce d'identité</h3>
+                <span class="pac-alert success" style="margin: 0; font-size: 12px;"><i class="ion-ios-checkmark-circle"></i> Validée</span>
               </div>
-              <div class="premium-form-grid">
-                <div class="form-field-v2">
+              <div class="pfc-grid">
+                <div class="pfc-field">
                   <label>Numéro CIN / Passeport</label>
-                  <div class="input-wrapper-v2">
-                    <i class="ion-ios-card input-icon-v2"></i>
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-card"></i>
                     <input type="text" [(ngModel)]="user.idNumber" placeholder="Ex: 01234567">
                   </div>
                 </div>
-                <div class="form-field-v2">
+                <div class="pfc-field">
                   <label>Date d'expiration</label>
-                  <div class="input-wrapper-v2">
-                    <i class="ion-ios-calendar input-icon-v2"></i>
+                  <div class="pfc-input-group">
+                    <i class="ion-ios-calendar"></i>
                     <input type="date" [(ngModel)]="user.idExpiry">
                   </div>
                 </div>
@@ -610,12 +620,11 @@
         </div>
 
         <!-- Action Footer -->
-        <div class="form-actions-v2 mt-5">
-          <button class="btn-cancel-v2" (click)="setTab('account')">Annuler</button>
-          <button class="btn-save-v2" (click)="saveProfile()" [disabled]="loading">
-            <i class="ion-ios-save" *ngIf="!loading"></i>
+        <div class="pfc-footer-actions">
+          <button class="pfc-btn-cancel" (click)="setTab('account')">Annuler</button>
+          <button class="pfc-btn-submit" (click)="saveProfile()" [disabled]="loading">
             <span *ngIf="!loading">Enregistrer les modifications</span>
-            <span *ngIf="loading">Enregistrement en cours...</span>
+            <span *ngIf="loading"><i class="ion-load-c pfc-spin"></i> Enregistrement...</span>
           </button>
         </div>
       </div>
@@ -628,68 +637,99 @@
           <div class="sec-col-left">
             
             <!-- Change Password Card -->
-            <section class="section-box-v2">
-              <div class="section-header-v2">
-                <div class="title-with-icon-v2">
-                  <i class="ion-ios-key text-blue"></i>
-                  <h3>Changer le mot de passe</h3>
-                </div>
+            <!-- Change Password Card -->
+            <section class="premium-form-card">
+              <div class="pfc-header">
+                <h3 style="display: flex; align-items: center; gap: 8px;"><i class="ion-ios-key" style="color: #64748b; font-size: 20px;"></i> Changer le mot de passe</h3>
               </div>
-              <div class="premium-form-grid single-col">
-                <div class="form-field-v2">
+              <div class="pfc-grid" style="grid-template-columns: 1fr; gap: 20px;">
+                
+                <div class="pfc-field">
                   <label>Mot de passe actuel</label>
-                  <div class="input-wrapper-v2">
-                    <input type="password" placeholder="••••••••">
+                  <div class="pfc-input-group">
+                    <input class="pfc-pwd-input" [type]="hideCurrentPassword ? 'password' : 'text'" placeholder="••••••••">
+                    <i class="pfc-eye-icon" [ngClass]="hideCurrentPassword ? 'ion-ios-eye-off' : 'ion-ios-eye'" (click)="hideCurrentPassword = !hideCurrentPassword"></i>
                   </div>
                 </div>
-                <div class="form-field-v2">
+
+                <div class="pfc-field">
                   <label>Nouveau mot de passe</label>
-                  <div class="input-wrapper-v2">
-                    <input type="password" placeholder="••••••••">
+                  <div class="pfc-input-group">
+                    <input class="pfc-pwd-input" [type]="hideNewPassword ? 'password' : 'text'" placeholder="••••••••" (input)="checkPasswordStrength($event)">
+                    <i class="pfc-eye-icon" [ngClass]="hideNewPassword ? 'ion-ios-eye-off' : 'ion-ios-eye'" (click)="hideNewPassword = !hideNewPassword"></i>
+                  </div>
+                  <!-- Password Strength Bar -->
+                  <div class="pwd-strength-container" *ngIf="passwordStrength > 0">
+                    <div class="pwd-strength-bars">
+                      <div class="pwd-bar" [ngClass]="{'active': passwordStrength >= 1, 'weak': passwordStrength === 1}"></div>
+                      <div class="pwd-bar" [ngClass]="{'active': passwordStrength >= 2, 'medium': passwordStrength === 2}"></div>
+                      <div class="pwd-bar" [ngClass]="{'active': passwordStrength >= 3, 'strong': passwordStrength >= 3}"></div>
+                    </div>
+                    <span class="pwd-strength-text" [ngClass]="getStrengthClass()">{{ getStrengthText() }}</span>
                   </div>
                 </div>
-                <div class="form-field-v2">
+
+                <div class="pfc-field">
                   <label>Confirmer le mot de passe</label>
-                  <div class="input-wrapper-v2">
-                    <input type="password" placeholder="••••••••">
+                  <div class="pfc-input-group">
+                    <input class="pfc-pwd-input" [type]="hideConfirmPassword ? 'password' : 'text'" placeholder="••••••••">
+                    <i class="pfc-eye-icon" [ngClass]="hideConfirmPassword ? 'ion-ios-eye-off' : 'ion-ios-eye'" (click)="hideConfirmPassword = !hideConfirmPassword"></i>
                   </div>
                 </div>
-                <button class="btn-save-v2 mt-2">Mettre à jour le mot de passe</button>
+
+                <button class="pfc-btn-submit" style="width: 100%; max-width: none; justify-content: center; margin-top: 8px;">
+                  Mettre à jour le mot de passe
+                </button>
               </div>
             </section>
 
             <!-- 2FA Card -->
-            <section class="section-box-v2 mt-4">
-              <div class="section-header-v2">
-                <div class="title-with-icon-v2">
-                  <i class="ion-ios-phone-portrait text-purple"></i>
-                  <h3>Authentification à deux facteurs (2FA)</h3>
-                </div>
-                <span class="badge-tag-v2 green">ACTIVÉ</span>
+            <section class="premium-form-card mt-4">
+              <div class="pfc-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="display: flex; align-items: center; gap: 8px; margin: 0;">
+                  <i class="ion-ios-lock" style="color: #64748b; font-size: 20px;"></i> 
+                  Authentification à deux facteurs
+                </h3>
+                <span class="pac-alert success" style="margin: 0; font-size: 12px;"><i class="ion-ios-checkmark-circle"></i> Activé</span>
               </div>
-              <div class="sec-info-box-v2">
-                <p>Ajoutez une couche de sécurité supplémentaire à votre compte en exigeant un code de vérification à chaque connexion.</p>
-                <div class="toggle-list-v2">
-                  <div class="toggle-item-v2">
-                    <div class="toggle-text-v2">
-                      <strong>SMS de vérification</strong>
-                      <span>Envoyer un code au +216 50 *** 456</span>
+              
+              <div class="pfc-body">
+                <p style="font-size: 14px; color: #475569; line-height: 1.5; margin: 0 0 24px 0;">
+                  Protégez votre compte en ajoutant une couche de sécurité supplémentaire. Une fois activée, vous devrez saisir un code unique en plus de votre mot de passe lors de la connexion.
+                </p>
+
+                <div class="pfc-2fa-methods">
+                  
+                  <!-- SMS Method -->
+                  <div class="pfc-2fa-item">
+                    <div class="pfc-2fa-icon">
+                      <i class="ion-ios-chatbubbles"></i>
                     </div>
-                    <label class="switch-v2">
-                      <input type="checkbox" checked>
-                      <span class="slider-v2"></span>
+                    <div class="pfc-2fa-content">
+                      <h4>SMS de vérification</h4>
+                      <p>Recevez un code unique par SMS au +216 50 *** 456</p>
+                    </div>
+                    <label class="pfc-switch">
+                      <input type="checkbox" [(ngModel)]="userPreferences.notifications.sms">
+                      <span class="pfc-slider"></span>
                     </label>
                   </div>
-                  <div class="toggle-item-v2">
-                    <div class="toggle-text-v2">
-                      <strong>Application d'authentification</strong>
-                      <span>Utiliser Google Authenticator ou Authy</span>
+
+                  <!-- App Method -->
+                  <div class="pfc-2fa-item">
+                    <div class="pfc-2fa-icon">
+                      <i class="ion-ios-qr-scanner"></i>
                     </div>
-                    <label class="switch-v2">
-                      <input type="checkbox">
-                      <span class="slider-v2"></span>
+                    <div class="pfc-2fa-content">
+                      <h4>Application d'authentification</h4>
+                      <p>Utilisez Google Authenticator, Authy ou Microsoft Authenticator</p>
+                    </div>
+                    <label class="pfc-switch">
+                      <input type="checkbox" [(ngModel)]="userPreferences.notifications.push">
+                      <span class="pfc-slider"></span>
                     </label>
                   </div>
+
                 </div>
               </div>
             </section>
@@ -700,48 +740,70 @@
           <div class="sec-col-right">
             
             <!-- Active Sessions Card -->
-            <section class="section-box-v2">
-              <div class="section-header-v2">
-                <h3>Sessions actives</h3>
-                <button class="btn-link-v2">Tout déconnecter</button>
+            <section class="premium-form-card">
+              <div class="pfc-sessions-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #0f172a; line-height: 1;">
+                  Sessions actives
+                </h3>
+                <button class="pfc-btn-outline-danger">Tout déconnecter</button>
               </div>
-              <div class="session-list-v2">
-                <div class="session-item-v2" *ngFor="let session of activeSessions" [class.current]="session.isCurrent">
-                  <div class="session-icon-v2">
-                    <i [class]="session.icon"></i>
-                  </div>
-                  <div class="session-details-v2">
-                    <div class="session-device-v2">
-                      <strong>{{ session.device }}</strong>
-                      <span class="status-dot" *ngIf="session.isCurrent"></span>
+              
+              <div class="pfc-sessions-list">
+                <div class="pfc-session-card" *ngFor="let session of activeSessions" [ngClass]="{'current-session': session.isCurrent}">
+                  <div class="pfc-session-info">
+                    <div class="pfc-session-device">
+                      <h4>{{ session.device }}</h4>
+                      <span class="pac-alert success" *ngIf="session.isCurrent" style="padding: 2px 6px; font-size: 10px; margin-left: 8px;">
+                        <i class="ion-ios-checkmark-circle" style="margin-right:2px;"></i> Actuelle
+                      </span>
                     </div>
-                    <p>{{ session.browser }} • {{ session.location }}</p>
-                    <span class="session-time-v2">{{ session.status }}</span>
+                    <div class="pfc-session-details">
+                      <span>{{ session.browser }}</span>
+                      <span class="pfc-dot-separator"></span>
+                      <span><i class="ion-ios-pin"></i> {{ session.location }}</span>
+                      <span class="pfc-dot-separator"></span>
+                      <span>{{ session.status }}</span>
+                    </div>
                   </div>
-                  <button class="btn-icon-v2" *ngIf="!session.isCurrent"><i class="ion-ios-close-circle-outline"></i></button>
+                  <div class="pfc-session-action" *ngIf="!session.isCurrent">
+                    <button class="pfc-btn-ghost-logout">Déconnecter</button>
+                  </div>
                 </div>
               </div>
             </section>
 
             <!-- Login History Card -->
-            <section class="section-box-v2 mt-4">
-              <div class="section-header-v2">
-                <h3>Historique de connexion</h3>
+            <section class="premium-form-card mt-4">
+              <div class="pfc-sessions-header" style="margin-bottom: 24px; padding: 0 8px;">
+                <h3 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px;">
+                  <i class="ion-ios-time" style="color: #64748b; font-size: 22px;"></i> Historique de connexion
+                </h3>
               </div>
-              <div class="login-history-table-v2">
-                <div class="history-row-v2" *ngFor="let login of loginHistory">
-                  <div class="history-status-v2" [style.color]="login.color">
+              
+              <div class="pfc-history-list">
+                <div class="pfc-history-item" *ngFor="let login of loginHistory">
+                  
+                  <div class="pfc-history-icon" [ngClass]="login.status === 'Succès' ? 'success' : 'error'">
                     <i [class]="login.icon"></i>
                   </div>
-                  <div class="history-info-v2">
-                    <strong>{{ login.status }}</strong>
-                    <span>{{ login.date }}</span>
+                  
+                  <div class="pfc-history-content">
+                    <div class="pfc-history-main">
+                      <h4>{{ login.status }}</h4>
+                      <p>{{ login.date }}</p>
+                    </div>
+                    
+                    <div class="pfc-history-details">
+                      <span class="pfc-history-ip">{{ login.ip }}</span>
+                      <span class="pfc-history-location">{{ login.location }}</span>
+                    </div>
                   </div>
-                  <div class="history-meta-v2">
-                    <span>{{ login.ip }}</span>
-                    <small>{{ login.location }}</small>
-                  </div>
+                  
                 </div>
+              </div>
+
+              <div class="pfc-history-footer">
+                <button class="pfc-btn-link-viewall">Voir tout l'historique</button>
               </div>
             </section>
 
@@ -749,73 +811,98 @@
         </div>
 
         <!-- DANGER ZONE -->
-        <section class="section-box-v2 danger-zone-v2 mt-4">
-          <div class="danger-header-v2">
-            <div class="danger-title-v2">
-              <i class="ion-ios-trash text-red"></i>
-              <div>
-                <h3>Zone de danger</h3>
-                <p>Actions irréversibles concernant votre compte.</p>
-              </div>
-            </div>
+        <section class="pfc-danger-card mt-5">
+          <div class="pfc-danger-header">
+            <h3 style="display: flex; align-items: center; gap: 10px;">
+              <i class="ion-ios-warning"></i> Zone de danger
+            </h3>
+            <p>Ces actions sont irréversibles et entraîneront la perte définitive de vos données.</p>
           </div>
-          <div class="danger-content-v2">
-            <div class="danger-item-v2">
-              <div class="danger-text-v2">
-                <strong>Supprimer mon compte</strong>
-                <p>Une fois supprimé, toutes vos données (trajets, paiements, documents) seront définitivement effacées.</p>
+
+          <div class="pfc-danger-body">
+            <div class="pfc-danger-item">
+              <div class="pfc-danger-text">
+                <h4>Supprimer mon compte</h4>
+                <p>La suppression de votre compte entraînera l'effacement définitif de :</p>
+                <ul>
+                  <li>Votre historique de trajets et réservations</li>
+                  <li>Vos méthodes de paiement et solde (non remboursable)</li>
+                  <li>Vos documents d'identité et évaluations</li>
+                </ul>
               </div>
-              <button class="btn-danger-v2">Supprimer le compte</button>
+              <button class="pfc-btn-danger" (click)="openDeleteModal()">Supprimer le compte</button>
             </div>
           </div>
         </section>
+
+        <!-- DELETE ACCOUNT MODAL -->
+        <div class="pfc-modal-overlay" *ngIf="showDeleteModal">
+          <div class="pfc-modal">
+            <div class="pfc-modal-icon">
+              <i class="ion-ios-alert"></i>
+            </div>
+            <h3>Êtes-vous absolument sûr ?</h3>
+            <p>Cette action est <strong>définitive</strong>. Toutes vos données seront effacées immédiatement et ne pourront pas être récupérées.</p>
+            
+            <div class="pfc-modal-input-group">
+              <label>Veuillez taper <strong>SUPPRIMER</strong> pour confirmer :</label>
+              <input type="text" [(ngModel)]="deleteConfirmText" placeholder="SUPPRIMER">
+            </div>
+
+            <div class="pfc-modal-actions">
+              <button class="pfc-btn-cancel-modal" (click)="closeDeleteModal()">Annuler</button>
+              <button class="pfc-btn-danger-modal" [disabled]="deleteConfirmText !== 'SUPPRIMER'" (click)="confirmDeleteAccount()">
+                <i class="ion-ios-trash"></i> Confirmer la suppression
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- ACTIVITIES TAB -->
       <div *ngIf="activeTab === 'activities'" class="tab-content-animate">
         
         <!-- Filter Header -->
-        <div class="activity-filter-header-v2">
-          <div class="filter-group-v2">
-            <button class="filter-pill-v2" [class.active]="activityFilter === 'all'" (click)="activityFilter = 'all'">Tous</button>
-            <button class="filter-pill-v2" [class.active]="activityFilter === 'booking'" (click)="activityFilter = 'booking'">Réservations</button>
-            <button class="filter-pill-v2" [class.active]="activityFilter === 'login'" (click)="activityFilter = 'login'">Connexions</button>
-            <button class="filter-pill-v2" [class.active]="activityFilter === 'edit'" (click)="activityFilter = 'edit'">Profil</button>
-            <button class="filter-pill-v2" [class.active]="activityFilter === 'payment'" (click)="activityFilter = 'payment'">Paiements</button>
+        <div class="pfc-activity-header">
+          <div class="pfc-filter-chips">
+            <button class="pfc-chip" [class.active]="activityFilter === 'all'" (click)="activityFilter = 'all'">Tous</button>
+            <button class="pfc-chip" [class.active]="activityFilter === 'booking'" (click)="activityFilter = 'booking'">Réservations</button>
+            <button class="pfc-chip" [class.active]="activityFilter === 'login'" (click)="activityFilter = 'login'">Connexions</button>
+            <button class="pfc-chip" [class.active]="activityFilter === 'edit'" (click)="activityFilter = 'edit'">Profil</button>
+            <button class="pfc-chip" [class.active]="activityFilter === 'payment'" (click)="activityFilter = 'payment'">Paiements</button>
           </div>
-          <div class="activity-search-v2">
+          <div class="pfc-activity-search">
             <i class="ion-ios-search"></i>
             <input type="text" placeholder="Rechercher une activité...">
           </div>
         </div>
 
         <!-- Elegant Timeline -->
-        <div class="timeline-container-v2">
-          <div class="timeline-track-v2"></div>
+        <div class="pfc-timeline-container">
           
-          <div class="timeline-day-group-v2">
-            <div class="timeline-item-v2 animate__animated animate__fadeInUp" *ngFor="let act of getFilteredActivities(); let i = index" [style.animationDelay]="(i * 0.1) + 's'">
+          <div class="pfc-timeline-list">
+            <div class="pfc-timeline-item" *ngFor="let act of getFilteredActivities(); let i = index" [style.animationDelay]="(i * 0.1) + 's'">
               
               <!-- Timeline Marker -->
-              <div class="timeline-marker-v2" [style.backgroundColor]="act.bg" [style.color]="act.color">
+              <div class="pfc-timeline-marker" [style.color]="act.color" [style.backgroundColor]="act.bg">
                 <i [class]="act.icon"></i>
               </div>
 
               <!-- Activity Card -->
-              <div class="activity-card-v2">
-                <div class="activity-card-header-v2">
-                  <div class="act-main-info-v2">
-                    <span class="act-date-v2">{{ act.date }}</span>
-                    <h4 class="act-title-v2">{{ act.text }}</h4>
-                    <p class="act-desc-v2">{{ act.details }}</p>
+              <div class="pfc-activity-card">
+                <div class="pfc-act-card-body">
+                  <div class="pfc-act-main">
+                    <span class="pfc-act-date">{{ act.date | uppercase }}</span>
+                    <h4 class="pfc-act-title">{{ act.text }}</h4>
+                    <p class="pfc-act-desc">{{ act.details }}</p>
                   </div>
-                  <div class="act-meta-badge-v2" [style.borderColor]="act.bg" [style.color]="act.color">
-                    {{ act.meta }}
+                  <div class="pfc-act-meta">
+                    <span class="pfc-act-badge" [style.color]="act.color">{{ act.meta }}</span>
                   </div>
                 </div>
-                <div class="activity-card-footer-v2">
-                  <button class="btn-text-v2">Voir les détails</button>
-                  <button class="btn-icon-sm-v2"><i class="ion-ios-more"></i></button>
+                <div class="pfc-act-card-footer">
+                  <button class="pfc-btn-text-link">Voir les détails</button>
+                  <button class="pfc-btn-icon-ghost"><i class="ion-ios-more"></i></button>
                 </div>
               </div>
 
@@ -823,169 +910,308 @@
           </div>
 
           <!-- Empty State -->
-          <div class="empty-activities-v2" *ngIf="getFilteredActivities().length === 0">
-            <div class="empty-icon-v2"><i class="ion-ios-paper-plane"></i></div>
+          <div class="pfc-empty-state" *ngIf="getFilteredActivities().length === 0">
+            <div class="pfc-empty-icon"><i class="ion-ios-paper-plane"></i></div>
             <h3>Aucune activité trouvée</h3>
             <p>Essayez de modifier vos filtres pour voir plus de résultats.</p>
-            <button class="btn-primary-v2" (click)="activityFilter = 'all'">Voir tout</button>
+            <button class="pfc-btn-primary" (click)="activityFilter = 'all'">Voir tout</button>
           </div>
 
         </div>
 
         <!-- Load More -->
-        <div class="load-more-container-v2" *ngIf="getFilteredActivities().length > 0">
-          <button class="btn-outline-v2">Charger plus d'activités</button>
+        <div class="pfc-load-more" *ngIf="getFilteredActivities().length > 0">
+          <button class="pfc-btn-outline">Charger plus d'activités</button>
         </div>
 
       </div>
 
       <!-- PAYMENTS TAB -->
       <div *ngIf="activeTab === 'payments'" class="tab-content-animate">
-        
-        <div class="payments-layout-grid">
-          
-          <!-- LEFT: Wallet & Cards -->
-          <div class="pay-col-left">
-            
-            <!-- Wallet Card -->
-            <section class="section-box-v2 wallet-card-premium">
-              <div class="wallet-content-v2">
-                <div class="wallet-info-v2">
-                  <span class="wallet-label-v2">Solde GoRide</span>
-                  <h2 class="wallet-balance-v2">{{ walletBalance | number:'1.3-3' }} <span>DT</span></h2>
-                  <p class="wallet-sub-v2">Disponible pour vos prochains trajets</p>
-                </div>
-                <div class="wallet-actions-v2">
-                  <button class="btn-wallet-add-v2"><i class="ion-ios-add-circle"></i> Recharger</button>
-                </div>
+
+        <!-- Wallet GoRide Virtual Card -->
+        <section class="pfc-wallet-card">
+          <div class="pfc-wallet-card-inner">
+            <div class="pfc-wallet-top">
+              <div class="pfc-wallet-brand">
+                <span class="pfc-wallet-logo">GoRide</span>
+                <span class="pfc-wallet-type">Wallet</span>
               </div>
-              <div class="wallet-footer-v2">
-                <span>Dernière recharge : 01 Mai 2026</span>
-                <a href="#" class="text-link-white">Gérer le portefeuille</a>
+              <span class="pfc-wallet-chip">💳</span>
+            </div>
+            <div class="pfc-wallet-balance-block">
+              <span class="pfc-wallet-balance-label">Solde disponible</span>
+              <h2 class="pfc-wallet-balance-amount">{{ walletBalance | number:'1.3-3' }} <span>DT</span></h2>
+            </div>
+            <div class="pfc-wallet-bottom">
+              <div class="pfc-wallet-holder">
+                <span class="pfc-wallet-holder-label">TITULAIRE</span>
+                <span class="pfc-wallet-holder-name">{{ user?.name || 'Ichraf Guisichi' }}</span>
               </div>
+              <div class="pfc-wallet-card-number">•••• •••• •••• 7621</div>
+            </div>
+          </div>
+          <div class="pfc-wallet-actions-bar">
+            <button class="pfc-wallet-action-btn primary">
+              <i class="ion-ios-add-circle"></i> Recharger
+            </button>
+            <button class="pfc-wallet-action-btn">
+              <i class="ion-ios-swap"></i> Transférer
+            </button>
+            <button class="pfc-wallet-action-btn">
+              <i class="ion-ios-download"></i> Retirer
+            </button>
+          </div>
+        </section>
+
+        <div class="pfc-pay-grid">
+
+          <!-- LEFT COLUMN -->
+          <div class="pfc-pay-col-left">
+
+            <!-- Payment Methods -->
+            <section class="premium-form-card" style="padding: 24px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px;">
+                  Méthodes de paiement
+                </h3>
+                <button class="pfc-btn-link-viewall" style="margin: 0;">Gérer</button>
+              </div>
+
+              <div class="pfc-payment-methods-list">
+
+                <!-- Espèces -->
+                <div class="pfc-pay-method-item">
+                  <div class="pfc-pay-method-icon" style="background: #ecfdf5; color: #10b981;">
+                    <i class="ion-ios-cash"></i>
+                  </div>
+                  <div class="pfc-pay-method-info">
+                    <h4>Espèces</h4>
+                    <p>Paiement direct au chauffeur</p>
+                  </div>
+                  <div class="pfc-pay-method-action">
+                    <span class="pfc-pay-default-badge">Par défaut</span>
+                  </div>
+                </div>
+
+                <!-- Carte bancaire -->
+                <div class="pfc-pay-method-item" *ngFor="let card of savedCards">
+                  <div class="pfc-pay-method-icon" style="background: #eff6ff; color: #3b82f6;">
+                    <i class="ion-ios-card"></i>
+                  </div>
+                  <div class="pfc-pay-method-info">
+                    <h4>{{ card.holder }}</h4>
+                    <p>Visa •••• {{ card.last4 }} · Exp {{ card.expiry }}</p>
+                  </div>
+                  <div class="pfc-pay-method-action">
+                    <button class="pfc-btn-icon-ghost"><i class="ion-ios-more"></i></button>
+                  </div>
+                </div>
+
+                <!-- D17 -->
+                <div class="pfc-pay-method-item">
+                  <div class="pfc-pay-method-icon" style="background: #fef3c7; color: #f59e0b;">
+                    <i class="ion-ios-phone-portrait"></i>
+                  </div>
+                  <div class="pfc-pay-method-info">
+                    <h4>D17</h4>
+                    <p>Paiement mobile Tunisie · +216 ** *** 456</p>
+                  </div>
+                  <div class="pfc-pay-method-action">
+                    <button class="pfc-btn-icon-ghost"><i class="ion-ios-more"></i></button>
+                  </div>
+                </div>
+
+                <!-- Wallet GoRide -->
+                <div class="pfc-pay-method-item">
+                  <div class="pfc-pay-method-icon" style="background: #f0fdf4; color: #22c55e;">
+                    <i class="ion-ios-wallet"></i>
+                  </div>
+                  <div class="pfc-pay-method-info">
+                    <h4>Wallet GoRide</h4>
+                    <p>Solde : {{ walletBalance | number:'1.3-3' }} DT</p>
+                  </div>
+                  <div class="pfc-pay-method-action">
+                    <button class="pfc-btn-icon-ghost"><i class="ion-ios-more"></i></button>
+                  </div>
+                </div>
+
+              </div>
+
+              <button class="pfc-btn-add-method">
+                <i class="ion-ios-add-circle-outline"></i> Ajouter un moyen de paiement
+              </button>
             </section>
 
-            <!-- Saved Cards -->
-            <section class="section-box-v2 mt-4">
-              <div class="section-header-v2">
-                <h3>Modes de paiement</h3>
-                <button class="btn-link-v2"><i class="ion-ios-add"></i> Ajouter</button>
+            <!-- Loyalty / Cashback -->
+            <section class="premium-form-card mt-4 pfc-loyalty-card" style="padding: 24px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px;">
+                  Programme fidélité
+                </h3>
+                <span class="pfc-loyalty-level">🥇 Gold</span>
               </div>
-              <div class="cards-grid-v2">
-                <div class="payment-card-item-v2" *ngFor="let card of savedCards">
-                  <div class="card-brand-v2" [style.color]="card.color">
-                    <i [class]="card.icon"></i>
-                    <span class="default-badge-v2" *ngIf="card.isDefault">Défaut</span>
-                  </div>
-                  <div class="card-number-v2">•••• •••• •••• {{ card.last4 }}</div>
-                  <div class="card-meta-v2">
-                    <div class="card-holder-v2">
-                      <label>TITULAIRE</label>
-                      <span>{{ card.holder }}</span>
-                    </div>
-                    <div class="card-expiry-v2">
-                      <label>EXP</label>
-                      <span>{{ card.expiry }}</span>
-                    </div>
-                  </div>
-                  <div class="card-actions-v2">
-                    <button class="btn-icon-v2"><i class="ion-ios-more"></i></button>
-                  </div>
+              <div class="pfc-loyalty-stats">
+                <div class="pfc-loyalty-stat-item">
+                  <span class="pfc-loyalty-stat-val">1 250</span>
+                  <span class="pfc-loyalty-stat-label">Points cumulés</span>
                 </div>
-                
-                <!-- Add New Card Placeholder -->
-                <div class="add-card-placeholder-v2">
-                  <div class="add-icon-v2"><i class="ion-ios-add-circle-outline"></i></div>
-                  <span>Ajouter une carte</span>
+                <div class="pfc-loyalty-stat-item">
+                  <span class="pfc-loyalty-stat-val">12.500</span>
+                  <span class="pfc-loyalty-stat-label">DT de cashback</span>
+                </div>
+                <div class="pfc-loyalty-stat-item">
+                  <span class="pfc-loyalty-stat-val">34</span>
+                  <span class="pfc-loyalty-stat-label">Trajets effectués</span>
+                </div>
+              </div>
+              <div class="pfc-loyalty-progress">
+                <div class="pfc-loyalty-progress-header">
+                  <span>Prochain palier : Platinum</span>
+                  <span>1 250 / 2 000 pts</span>
+                </div>
+                <div class="pfc-loyalty-bar">
+                  <div class="pfc-loyalty-bar-fill" style="width: 62%;"></div>
                 </div>
               </div>
             </section>
 
           </div>
 
-          <!-- RIGHT: Payment History -->
-          <div class="pay-col-right">
-            
-            <section class="section-box-v2">
-              <div class="section-header-v2">
-                <h3>Historique des transactions</h3>
-                <button class="btn-icon-v2"><i class="ion-ios-download-outline"></i></button>
+          <!-- RIGHT COLUMN -->
+          <div class="pfc-pay-col-right">
+
+            <!-- Monthly Wallet Stats -->
+            <section class="premium-form-card pfc-wallet-stats-card" style="padding: 24px;">
+              <h3 style="margin: 0 0 20px 0; font-size: 18px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px;">
+                Résumé du mois
+              </h3>
+              <div class="pfc-wallet-month-stats">
+                <div class="pfc-wstat-item">
+                  <div class="pfc-wstat-icon" style="background: #fef2f2; color: #ef4444;">
+                    <i class="ion-ios-arrow-up"></i>
+                  </div>
+                  <div class="pfc-wstat-info">
+                    <span class="pfc-wstat-label">Dépenses</span>
+                    <span class="pfc-wstat-val">92.500 DT</span>
+                  </div>
+                </div>
+                <div class="pfc-wstat-item">
+                  <div class="pfc-wstat-icon" style="background: #ecfdf5; color: #10b981;">
+                    <i class="ion-ios-arrow-down"></i>
+                  </div>
+                  <div class="pfc-wstat-info">
+                    <span class="pfc-wstat-label">Recharges</span>
+                    <span class="pfc-wstat-val">150.000 DT</span>
+                  </div>
+                </div>
+                <div class="pfc-wstat-item">
+                  <div class="pfc-wstat-icon" style="background: #eff6ff; color: #3b82f6;">
+                    <i class="ion-ios-car"></i>
+                  </div>
+                  <div class="pfc-wstat-info">
+                    <span class="pfc-wstat-label">Trajets ce mois</span>
+                    <span class="pfc-wstat-val">12 trajets</span>
+                  </div>
+                </div>
+                <div class="pfc-wstat-item">
+                  <div class="pfc-wstat-icon" style="background: #fffbeb; color: #f59e0b;">
+                    <i class="ion-ios-star"></i>
+                  </div>
+                  <div class="pfc-wstat-info">
+                    <span class="pfc-wstat-label">Cashback gagné</span>
+                    <span class="pfc-wstat-val">4.625 DT</span>
+                  </div>
+                </div>
               </div>
-              <div class="payment-history-list-v2">
-                <div class="pay-history-item-v2" *ngFor="let pay of paymentHistory">
-                  <div class="pay-icon-v2">
-                    <i [class]="pay.icon"></i>
+            </section>
+
+            <!-- Transaction History -->
+            <section class="premium-form-card mt-4" style="padding: 24px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px;">
+                  Historique des transactions
+                </h3>
+              </div>
+              
+              <div class="pfc-transactions-list">
+                <div class="pfc-transaction-item" *ngFor="let pay of paymentHistory">
+                  
+                  <div class="pfc-transaction-icon">
+                    <i [class]="pay.icon || 'ion-ios-card'"></i>
                   </div>
-                  <div class="pay-details-v2">
-                    <div class="pay-main-v2">
-                      <strong>{{ pay.type }}</strong>
-                      <span class="pay-id-v2">{{ pay.id }}</span>
+                  
+                  <div class="pfc-transaction-info">
+                    <div class="pfc-tx-row-top">
+                      <h4 class="pfc-tx-title">{{ pay.type }}</h4>
+                      <span class="pfc-tx-id">{{ pay.id }}</span>
                     </div>
-                    <p>{{ pay.method }} • {{ pay.date }}</p>
+                    <div class="pfc-tx-row-bottom">
+                      <p class="pfc-tx-method">{{ pay.method }}</p>
+                      <span class="pfc-tx-dot">•</span>
+                      <p class="pfc-tx-date">{{ pay.date }}</p>
+                    </div>
                   </div>
-                  <div class="pay-amount-v2">
-                    <span class="amount-val-v2">{{ pay.amount }} DT</span>
-                    <span class="status-pill-v2" [class.green]="pay.status === 'Payé'" [class.orange]="pay.status === 'Remboursé'">
+                  
+                  <div class="pfc-transaction-amount-col">
+                    <div class="pfc-tx-amount-wrap">
+                      <span class="pfc-tx-amount-val">{{ pay.amount }}</span>
+                      <span class="pfc-tx-amount-curr">DT</span>
+                    </div>
+                    <span class="pfc-tx-status" [ngClass]="pay.status === 'Payé' ? 'paid' : 'refunded'">
                       {{ pay.status }}
                     </span>
                   </div>
-                  <button class="btn-invoice-v2" title="Télécharger la facture">
-                    <i class="ion-ios-paper"></i>
-                  </button>
+
+                  <div class="pfc-transaction-action">
+                    <button class="pfc-btn-receipt" title="Télécharger la facture">
+                      <i class="ion-ios-paper"></i> Facture
+                    </button>
+                  </div>
+                  
                 </div>
               </div>
-              <div class="history-footer-v2 mt-4">
-                <button class="btn-outline-v2 full-width">Voir tout l'historique</button>
+              
+              <div class="pfc-history-footer" style="border: none; padding-top: 24px;">
+                <button class="pfc-btn-outline-viewall">Voir tout l'historique</button>
+              </div>
+            </section>
+
+            <!-- Help Center -->
+            <section class="premium-form-card mt-4 pfc-help-center" style="padding: 24px;">
+              <h3 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px;">
+                Besoin d'aide ?
+              </h3>
+              <div class="pfc-help-links">
+                <a href="#" class="pfc-help-link-item">
+                  <i class="ion-ios-lock"></i>
+                  <div>
+                    <h4>Sécurité des paiements</h4>
+                    <p>SSL de bout en bout · PCI DSS</p>
+                  </div>
+                  <i class="ion-ios-arrow-forward"></i>
+                </a>
+                <a href="#" class="pfc-help-link-item">
+                  <i class="ion-ios-help-circle"></i>
+                  <div>
+                    <h4>Contester une transaction</h4>
+                    <p>Signaler un problème de facturation</p>
+                  </div>
+                  <i class="ion-ios-arrow-forward"></i>
+                </a>
+                <a href="#" class="pfc-help-link-item">
+                  <i class="ion-ios-chatbubbles"></i>
+                  <div>
+                    <h4>Contacter le support</h4>
+                    <p>Assistance 24/7 disponible</p>
+                  </div>
+                  <i class="ion-ios-arrow-forward"></i>
+                </a>
               </div>
             </section>
 
           </div>
 
-          <!-- RIGHT: Refunds & Security -->
-          <div class="pay-col-right">
-            
-            <!-- Refund Requests -->
-            <section class="section-box-v2">
-              <div class="section-header-v2">
-                <h3>Remboursements</h3>
-                <i class="ion-ios-undo text-blue"></i>
-              </div>
-              <div class="refund-list-v2">
-                <div class="refund-item-v2" *ngFor="let ref of refundRequests">
-                  <div class="refund-info-v2">
-                    <strong>{{ ref.id }}</strong>
-                    <span>{{ ref.reason }}</span>
-                  </div>
-                  <div class="refund-status-v2">
-                    <span class="status-pill-v2 blue">{{ ref.status }}</span>
-                    <span class="refund-amount-v2">{{ ref.amount }} DT</span>
-                  </div>
-                </div>
-              </div>
-              <button class="btn-link-v2 mt-3">Suivre mes demandes</button>
-            </section>
-
-            <!-- Security Notice -->
-            <section class="section-box-v2 mt-4 bg-light-blue">
-              <div class="security-notice-v2">
-                <i class="ion-ios-shield-checkmark text-blue"></i>
-                <div>
-                  <strong>Paiements sécurisés</strong>
-                  <p>Vos transactions sont protégées par un cryptage SSL de bout en bout et les normes PCI DSS.</p>
-                </div>
-              </div>
-            </section>
-
-            <!-- Quick Tip -->
-            <div class="payment-tip-v2 mt-4">
-              <div class="tip-header-v2">
-                <i class="ion-ios-bulb text-orange"></i>
-                <span>Astuce GoRide</span>
-              </div>
-              <p>Évitez les frais de transaction en rechargeant votre portefeuille via virement bancaire.</p>
-            </div>
-
-          </div>
         </div>
       </div>
 
@@ -993,64 +1219,66 @@
       <!-- DOCUMENTS TAB -->
       <div *ngIf="activeTab === 'documents'" class="tab-content-animate">
         
-        <!-- Verification Summary -->
-        <div class="verification-summary-v2">
-          <div class="summary-info-v2">
+        <!-- Verification Header -->
+        <section class="pfc-doc-header">
+          <div class="pfc-doc-header-left">
             <h3>Statut de vérification</h3>
             <p>Complétez votre profil en soumettant les documents requis pour accéder à toutes les fonctionnalités.</p>
           </div>
-          <div class="summary-stats-v2">
-            <div class="summary-progress-v2">
-              <div class="progress-bar-v2">
-                <div class="progress-fill-v2" style="width: 60%"></div>
-              </div>
-              <span>3 sur 5 documents vérifiés</span>
+          <div class="pfc-doc-header-right">
+            <div class="pfc-doc-score-ring">
+              <span class="pfc-doc-score-val">60%</span>
             </div>
-            <span class="status-badge-v2 pending">VÉRIFICATION EN COURS</span>
+            <div class="pfc-doc-score-info">
+              <span class="pfc-doc-score-label">3 sur 5 vérifiés</span>
+              <span class="pfc-doc-status-badge pending">En cours</span>
+            </div>
           </div>
-        </div>
+        </section>
 
         <!-- Documents Grid -->
-        <div class="docs-grid-v2">
-          <div class="doc-card-v2" *ngFor="let doc of userDocuments" [class.rejected]="doc.status === 'rejected'">
+        <div class="pfc-docs-grid">
+          <div class="pfc-doc-card" *ngFor="let doc of userDocuments" [class.rejected]="doc.status === 'rejected'" [class.missing]="doc.status === 'missing'">
             
-            <div class="doc-card-header-v2">
-              <div class="doc-icon-v2" [style.color]="doc.color" [style.backgroundColor]="doc.color + '15'">
+            <div class="pfc-doc-card-top">
+              <div class="pfc-doc-icon" [style.color]="doc.color" [style.backgroundColor]="doc.color + '12'">
                 <i [class]="doc.icon"></i>
               </div>
-              <div class="doc-status-v2">
-                <span class="status-dot-v2" [class]="doc.status"></span>
-                <span class="status-label-v2">
-                  <ng-container [ngSwitch]="doc.status">
-                    <span *ngSwitchCase="'verified'">Vérifié</span>
-                    <span *ngSwitchCase="'pending'">En attente</span>
-                    <span *ngSwitchCase="'rejected'">Rejeté</span>
-                    <span *ngSwitchCase="'missing'">Manquant</span>
-                  </ng-container>
-                </span>
+              <div class="pfc-doc-status-pill" [ngClass]="doc.status">
+                <ng-container [ngSwitch]="doc.status">
+                  <span *ngSwitchCase="'verified'">Vérifié</span>
+                  <span *ngSwitchCase="'pending'">En attente</span>
+                  <span *ngSwitchCase="'rejected'">Rejeté</span>
+                  <span *ngSwitchCase="'missing'">Manquant</span>
+                </ng-container>
               </div>
             </div>
 
-            <div class="doc-card-body-v2">
-              <h4 class="doc-name-v2">{{ doc.name }}</h4>
-              <p class="doc-date-v2">{{ doc.date }}</p>
+            <div class="pfc-doc-card-body">
+              <h4>{{ doc.name }}</h4>
+              <p>{{ doc.date }}</p>
               
               <!-- Rejected Alert -->
-              <div class="rejected-reason-v2" *ngIf="doc.status === 'rejected'">
+              <div class="pfc-doc-rejected-alert" *ngIf="doc.status === 'rejected'">
                 <i class="ion-ios-alert"></i>
                 <span>{{ doc.reason }}</span>
               </div>
             </div>
 
-            <div class="doc-card-footer-v2">
-              <button class="btn-doc-v2" *ngIf="doc.status === 'missing' || doc.status === 'rejected'">
-                <i class="ion-ios-cloud-upload"></i> Télécharger
+            <div class="pfc-doc-card-actions">
+              <!-- Missing / Rejected: Upload CTA -->
+              <button class="pfc-btn-doc-upload" *ngIf="doc.status === 'missing' || doc.status === 'rejected'">
+                <i class="ion-ios-cloud-upload"></i>
+                <span *ngIf="doc.status === 'missing'">Soumettre</span>
+                <span *ngIf="doc.status === 'rejected'">Renvoyer</span>
               </button>
-              <button class="btn-doc-outline-v2" *ngIf="doc.status === 'verified' || doc.status === 'pending'">
-                <i class="ion-ios-eye"></i> Voir le document
+              
+              <!-- Verified / Pending: View + Replace -->
+              <button class="pfc-btn-doc-view" *ngIf="doc.status === 'verified' || doc.status === 'pending'">
+                <i class="ion-ios-eye"></i> Voir
               </button>
-              <button class="btn-doc-text-v2" *ngIf="doc.status === 'verified' || doc.status === 'pending'">
-                Remplacer
+              <button class="pfc-btn-doc-replace" *ngIf="doc.status === 'verified' || doc.status === 'pending'">
+                <i class="ion-ios-cloud-upload"></i> Remplacer
               </button>
             </div>
 
@@ -1058,97 +1286,147 @@
         </div>
 
         <!-- Help Section -->
-        <div class="docs-help-v2 mt-5">
-          <div class="help-content-v2">
-            <i class="ion-ios-information-circle-outline"></i>
-            <div>
-              <strong>Besoin d'aide pour vos documents ?</strong>
-              <p>Consultez notre guide de soumission pour vous assurer que vos documents sont acceptés du premier coup.</p>
+        <section class="premium-form-card mt-4 pfc-doc-help" style="padding: 20px 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+            <div style="display: flex; gap: 14px; align-items: center;">
+              <i class="ion-ios-information-circle" style="font-size: 22px; color: #3b82f6; flex-shrink: 0;"></i>
+              <div>
+                <h4 style="margin: 0 0 2px 0; font-size: 14px; font-weight: 700; color: #0f172a;">Besoin d'aide pour vos documents ?</h4>
+                <p style="margin: 0; font-size: 13px; color: #64748b;">Consultez notre guide pour que vos documents soient acceptés du premier coup.</p>
+              </div>
             </div>
+            <button class="pfc-btn-outline" style="white-space: nowrap;">Consulter le guide</button>
           </div>
-          <button class="btn-outline-v2">Consulter le guide</button>
-        </div>
+        </section>
 
       </div>
 
       <!-- PREFERENCES TAB -->
       <div *ngIf="activeTab === 'preferences'" class="tab-content-animate">
         
-        <div class="preferences-layout-grid">
+        <div class="pfc-pref-grid">
           
-          <!-- Visual & Regional -->
-          <div class="pref-col-left">
-            
-            <section class="section-box-v2">
-              <div class="section-header-v2">
+          <!-- LEFT COLUMN -->
+          <div class="pfc-pref-col">
+
+            <!-- Appearance -->
+            <section class="premium-form-card" style="padding: 24px;">
+              <div class="pfc-pref-section-header">
                 <h3>Apparence</h3>
                 <p>Personnalisez l'aspect visuel de votre interface.</p>
               </div>
               
-              <div class="theme-selector-v2">
-                <div class="theme-option-v2" [class.active]="userPreferences.theme === 'light'" (click)="userPreferences.theme = 'light'">
-                  <div class="theme-preview-v2 light">
-                    <div class="preview-header"></div>
-                    <div class="preview-content"></div>
+              <div class="pfc-theme-selector">
+                <div class="pfc-theme-option" [class.active]="userPreferences.theme === 'light'" (click)="userPreferences.theme = 'light'">
+                  <div class="pfc-theme-preview light">
+                    <div class="pfc-tp-sidebar"></div>
+                    <div class="pfc-tp-main">
+                      <div class="pfc-tp-bar"></div>
+                      <div class="pfc-tp-lines">
+                        <div class="pfc-tp-line"></div>
+                        <div class="pfc-tp-line short"></div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="theme-label-v2">
-                    <i class="ion-ios-sunny"></i> Clair
-                  </div>
+                  <span class="pfc-theme-label"><i class="ion-ios-sunny"></i> Clair</span>
                 </div>
-                <div class="theme-option-v2" [class.active]="userPreferences.theme === 'dark'" (click)="userPreferences.theme = 'dark'">
-                  <div class="theme-preview-v2 dark">
-                    <div class="preview-header"></div>
-                    <div class="preview-content"></div>
+                <div class="pfc-theme-option" [class.active]="userPreferences.theme === 'dark'" (click)="userPreferences.theme = 'dark'">
+                  <div class="pfc-theme-preview dark">
+                    <div class="pfc-tp-sidebar"></div>
+                    <div class="pfc-tp-main">
+                      <div class="pfc-tp-bar"></div>
+                      <div class="pfc-tp-lines">
+                        <div class="pfc-tp-line"></div>
+                        <div class="pfc-tp-line short"></div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="theme-label-v2">
-                    <i class="ion-ios-moon"></i> Sombre
-                  </div>
+                  <span class="pfc-theme-label"><i class="ion-ios-moon"></i> Sombre</span>
                 </div>
-                <div class="theme-option-v2" [class.active]="userPreferences.theme === 'system'" (click)="userPreferences.theme = 'system'">
-                  <div class="theme-preview-v2 system">
-                    <div class="preview-half light"></div>
-                    <div class="preview-half dark"></div>
+                <div class="pfc-theme-option" [class.active]="userPreferences.theme === 'system'" (click)="userPreferences.theme = 'system'">
+                  <div class="pfc-theme-preview system">
+                    <div class="pfc-tp-half light"></div>
+                    <div class="pfc-tp-half dark"></div>
                   </div>
-                  <div class="theme-label-v2">
-                    <i class="ion-ios-settings"></i> Système
-                  </div>
+                  <span class="pfc-theme-label"><i class="ion-ios-settings"></i> Système</span>
                 </div>
               </div>
 
-              <div class="form-group-v2 mt-4">
-                <label class="form-label-v2">Langue de l'interface</label>
-                <div class="segmented-control-v2">
-                  <button class="seg-btn-v2" [class.active]="userPreferences.language === 'fr'" (click)="userPreferences.language = 'fr'">Français</button>
-                  <button class="seg-btn-v2" [class.active]="userPreferences.language === 'en'" (click)="userPreferences.language = 'en'">English</button>
-                  <button class="seg-btn-v2" [class.active]="userPreferences.language === 'ar'" (click)="userPreferences.language = 'ar'">العربية</button>
+              <div style="margin-top: 20px;">
+                <label class="pfc-pref-label">Langue de l'interface</label>
+                <div class="pfc-segmented-control">
+                  <button class="pfc-seg-btn" [class.active]="userPreferences.language === 'fr'" (click)="userPreferences.language = 'fr'">Français</button>
+                  <button class="pfc-seg-btn" [class.active]="userPreferences.language === 'en'" (click)="userPreferences.language = 'en'">English</button>
+                  <button class="pfc-seg-btn" [class.active]="userPreferences.language === 'ar'" (click)="userPreferences.language = 'ar'">العربية</button>
                 </div>
               </div>
             </section>
 
-            <section class="section-box-v2 mt-4">
-              <div class="section-header-v2">
+            <!-- Accessibility -->
+            <section class="premium-form-card mt-4" style="padding: 24px;">
+              <div class="pfc-pref-section-header">
                 <h3>Accessibilité</h3>
                 <p>Améliorez votre confort d'utilisation.</p>
               </div>
-              <div class="toggle-list-v2">
-                <div class="toggle-item-v2">
-                  <div class="toggle-text-v2">
-                    <strong>Contraste élevé</strong>
-                    <span>Augmente la visibilité des textes et icônes.</span>
+              <div class="pfc-toggle-list">
+                <div class="pfc-toggle-item">
+                  <div class="pfc-toggle-text">
+                    <h4>Contraste élevé</h4>
+                    <p>Augmente la visibilité des textes et icônes.</p>
                   </div>
-                  <label class="switch-v2">
+                  <label class="pfc-switch">
                     <input type="checkbox" [(ngModel)]="userPreferences.accessibility.highContrast">
-                    <span class="slider-v2"></span>
+                    <span class="pfc-switch-slider"></span>
                   </label>
                 </div>
-                <div class="toggle-item-v2">
-                  <div class="toggle-text-v2">
-                    <strong>Texte agrandi</strong>
-                    <span>Utilise des polices plus grandes partout.</span>
+                <div class="pfc-toggle-item">
+                  <div class="pfc-toggle-text">
+                    <h4>Texte agrandi</h4>
+                    <p>Utilise des polices plus grandes partout.</p>
                   </div>
-                  <label class="switch-v2">
+                  <label class="pfc-switch">
                     <input type="checkbox" [(ngModel)]="userPreferences.accessibility.largeText">
-                    <span class="slider-v2"></span>
+                    <span class="pfc-switch-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <!-- Ride Preferences -->
+            <section class="premium-form-card mt-4" style="padding: 24px;">
+              <div class="pfc-pref-section-header">
+                <h3>Préférences de trajet</h3>
+                <p>Personnalisez votre expérience de conduite.</p>
+              </div>
+              <div class="pfc-toggle-list">
+                <div class="pfc-toggle-item">
+                  <div class="pfc-toggle-text">
+                    <h4>Partage de trajet</h4>
+                    <p>Autorisez le covoiturage pour réduire les coûts.</p>
+                  </div>
+                  <label class="pfc-switch">
+                    <input type="checkbox" checked>
+                    <span class="pfc-switch-slider"></span>
+                  </label>
+                </div>
+                <div class="pfc-toggle-item">
+                  <div class="pfc-toggle-text">
+                    <h4>Musique en voiture</h4>
+                    <p>Indiquez votre préférence au chauffeur.</p>
+                  </div>
+                  <label class="pfc-switch">
+                    <input type="checkbox">
+                    <span class="pfc-switch-slider"></span>
+                  </label>
+                </div>
+                <div class="pfc-toggle-item">
+                  <div class="pfc-toggle-text">
+                    <h4>Itinéraire favori</h4>
+                    <p>Mémoriser vos trajets fréquents.</p>
+                  </div>
+                  <label class="pfc-switch">
+                    <input type="checkbox" checked>
+                    <span class="pfc-switch-slider"></span>
                   </label>
                 </div>
               </div>
@@ -1156,83 +1434,111 @@
 
           </div>
 
-          <!-- Notifications & Privacy -->
-          <div class="pref-col-right">
-            
-            <section class="section-box-v2">
-              <div class="section-header-v2">
+          <!-- RIGHT COLUMN -->
+          <div class="pfc-pref-col">
+
+            <!-- Notifications -->
+            <section class="premium-form-card" style="padding: 24px;">
+              <div class="pfc-pref-section-header">
                 <h3>Notifications</h3>
                 <p>Choisissez comment vous souhaitez être contacté.</p>
               </div>
-              <div class="toggle-list-v2">
-                <div class="toggle-item-v2">
-                  <div class="toggle-text-v2">
-                    <strong>Notifications Email</strong>
-                    <span>Récapitulatifs de trajets et factures.</span>
+              <div class="pfc-toggle-list">
+                <div class="pfc-toggle-item">
+                  <div class="pfc-toggle-text">
+                    <h4>Notifications Email</h4>
+                    <p>Récapitulatifs de trajets et factures.</p>
                   </div>
-                  <label class="switch-v2">
+                  <label class="pfc-switch">
                     <input type="checkbox" [(ngModel)]="userPreferences.notifications.email">
-                    <span class="slider-v2"></span>
+                    <span class="pfc-switch-slider"></span>
                   </label>
                 </div>
-                <div class="toggle-item-v2">
-                  <div class="toggle-text-v2">
-                    <strong>Alertes SMS</strong>
-                    <span>Arrivée du chauffeur et urgences.</span>
+                <div class="pfc-toggle-item">
+                  <div class="pfc-toggle-text">
+                    <h4>Alertes SMS</h4>
+                    <p>Arrivée du chauffeur et urgences.</p>
                   </div>
-                  <label class="switch-v2">
+                  <label class="pfc-switch">
                     <input type="checkbox" [(ngModel)]="userPreferences.notifications.sms">
-                    <span class="slider-v2"></span>
+                    <span class="pfc-switch-slider"></span>
                   </label>
                 </div>
-                <div class="toggle-item-v2">
-                  <div class="toggle-text-v2">
-                    <strong>Notifications Push</strong>
-                    <span>Mises à jour en temps réel sur l'application.</span>
+                <div class="pfc-toggle-item">
+                  <div class="pfc-toggle-text">
+                    <h4>Notifications Push</h4>
+                    <p>Mises à jour en temps réel sur l'application.</p>
                   </div>
-                  <label class="switch-v2">
+                  <label class="pfc-switch">
                     <input type="checkbox" [(ngModel)]="userPreferences.notifications.push">
-                    <span class="slider-v2"></span>
+                    <span class="pfc-switch-slider"></span>
                   </label>
                 </div>
               </div>
             </section>
 
-            <section class="section-box-v2 mt-4">
-              <div class="section-header-v2">
+            <!-- Privacy -->
+            <section class="premium-form-card mt-4" style="padding: 24px;">
+              <div class="pfc-pref-section-header">
                 <h3>Confidentialité</h3>
                 <p>Gérez la visibilité de vos données.</p>
               </div>
-              <div class="toggle-list-v2">
-                <div class="toggle-item-v2">
-                  <div class="toggle-text-v2">
-                    <strong>Profil public</strong>
-                    <span>Permet aux chauffeurs de voir vos stats.</span>
+              <div class="pfc-toggle-list">
+                <div class="pfc-toggle-item">
+                  <div class="pfc-toggle-text">
+                    <h4>Profil public</h4>
+                    <p>Permet aux chauffeurs de voir vos stats.</p>
                   </div>
-                  <label class="switch-v2">
+                  <label class="pfc-switch">
                     <input type="checkbox" [(ngModel)]="userPreferences.privacy.profilePublic">
-                    <span class="slider-v2"></span>
+                    <span class="pfc-switch-slider"></span>
                   </label>
                 </div>
-                <div class="toggle-item-v2">
-                  <div class="toggle-text-v2">
-                    <strong>Historique d'activité</strong>
-                    <span>Afficher vos trajets récents sur le profil.</span>
+                <div class="pfc-toggle-item">
+                  <div class="pfc-toggle-text">
+                    <h4>Historique d'activité</h4>
+                    <p>Afficher vos trajets récents sur le profil.</p>
                   </div>
-                  <label class="switch-v2">
+                  <label class="pfc-switch">
                     <input type="checkbox" [(ngModel)]="userPreferences.privacy.showActivity">
-                    <span class="slider-v2"></span>
+                    <span class="pfc-switch-slider"></span>
                   </label>
                 </div>
+              </div>
+            </section>
+
+            <!-- Quick Security -->
+            <section class="premium-form-card mt-4" style="padding: 24px;">
+              <div class="pfc-pref-section-header">
+                <h3>Sécurité rapide</h3>
+                <p>Accès rapide aux réglages de sécurité.</p>
+              </div>
+              <div class="pfc-quick-links">
+                <a href="javascript:void(0)" class="pfc-quick-link" (click)="activeTab = 'security'">
+                  <i class="ion-ios-key" style="color: #f59e0b;"></i>
+                  <span>Modifier mon mot de passe</span>
+                  <i class="ion-ios-arrow-forward"></i>
+                </a>
+                <a href="javascript:void(0)" class="pfc-quick-link" (click)="activeTab = 'security'">
+                  <i class="ion-ios-phone-portrait" style="color: #3b82f6;"></i>
+                  <span>Authentification à deux facteurs</span>
+                  <i class="ion-ios-arrow-forward"></i>
+                </a>
+                <a href="javascript:void(0)" class="pfc-quick-link" (click)="activeTab = 'security'">
+                  <i class="ion-ios-desktop" style="color: #10b981;"></i>
+                  <span>Gérer mes sessions</span>
+                  <i class="ion-ios-arrow-forward"></i>
+                </a>
               </div>
             </section>
 
           </div>
         </div>
 
-        <div class="form-actions-v2 mt-4">
-          <button class="btn-cancel-v2">Réinitialiser</button>
-          <button class="btn-save-v2" (click)="saveProfile()">
+        <!-- Action Buttons -->
+        <div class="pfc-pref-actions">
+          <button class="pfc-btn-outline">Réinitialiser</button>
+          <button class="pfc-btn-primary" (click)="saveProfile()">
             <i class="ion-ios-checkmark-circle-outline"></i> Enregistrer les préférences
           </button>
         </div>

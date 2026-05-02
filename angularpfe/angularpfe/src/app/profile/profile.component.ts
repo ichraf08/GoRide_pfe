@@ -24,6 +24,15 @@ export class ProfileComponent implements OnInit {
   photoPreview: string | null = null;
   photoUploading = false;
   photoSuccess = false;
+  // Password Change
+  hideCurrentPassword = true;
+  hideNewPassword = true;
+  hideConfirmPassword = true;
+  passwordStrength = 0;
+
+  // Danger Zone
+  showDeleteModal = false;
+  deleteConfirmText = '';
 
   // Available roles for switcher
   availableRoles: any[] = [];
@@ -188,6 +197,48 @@ export class ProfileComponent implements OnInit {
       this.successMessage = "Profil mis à jour avec succès !";
       setTimeout(() => this.successMessage = null, 3000);
     }, 1000);
+  }
+
+  checkPasswordStrength(event: any) {
+    const pwd = event.target.value;
+    let strength = 0;
+    if (pwd.length > 5) strength += 1;
+    if (pwd.length > 7 && /[A-Z]/.test(pwd)) strength += 1;
+    if (pwd.length > 8 && /[0-9!@#$%^&*]/.test(pwd)) strength += 1;
+    this.passwordStrength = strength;
+  }
+
+  getStrengthText(): string {
+    if (this.passwordStrength === 1) return 'Faible';
+    if (this.passwordStrength === 2) return 'Moyen';
+    if (this.passwordStrength >= 3) return 'Fort';
+    return '';
+  }
+
+  getStrengthClass(): string {
+    if (this.passwordStrength === 1) return 'weak';
+    if (this.passwordStrength === 2) return 'medium';
+    if (this.passwordStrength >= 3) return 'strong';
+    return '';
+  }
+
+  // Danger Zone Actions
+  openDeleteModal() {
+    this.showDeleteModal = true;
+    this.deleteConfirmText = '';
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.deleteConfirmText = '';
+  }
+
+  confirmDeleteAccount() {
+    if (this.deleteConfirmText === 'SUPPRIMER') {
+      console.log('Demande de suppression de compte confirmée !');
+      // Logic API here
+      this.closeDeleteModal();
+    }
   }
 
   setTab(tab: string): void {
