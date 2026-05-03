@@ -33,9 +33,23 @@ export class LoginComponent implements OnInit {
   hideConfirmPassword = true;
 
   readonly resetForm = this.fb.group({
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    password: ['', [
+      Validators.required, 
+      Validators.minLength(8),
+      Validators.pattern('(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}')
+    ]],
     confirmPassword: ['', [Validators.required]]
   }, { validators: this.passwordMatchValidator });
+
+  get passwordRules() {
+    const pwd = this.resetForm.get('password')?.value || '';
+    return {
+      length: pwd.length >= 8,
+      upper: /[A-Z]/.test(pwd),
+      number: /[0-9]/.test(pwd),
+      symbol: /[^A-Za-z0-9]/.test(pwd)
+    };
+  }
 
   constructor(
     private readonly fb: FormBuilder,
