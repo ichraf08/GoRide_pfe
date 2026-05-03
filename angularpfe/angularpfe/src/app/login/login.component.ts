@@ -88,7 +88,7 @@ export class LoginComponent {
         error: (err: any) => {
           console.error('Erreur login:', err);
           if (err.status === 401) {
-            this.errorMessage = 'Email ou mot de passe incorrect.';
+            this.errorMessage = 'Adresse e-mail ou mot de passe incorrect.';
           } else if (err.error && err.error.message) {
             this.errorMessage = err.error.message;
           } else {

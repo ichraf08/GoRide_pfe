@@ -232,7 +232,8 @@ export class SignupComponent implements OnInit {
           });
         },
         error: (err) => {
-          this.errorMessage = err.error?.message || "Une erreur est survenue lors de l'inscription.";
+          console.error("Erreur d'inscription détaillée :", err);
+          this.errorMessage = err.error?.message || err.message || "Une erreur technique est survenue. Veuillez vérifier votre connexion ou réessayer plus tard.";
         }
       });
   }
