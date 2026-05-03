@@ -27,6 +27,9 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
+    @Value("${app.base-url:http://localhost:4200}")
+    private String appBaseUrl;
+
     /**
      * Envoie un email de bienvenue à un nouvel utilisateur.
      */
@@ -58,7 +61,7 @@ public class EmailService {
                     "        <li>Suivre vos réservations en temps réel</li>" +
                     "      </ul>" +
                     "      <div style='text-align: center; margin-top: 40px;'>" +
-                    "        <a href='http://localhost:4200/login' style='background-color: #2563eb; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold;'>Accéder à la plateforme</a>" +
+                    "        <a href='" + appBaseUrl + "/login' style='background-color: #2563eb; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold;'>Accéder à la plateforme</a>" +
                     "      </div>" +
                     "    </div>" +
                     "    <div style='background-color: #f8fafc; padding: 20px; text-align: center; font-size: 0.85rem; color: #64748b;'>" +
@@ -91,7 +94,7 @@ public class EmailService {
             helper.setTo(toEmail);
             helper.setSubject("Réinitialisation de votre mot de passe GoRide \uD83D\uDD12");
 
-            String resetUrl = "http://localhost:4200/r?token=" + token;
+            String resetUrl = appBaseUrl + "/r?token=" + token;
 
             String htmlContent = "<html>" +
                     "<body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>" +

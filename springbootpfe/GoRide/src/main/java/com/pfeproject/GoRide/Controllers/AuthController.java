@@ -268,21 +268,30 @@ public class AuthController {
         logger.info("[AUTH] Demande de réinitialisation pour : {}", request.getEmail());
         
         try {
-            UserEntity user = userRepo.findByEmail(request.getEmail())
-                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé avec cet email."));
+            UserEntity user = userRepo.findByEmail(request.getEmail().trim().toLowerCase())
+                    .orElse(null);
 
-            String token = UUID.randomUUID().toString();
-            user.setResetToken(token);
-            user.setResetTokenExpiration(LocalDateTime.now().plusMinutes(15));
-            userRepo.save(user);
+            // Sécurité : ne pas révéler si l'email existe ou non (anti-enumeration)
+            // On retourne toujours un message de succès
+            if (user != null) {
+                String token = UUID.randomUUID().toString();
+                user.setResetToken(token);
+                user.setResetTokenExpiration(LocalDateTime.now().plusMinutes(15));
+                userRepo.save(user);
+                emailService.sendPasswordResetEmail(user.getEmail(), user.getFirstName(), token);
+                logger.info("[AUTH] Token de reset généré et email envoyé pour : {}", user.getEmail());
+            } else {
+                logger.warn("[AUTH] Email non trouvé pour reset : {} (réponse neutre envoyée)", request.getEmail());
+            }
 
-            emailService.sendPasswordResetEmail(user.getEmail(), user.getFirstName(), token);
+            return ResponseEntity.ok(new MessageResponse(
+                "Si un compte existe avec cet email, vous recevrez un lien de réinitialisation sous peu."
+            ));
 
-            return ResponseEntity.ok(new MessageResponse("Un email de réinitialisation a été envoyé à " + user.getEmail()));
         } catch (Exception e) {
-            logger.error("[AUTH] Erreur lors de la demande de réinitialisation : {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new MessageResponse(e.getMessage()));
+            logger.error("[AUTH] Erreur lors de la demande de réinitialisation : {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MessageResponse("Une erreur est survenue. Veuillez réessayer."));
         }
     }
 
