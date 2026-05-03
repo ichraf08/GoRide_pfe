@@ -31,6 +31,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class AuthController {
+    
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -46,6 +48,9 @@ public class AuthController {
 
     @Autowired
     private JwtUtils jwtUtils;
+
+    @Autowired
+    private com.pfeproject.GoRide.services.EmailService emailService;
 
     /**
      * POST /api/auth/login
@@ -82,6 +87,7 @@ public class AuthController {
      */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
+        logger.info("[REGISTRATION] Nouvelle requête d'inscription reçue pour l'email : {}", signupRequest.getEmail());
 
         // 1. Vérifier que les mots de passe correspondent
         if (!signupRequest.getPassword().equals(signupRequest.getConfirmPassword())) {
@@ -114,36 +120,50 @@ public class AuthController {
                 .hasFleet(signupRequest.getHasFleet())
                 .build();
 
-        // 5. Assigner le rôle
+        // 5. Assigner les rôles
         Set<Role> roles = new HashSet<>();
-        String requestedRole = signupRequest.getRole().toUpperCase();
+        Set<String> requestedRoles = signupRequest.getRoles();
 
-        ERole eRole;
-        switch (requestedRole) {
-            case "DRIVER":
-                eRole = ERole.ROLE_DRIVER;
-                break;
-            case "FLEET_OWNER":
-                eRole = ERole.ROLE_FLEET_OWNER;
-                break;
-            case "COMPANY":
-                eRole = ERole.ROLE_COMPANY;
-                break;
-            default:
-                eRole = ERole.ROLE_CLIENT;
-                break;
+        for (String r : requestedRoles) {
+            String roleName = r.toUpperCase();
+            ERole eRole;
+            switch (roleName) {
+                case "DRIVER":
+                    eRole = ERole.ROLE_DRIVER;
+                    break;
+                case "FLEET_OWNER":
+                    eRole = ERole.ROLE_FLEET_OWNER;
+                    break;
+                case "COMPANY":
+                    eRole = ERole.ROLE_COMPANY;
+                    break;
+                case "USER":
+                    eRole = ERole.ROLE_USER;
+                    break;
+                default:
+                    eRole = ERole.ROLE_CLIENT;
+                    break;
+            }
+
+            Role role = roleRepository.findByName(eRole)
+                    .orElseThrow(() -> new RuntimeException(
+                            "Erreur : Le rôle " + eRole + " n'existe pas en base de données."));
+            roles.add(role);
         }
-
-        Role role = roleRepository.findByName(eRole)
-                .orElseThrow(() -> new RuntimeException(
-                        "Erreur : Le rôle " + eRole + " n'existe pas en base de données. " +
-                        "Veuillez exécuter le script d'initialisation des rôles."));
-
-        roles.add(role);
+        
         user.setRoles(roles);
 
         // 6. Sauvegarder en BD
         userRepo.save(user);
+        logger.info("[REGISTRATION] Utilisateur créé avec succès en base de données. ID: {}", user.getId());
+
+        // 7. Envoyer email de bienvenue (Asynchrone)
+        try {
+            logger.info("[REGISTRATION] Tentative de déclenchement de l'email de bienvenue pour : {}", user.getEmail());
+            emailService.sendWelcomeEmail(user.getEmail(), user.getFirstName());
+        } catch (Exception e) {
+            logger.error("[REGISTRATION] Erreur lors du déclenchement de l'email : {}", e.getMessage());
+        }
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new MessageResponse("Inscription réussie ! Vous pouvez maintenant vous connecter."));

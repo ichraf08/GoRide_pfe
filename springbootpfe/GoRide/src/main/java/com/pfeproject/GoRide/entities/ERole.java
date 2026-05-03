@@ -6,6 +6,7 @@ package com.pfeproject.GoRide.entities;
  */
 public enum ERole {
     ROLE_CLIENT,
+    ROLE_USER,
     ROLE_DRIVER,
     ROLE_FLEET_OWNER,
     ROLE_COMPANY,

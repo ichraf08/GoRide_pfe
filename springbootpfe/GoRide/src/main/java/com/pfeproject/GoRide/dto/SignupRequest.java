@@ -1,6 +1,8 @@
 package com.pfeproject.GoRide.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 /**
  * DTO pour la requête d'inscription.
@@ -13,7 +15,7 @@ public class SignupRequest {
     private String lastName;
 
     @NotBlank(message = "L'email est obligatoire")
-    @Email(message = "Format d'email invalide")
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", message = "Format d'email invalide (ex: nom@domaine.com)")
     private String email;
 
     @NotBlank(message = "Le mot de passe est obligatoire")
@@ -23,10 +25,11 @@ public class SignupRequest {
     @NotBlank(message = "La confirmation du mot de passe est obligatoire")
     private String confirmPassword;
 
+    @jakarta.validation.constraints.Pattern(regexp = "^(\\+216)?[0-9]{8}$", message = "Format de téléphone invalide (ex: 98123456 ou +21698123456)")
     private String phone;
 
-    @NotBlank(message = "Le rôle est obligatoire")
-    private String role; // CLIENT, DRIVER, FLEET_OWNER, COMPANY
+    @jakarta.validation.constraints.NotEmpty(message = "Au moins un rôle est obligatoire")
+    private java.util.Set<String> roles; // CLIENT, DRIVER, FLEET_OWNER, COMPANY
 
     private String city;
 
@@ -42,7 +45,9 @@ public class SignupRequest {
     public void setLastName(String lastName) { this.lastName = lastName; }
 
     public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) { 
+        this.email = email != null ? email.trim().toLowerCase() : null; 
+    }
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
@@ -53,8 +58,8 @@ public class SignupRequest {
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public java.util.Set<String> getRoles() { return roles; }
+    public void setRoles(java.util.Set<String> roles) { this.roles = roles; }
 
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }
