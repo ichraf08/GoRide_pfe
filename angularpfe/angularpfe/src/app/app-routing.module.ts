@@ -14,6 +14,15 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 const routes: Routes = [
+  // BLINDAGE : On ne laisse AUCUNE redirection vers acceuil au début
+  { path: 'r', component: ResetPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'reset-password/:token', component: ResetPasswordComponent },
+  { path: 'login/reset/:token', component: ResetPasswordComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'signup', component: SignupComponent },
+  
   {
      path: 'acceuil',
      component: HeaderfooterComponent,
@@ -25,23 +34,20 @@ const routes: Routes = [
        { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
      ]
    },
-   // Login/Signup en plein écran
-   { path: 'login', component: LoginComponent },
-   { path: 'signup', component: SignupComponent },
-   { path: 'signup/driver', component: SignupComponent },
-   { path: 'signup/fleet', component: SignupComponent },
-   { path: 'forgot-password', component: ForgotPasswordComponent },
-   { path: 'reset-password/:token', component: ResetPasswordComponent },
+
    { path: 'fleet/setup', component: FleetSetupComponent },
    { path: 'client', loadChildren: () => import('./client/client.module').then(m => m.ClientModule), canActivate: [AuthGuard], data: { role: 'ROLE_CLIENT' } },
    { path: 'driver', loadChildren: () => import('./driver/driver.module').then(m => m.DriverModule), canActivate: [AuthGuard], data: { role: 'ROLE_DRIVER' } },
    { path: 'fleet', loadChildren: () => import('./fleet/fleet.module').then(m => m.FleetModule), canActivate: [AuthGuard], data: { role: 'ROLE_FLEET_OWNER' } },
    { path: 'company', loadChildren: () => import('./company/company.module').then(m => m.CompanyModule), canActivate: [AuthGuard], data: { role: 'ROLE_COMPANY' } },
    { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard], data: { role: 'ROLE_ADMIN' } },
-   {path:'', redirectTo:'acceuil', pathMatch: 'full'}
+   
+   { path: '', redirectTo: 'acceuil', pathMatch: 'full' },
+   { path: '**', redirectTo: 'acceuil' }
 ];
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
-  })
+})
 export class AppRoutingModule { }

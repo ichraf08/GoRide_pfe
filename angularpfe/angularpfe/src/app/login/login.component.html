@@ -34,20 +34,28 @@
         </div>
       </div>
 
+      <!-- Messages Alert (Global) -->
+      <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center py-3 px-4 rounded-4 border-0 shadow-sm mb-4 animate__animated animate__shakeX" 
+           style="background-color: #fef2f2; color: #991b1b; border-left: 5px solid #ef4444 !important;">
+        <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm me-3" style="width: 32px; height: 32px; flex-shrink: 0;">
+          <span class="ion-ios-alert text-danger" style="font-size: 1.2rem;"></span>
+        </div>
+        <div class="small fw-bold" style="line-height: 1.4;">{{ errorMessage }}</div>
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success d-flex align-items-center py-3 px-4 rounded-4 border-0 shadow-sm mb-4 animate__animated animate__fadeInUp"
+           style="background-color: #f0fdf4; color: #166534; border-left: 5px solid #10b981 !important;">
+        <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm me-3" style="width: 32px; height: 32px; flex-shrink: 0;">
+          <span class="ion-ios-checkmark-circle text-success" style="font-size: 1.2rem;"></span>
+        </div>
+        <div class="small fw-bold" style="line-height: 1.4;">{{ successMessage }}</div>
+      </div>
+
       <!-- ETAT 1 : CONNEXION -->
       <div *ngIf="!showForgotPassword" class="animate__animated animate__fadeIn">
         <div class="form-header-new mb-5">
           <h2 class="fw-bold text-dark">{{ 'LOGIN.TITLE' | translate }}</h2>
           <p class="text-muted small">{{ 'LOGIN.SUBTITLE' | translate }}</p>
-        </div>
-
-        <!-- Modern Error Alert -->
-        <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center py-3 px-4 rounded-4 border-0 shadow-sm mb-4 animate__animated animate__shakeX" 
-             style="background-color: #fef2f2; color: #991b1b; border-left: 5px solid #ef4444 !important;">
-          <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm me-3" style="width: 32px; height: 32px; flex-shrink: 0;">
-            <span class="ion-ios-alert text-danger" style="font-size: 1.2rem;"></span>
-          </div>
-          <div class="small fw-bold" style="line-height: 1.4;">{{ errorMessage }}</div>
         </div>
 
         <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
@@ -85,13 +93,6 @@
             <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2"></span>
           </button>
 
-          <div class="text-center mb-4">
-            <p class="text-muted small d-flex align-items-center justify-content-center">
-              <span class="ion-ios-checkmark-circle" style="color: #2563eb; font-size: 1.1rem; margin-right: 15px;"></span>
-              Vos données sont sécurisées
-            </p>
-          </div>
-
           <div class="text-center">
             <p class="text-muted small">
               {{ 'LOGIN.NO_ACCOUNT' | translate }} 
@@ -106,12 +107,6 @@
         <div class="form-header-new mb-5">
           <h2 class="fw-bold text-dark">Mot de passe oublié ?</h2>
           <p class="text-muted small">Entrez votre adresse e-mail pour recevoir un lien sécurisé.</p>
-        </div>
-
-        <div *ngIf="successMessage" class="alert alert-success d-flex align-items-center py-3 px-4 rounded-4 border-0 shadow-sm mb-4 animate__animated animate__fadeInUp"
-             style="background-color: #f0fdf4; color: #166534; border-left: 5px solid #10b981 !important;">
-          <span class="ion-ios-checkmark-circle me-3 fs-4"></span>
-          <div class="small fw-bold">{{ successMessage }}</div>
         </div>
 
         <form [formGroup]="forgotForm" (ngSubmit)="submitForgot()" novalidate *ngIf="!successMessage">
@@ -141,6 +136,7 @@
            </button>
         </div>
       </div>
+
 
     </div>
   </div>

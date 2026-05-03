@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { LanguageOption, LanguageService } from '../i18n/language.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   readonly form = this.fb.group({
     email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
@@ -35,6 +35,10 @@ export class LoginComponent {
     private readonly route: ActivatedRoute
   ) {}
 
+  ngOnInit(): void {
+    console.log("LoginComponent initialisé");
+  }
+
   get currentLanguageLabel(): string {
     return (this.languageService.current || 'fr').toUpperCase();
   }
@@ -51,18 +55,16 @@ export class LoginComponent {
     this.languageService.use(next);
   }
 
-  // Getter pour un accès facile aux champs du formulaire depuis le template
+  // Getters pour accès facile aux champs
   get f() { return this.form.controls; }
   get ff() { return this.forgotForm.controls; }
 
   submit(): void {
     this.errorMessage = null;
-
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
-
     const { email, password } = this.form.getRawValue();
     const normalizedEmail = (email ?? '').trim().toLowerCase();
     this.isSubmitting = true;
@@ -80,31 +82,19 @@ export class LoginComponent {
 
           const activeRole = this.authService.getActiveRole();
           switch (activeRole) {
-            case 'ROLE_DRIVER':
-              this.router.navigateByUrl('/driver/home');
-              break;
-            case 'ROLE_FLEET_OWNER':
-              this.router.navigateByUrl('/fleet/home');
-              break;
-            case 'ROLE_COMPANY':
-              this.router.navigateByUrl('/company/home');
-              break;
-            case 'ROLE_ADMIN':
-              this.router.navigateByUrl('/admin/home');
-              break;
-            default:
-              this.router.navigateByUrl('/acceuil');
-              break;
+            case 'ROLE_DRIVER': this.router.navigateByUrl('/driver/home'); break;
+            case 'ROLE_FLEET_OWNER': this.router.navigateByUrl('/fleet/home'); break;
+            case 'ROLE_COMPANY': this.router.navigateByUrl('/company/home'); break;
+            case 'ROLE_ADMIN': this.router.navigateByUrl('/admin/home'); break;
+            default: this.router.navigateByUrl('/acceuil'); break;
           }
         },
         error: (err: any) => {
           console.error('Erreur login:', err);
           if (err.status === 401) {
             this.errorMessage = 'Adresse e-mail ou mot de passe incorrect.';
-          } else if (err.error && err.error.message) {
-            this.errorMessage = err.error.message;
           } else {
-            this.errorMessage = 'Impossible de contacter le serveur. Veuillez réessayer.';
+            this.errorMessage = err.error?.message || 'Impossible de contacter le serveur.';
           }
         }
       });
@@ -115,17 +105,15 @@ export class LoginComponent {
       this.forgotForm.markAllAsTouched();
       return;
     }
-
     this.isSubmitting = true;
     this.errorMessage = null;
     this.successMessage = null;
-
     const email = this.forgotForm.value.email ?? '';
 
     this.authService.forgotPassword(email)
       .pipe(finalize(() => this.isSubmitting = false))
       .subscribe({
-        next: (res) => {
+        next: () => {
           this.successMessage = "Un lien de récupération a été envoyé à votre adresse email.";
           this.forgotForm.reset();
         },
