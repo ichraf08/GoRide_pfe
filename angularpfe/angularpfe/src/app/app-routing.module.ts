@@ -15,10 +15,10 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 
 const routes: Routes = [
   // BLINDAGE : On ne laisse AUCUNE redirection vers acceuil au début
-  { path: 'r', component: ResetPasswordComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'reset-password/:token', component: ResetPasswordComponent },
-  { path: 'login/reset/:token', component: ResetPasswordComponent },
+  { path: 'r', component: LoginComponent },
+  { path: 'reset-password', component: LoginComponent },
+  { path: 'reset-password/:token', component: LoginComponent },
+  { path: 'login/reset/:token', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'signup', component: SignupComponent },

@@ -52,7 +52,7 @@
       </div>
 
       <!-- ETAT 1 : CONNEXION -->
-      <div *ngIf="!showForgotPassword" class="animate__animated animate__fadeIn">
+      <div *ngIf="mode === 'login'" class="animate__animated animate__fadeIn">
         <div class="form-header-new mb-5">
           <h2 class="fw-bold text-dark">{{ 'LOGIN.TITLE' | translate }}</h2>
           <p class="text-muted small">{{ 'LOGIN.SUBTITLE' | translate }}</p>
@@ -103,8 +103,11 @@
       </div>
 
       <!-- ETAT 2 : MOT DE PASSE OUBLIÉ -->
-      <div *ngIf="showForgotPassword" class="animate__animated animate__fadeIn">
-        <div class="form-header-new mb-5">
+      <div *ngIf="mode === 'forgot'" class="animate__animated animate__fadeIn">
+        <div class="form-header-new mb-5 text-center">
+          <div class="mb-3">
+             <span class="ion-ios-lock" style="font-size: 40px; color: #2563eb;"></span>
+          </div>
           <h2 class="fw-bold text-dark">Mot de passe oublié ?</h2>
           <p class="text-muted small">Entrez votre adresse e-mail pour recevoir un lien sécurisé.</p>
         </div>
@@ -125,18 +128,97 @@
 
           <div class="text-center">
             <a class="custom-link small fw-bold pointer" (click)="toggleForgotPassword()" style="color: #2563eb !important; font-weight: 700;">
-              Retour à la connexion
+              &lt; Retour à la connexion
             </a>
           </div>
         </form>
 
         <div *ngIf="successMessage" class="text-center mt-4">
-           <button class="btn btn-primary-custom w-100 py-3" style="border-radius: 18px;" (click)="toggleForgotPassword()">
+           <button class="btn btn-primary-custom w-100 py-3" style="border-radius: 12px;" (click)="toggleForgotPassword()">
              Retour au login
            </button>
         </div>
       </div>
 
+      <!-- ETAT 3 : NOUVEAU MOT DE PASSE -->
+      <div *ngIf="mode === 'reset'" class="animate__animated animate__fadeIn">
+        
+        <!-- Messages Spécifiques au Reset -->
+        <div *ngIf="resetErrorMessage" class="alert alert-danger d-flex align-items-center py-3 px-4 rounded-4 border-0 shadow-sm mb-4 animate__animated animate__shakeX" 
+             style="background-color: #fef2f2; color: #991b1b; border-left: 5px solid #ef4444 !important;">
+          <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm me-3" style="width: 32px; height: 32px; flex-shrink: 0;">
+            <span class="ion-ios-alert text-danger" style="font-size: 1.2rem;"></span>
+          </div>
+          <div class="small fw-bold" style="line-height: 1.4;">{{ resetErrorMessage }}</div>
+        </div>
+
+        <div *ngIf="resetMessage" class="alert alert-success d-flex align-items-center py-3 px-4 rounded-4 border-0 shadow-sm mb-4 animate__animated animate__fadeInUp"
+             style="background-color: #f0fdf4; color: #166534; border-left: 5px solid #10b981 !important;">
+          <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm me-3" style="width: 32px; height: 32px; flex-shrink: 0;">
+            <span class="ion-ios-checkmark-circle text-success" style="font-size: 1.2rem;"></span>
+          </div>
+          <div class="small fw-bold" style="line-height: 1.4;">{{ resetMessage }}</div>
+        </div>
+
+        <div class="form-header-new mb-5 text-center">
+          <div class="mb-3">
+            <span class="ion-ios-key" style="font-size: 40px; color: #10b981;"></span>
+          </div>
+          <h2 class="fw-bold text-dark">Nouveau mot de passe</h2>
+          <p class="text-muted small">Définissez votre nouveau mot de passe pour sécuriser votre compte.</p>
+        </div>
+
+        <form [formGroup]="resetForm" (ngSubmit)="submitReset()" novalidate *ngIf="!resetMessage">
+          
+          <div class="form-group mb-4 pb-2">
+            <label class="form-label-custom">NOUVEAU MOT DE PASSE</label>
+            <div class="input-with-icon">
+              <span class="ion-ios-lock input-icon"></span>
+              <input class="form-control custom-input" [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="8 caractères minimum">
+              <button type="button" class="password-toggle-icon" (click)="hidePassword = !hidePassword">
+                <span [class]="hidePassword ? 'ion-ios-eye-off' : 'ion-ios-eye'"></span>
+              </button>
+            </div>
+            <div class="text-muted small mt-2 d-flex align-items-center">
+              <span class="ion-ios-checkmark-circle me-1" [style.color]="(fReset['password'].value?.length || 0) >= 8 ? '#10b981' : '#cbd5e1'"></span>
+              <span>Au moins 8 caractères</span>
+            </div>
+          </div>
+
+          <div class="form-group mb-4 pb-2">
+            <label class="form-label-custom">CONFIRMER LE MOT DE PASSE</label>
+            <div class="input-with-icon">
+              <span class="ion-ios-checkmark-circle-outline input-icon"></span>
+              <input class="form-control custom-input" [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" placeholder="Répétez le mot de passe">
+              <button type="button" class="password-toggle-icon" (click)="hideConfirmPassword = !hideConfirmPassword">
+                <span [class]="hideConfirmPassword ? 'ion-ios-eye-off' : 'ion-ios-eye'"></span>
+              </button>
+            </div>
+            <div class="invalid-feedback d-block small mt-1" *ngIf="resetForm.errors?.['mismatch'] && fReset['confirmPassword'].touched">
+              Les mots de passe ne correspondent pas.
+            </div>
+          </div>
+
+          <button class="btn btn-primary-custom w-100 py-3 mb-4" type="submit" [disabled]="isSubmittingReset || resetForm.invalid" style="background: #2563eb;">
+            <span *ngIf="!isSubmittingReset">Mettre à jour le mot de passe</span>
+            <span *ngIf="isSubmittingReset" class="spinner-border spinner-border-sm me-2"></span>
+          </button>
+
+          <div class="text-center">
+            <a class="custom-link small fw-bold pointer" (click)="mode = 'login'" style="color: #2563eb !important; font-weight: 700;">
+              &lt; Retour à la connexion
+            </a>
+          </div>
+        </form>
+
+        <!-- Success Redirect Button -->
+        <div *ngIf="resetMessage" class="text-center mt-4">
+           <button class="btn btn-primary-custom w-100 py-3" style="border-radius: 12px;" (click)="mode = 'login'">
+             Se connecter maintenant
+           </button>
+        </div>
+
+      </div>
 
     </div>
   </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
@@ -25,7 +25,17 @@ export class LoginComponent implements OnInit {
   errorMessage: string | null = null;
   successMessage: string | null = null;
   hidePassword = true;
-  showForgotPassword = false;
+  mode: 'login' | 'forgot' | 'reset' = 'login';
+  token: string | null = null;
+  resetMessage: string | null = null;
+  resetErrorMessage: string | null = null;
+  isSubmittingReset = false;
+  hideConfirmPassword = true;
+
+  readonly resetForm = this.fb.group({
+    password: ['', [Validators.required, Validators.minLength(8)]],
+    confirmPassword: ['', [Validators.required]]
+  }, { validators: this.passwordMatchValidator });
 
   constructor(
     private readonly fb: FormBuilder,
@@ -35,8 +45,36 @@ export class LoginComponent implements OnInit {
     private readonly route: ActivatedRoute
   ) {}
 
+  passwordMatchValidator(g: FormGroup) {
+    const password = g.get('password')?.value;
+    const confirmPassword = g.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
+  }
+
   ngOnInit(): void {
-    console.log("LoginComponent initialisé");
+    let foundToken = this.route.snapshot.queryParamMap.get('token');
+    if (!foundToken) {
+      foundToken = this.route.snapshot.paramMap.get('token');
+    }
+
+    if (foundToken) {
+      this.token = foundToken;
+      this.mode = 'reset';
+    }
+
+    this.route.queryParams.subscribe(params => {
+      if (params['token']) {
+        this.token = params['token'];
+        this.mode = 'reset';
+      }
+    });
+
+    this.route.params.subscribe(params => {
+      if (params['token']) {
+        this.token = params['token'];
+        this.mode = 'reset';
+      }
+    });
   }
 
   get currentLanguageLabel(): string {
@@ -44,7 +82,7 @@ export class LoginComponent implements OnInit {
   }
 
   toggleForgotPassword(): void {
-    this.showForgotPassword = !this.showForgotPassword;
+    this.mode = this.mode === 'forgot' ? 'login' : 'forgot';
     this.errorMessage = null;
     this.successMessage = null;
     this.isSubmitting = false;
@@ -58,6 +96,37 @@ export class LoginComponent implements OnInit {
   // Getters pour accès facile aux champs
   get f() { return this.form.controls; }
   get ff() { return this.forgotForm.controls; }
+  get fReset() { return this.resetForm.controls; }
+
+  submitReset(): void {
+    if (this.resetForm.invalid || !this.token) {
+      this.resetForm.markAllAsTouched();
+      return;
+    }
+
+    this.isSubmittingReset = true;
+    this.resetMessage = null;
+    this.resetErrorMessage = null;
+
+    const newPassword = this.resetForm.value.password;
+
+    this.authService.resetPassword({ token: this.token, password: newPassword })
+      .pipe(finalize(() => this.isSubmittingReset = false))
+      .subscribe({
+        next: () => {
+          this.resetMessage = "Votre mot de passe a été réinitialisé avec succès.";
+          this.resetForm.reset();
+          // Facultatif : On peut rediriger vers le mode login après 3 secondes
+          setTimeout(() => {
+            this.mode = 'login';
+            this.resetMessage = null;
+          }, 3000);
+        },
+        error: (err) => {
+          this.resetErrorMessage = err.error?.message || "Le lien est invalide ou a expiré.";
+        }
+      });
+  }
 
   submit(): void {
     this.errorMessage = null;
