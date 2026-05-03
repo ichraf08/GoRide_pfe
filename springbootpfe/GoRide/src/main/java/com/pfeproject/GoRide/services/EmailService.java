@@ -91,7 +91,7 @@ public class EmailService {
             helper.setTo(toEmail);
             helper.setSubject("Réinitialisation de votre mot de passe GoRide \uD83D\uDD12");
 
-            String resetUrl = "http://localhost:4200/reset-password/" + token;
+            String resetUrl = "http://localhost:4200/r?token=" + token;
 
             String htmlContent = "<html>" +
                     "<body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>" +
@@ -106,6 +106,7 @@ public class EmailService {
                     "      <div style='text-align: center; margin-top: 40px; margin-bottom: 40px;'>" +
                     "        <a href='" + resetUrl + "' style='background-color: #2563eb; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold;'>Réinitialiser mon mot de passe</a>" +
                     "      </div>" +
+                    "      <p style='font-size: 0.8rem; color: #94a3b8; text-align: center;'>Si le bouton ne fonctionne pas, copiez-collez ce lien : <br> " + resetUrl + "</p>" +
                     "      <p style='font-size: 0.9rem; color: #64748b;'>Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email en toute sécurité.</p>" +
                     "    </div>" +
                     "    <div style='background-color: #f8fafc; padding: 20px; text-align: center; font-size: 0.85rem; color: #64748b;'>" +
