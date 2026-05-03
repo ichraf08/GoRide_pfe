@@ -19,7 +19,7 @@ export class ForgotPasswordComponent {
     private authService: AuthService
   ) {
     this.forgotForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
     });
   }
 

@@ -19,7 +19,7 @@ export interface SignupRequest {
   password: string;
   confirmPassword: string;
   phone?: string;
-  role: string; // CLIENT, DRIVER, FLEET_OWNER, COMPANY
+  roles: string[]; // CLIENT, DRIVER, FLEET_OWNER, COMPANY
   city?: string;
   hasFleet?: boolean;
 }

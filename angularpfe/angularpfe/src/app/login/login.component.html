@@ -58,14 +58,13 @@
               formControlName="email"
               autocomplete="email"
               [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate"
+              (blur)="f['email'].setValue(f['email'].value?.trim()?.toLowerCase() ?? '')"
             />
             <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="f['email'].valid && f['email'].dirty"></span>
           </div>
-          <div class="invalid-feedback small mt-1" *ngIf="f['email'].errors?.['required'] && (f['email'].dirty || f['email'].touched)">
-            {{ 'LOGIN.ERROR.EMAIL_REQUIRED' | translate }}
-          </div>
-          <div class="invalid-feedback small mt-1" *ngIf="f['email'].errors?.['email'] && (f['email'].dirty || f['email'].touched)">
-            {{ 'LOGIN.ERROR.EMAIL_INVALID' | translate }}
+          <div class="invalid-feedback small mt-1 d-block" *ngIf="f['email'].invalid && (f['email'].dirty || f['email'].touched)">
+            <span *ngIf="f['email'].errors?.['required']">{{ 'LOGIN.ERROR.EMAIL_REQUIRED' | translate }}</span>
+            <span *ngIf="f['email'].errors?.['pattern']">{{ 'LOGIN.ERROR.EMAIL_INVALID' | translate }}</span>
           </div>
         </div>
 
@@ -75,7 +74,8 @@
             <span class="ion-ios-lock input-icon"></span>
             <input
               id="password"
-              class="form-control custom-input pe-5"
+              class="form-control custom-input pe-password"
+              [class.pe-password-valid]="f['password'].valid && f['password'].dirty"
               [class.is-invalid]="f['password'].invalid && (f['password'].dirty || f['password'].touched)"
               [class.is-valid]="f['password'].valid && (f['password'].dirty || f['password'].touched)"
               [type]="hidePassword ? 'password' : 'text'"
@@ -83,9 +83,10 @@
               autocomplete="current-password"
               [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate"
             />
-            <span class="password-toggle-icon" (click)="hidePassword = !hidePassword" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; font-size: 1.2rem;">
+            <button type="button" class="password-toggle-icon" (click)="hidePassword = !hidePassword" [attr.aria-label]="hidePassword ? 'Afficher' : 'Masquer'">
               <span [class]="hidePassword ? 'ion-ios-eye-off' : 'ion-ios-eye'"></span>
-            </span>
+            </button>
+            <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="f['password'].valid && f['password'].dirty"></span>
           </div>
           <div class="invalid-feedback small mt-1" *ngIf="f['password'].errors?.['required'] && (f['password'].dirty || f['password'].touched)">Le mot de passe est requis.</div>
           <div class="invalid-feedback small mt-1" *ngIf="f['password'].errors?.['minlength'] && (f['password'].dirty || f['password'].touched)">Le mot de passe doit faire au moins 4 caractères.</div>

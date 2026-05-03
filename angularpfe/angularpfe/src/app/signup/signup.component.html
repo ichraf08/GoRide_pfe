@@ -83,11 +83,18 @@
             <label class="form-label-custom">Adresse e-mail</label>
             <div class="input-with-icon">
               <span class="ion-ios-mail input-icon"></span>
-              <input type="email" class="form-control custom-input" [class.is-invalid]="f['email'].invalid && (f['email'].dirty || f['email'].touched)" [class.is-valid]="f['email'].valid && (f['email'].dirty || f['email'].touched)" formControlName="email" placeholder="votre@email.com">
+              <input type="email" class="form-control custom-input" 
+                     [class.is-invalid]="f['email'].invalid && (f['email'].dirty || f['email'].touched)" 
+                     [class.is-valid]="f['email'].valid && (f['email'].dirty || f['email'].touched)" 
+                     formControlName="email" 
+                     placeholder="votre@email.com"
+                     (blur)="f['email'].setValue(f['email'].value?.trim()?.toLowerCase() ?? '')">
               <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="f['email'].valid && f['email'].dirty"></span>
             </div>
-            <div class="invalid-feedback small mt-1" *ngIf="f['email'].errors?.['required'] && (f['email'].dirty || f['email'].touched)">L'adresse email est requise.</div>
-            <div class="invalid-feedback small mt-1" *ngIf="f['email'].errors?.['email'] && (f['email'].dirty || f['email'].touched)">Le format de l'email est invalide.</div>
+            <div class="invalid-feedback small mt-1 d-block" *ngIf="f['email'].invalid && (f['email'].dirty || f['email'].touched)">
+              <span *ngIf="f['email'].errors?.['required']">L'adresse email est requise.</span>
+              <span *ngIf="f['email'].errors?.['pattern']">Veuillez entrer une adresse e-mail valide (ex: nom@domaine.com).</span>
+            </div>
           </div>
         </div>
 
@@ -99,8 +106,8 @@
           <div class="role-list-container">
             <div *ngFor="let role of roles" 
                  class="role-row-card" 
-                 [class.active]="currentRole === role.value"
-                 (click)="updateRole(role.value)">
+                 [class.active]="isRoleSelected(role.value)"
+                 (click)="toggleRole(role.value)">
               <div class="role-row-icon" [style.color]="role.iconColor">
                 <span [ngClass]="role.icon"></span>
               </div>
@@ -120,13 +127,22 @@
           
           <div class="mb-4 pb-2">
             <label class="form-label-custom">Numéro de téléphone</label>
-            <div class="input-with-icon phone-input-capture custom-input" [class.border]="true" [class.border-danger]="f['phone'].invalid && (f['phone'].dirty || f['phone'].touched)" [class.border-success]="f['phone'].valid && (f['phone'].dirty || f['phone'].touched)">
+            <div class="input-with-icon phone-input-capture custom-input" 
+                 [class.border-danger]="f['phone'].invalid && (f['phone'].dirty || f['phone'].touched)" 
+                 [class.border-success]="f['phone'].valid && (f['phone'].dirty || f['phone'].touched)">
               <span class="ion-ios-call input-icon" style="left: 15px; position: absolute;"></span>
               <img src="https://flagcdn.com/w40/tn.png" class="country-flag-v" alt="Tunisie" style="margin-left: 25px;">
-              <input type="text" style="border: none; background: transparent; width: 100%; outline: none; color: #1e293b;" formControlName="phone" placeholder="Entrez votre numéro">
-              <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="f['phone'].valid && f['phone'].dirty" style="right: 15px; position: absolute;"></span>
+              <input type="text" 
+                     style="border: none; background: transparent; width: 100%; outline: none; color: #1e293b;" 
+                     formControlName="phone" 
+                     (blur)="f['phone'].setValue(f['phone'].value?.replace(' ', '') ?? '')"
+                     placeholder="Ex: 98123456">
+              <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="f['phone'].valid && f['phone'].dirty"></span>
             </div>
-            <div class="text-danger small mt-1" *ngIf="f['phone'].invalid && (f['phone'].dirty || f['phone'].touched)">Le numéro de téléphone est requis.</div>
+            <div class="text-danger small mt-1 d-block" *ngIf="f['phone'].invalid && (f['phone'].dirty || f['phone'].touched)">
+              <span *ngIf="f['phone'].errors?.['required']">Le numéro de téléphone est requis.</span>
+              <span *ngIf="f['phone'].errors?.['pattern']">Format invalide (8 chiffres ou +216...).</span>
+            </div>
           </div>
         </div>
 
@@ -139,31 +155,50 @@
             <label class="form-label-custom">Mot de passe</label>
             <div class="input-with-icon">
               <span class="ion-ios-lock input-icon"></span>
-              <input [type]="hidePassword ? 'password' : 'text'" class="form-control custom-input pe-5" [class.is-invalid]="f['password'].invalid && (f['password'].dirty || f['password'].touched)" [class.is-valid]="f['password'].valid && (f['password'].dirty || f['password'].touched)" formControlName="password" placeholder="Mot de passe">
-              <span class="password-toggle-icon" (click)="hidePassword = !hidePassword" style="position: absolute; right: 40px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; font-size: 1.2rem; z-index: 5;">
+              <input [type]="hidePassword ? 'password' : 'text'" 
+                     class="form-control custom-input pe-password" 
+                     [class.pe-password-valid]="f['password'].valid && f['password'].dirty"
+                     [class.is-invalid]="f['password'].invalid && (f['password'].dirty || f['password'].touched)" 
+                     [class.is-valid]="f['password'].valid && (f['password'].dirty || f['password'].touched)" 
+                     formControlName="password" 
+                     placeholder="Mot de passe">
+              <button type="button" class="password-toggle-icon" (click)="hidePassword = !hidePassword" [attr.aria-label]="hidePassword ? 'Afficher' : 'Masquer'">
                 <span [class]="hidePassword ? 'ion-ios-eye-off' : 'ion-ios-eye'"></span>
-              </span>
-              <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="f['password'].valid && f['password'].dirty" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%);"></span>
+              </button>
+              <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="f['password'].valid && f['password'].dirty"></span>
             </div>
             <div class="invalid-feedback small mt-1" *ngIf="f['password'].errors?.['required'] && (f['password'].dirty || f['password'].touched)">Le mot de passe est requis.</div>
             <div class="invalid-feedback small mt-1" *ngIf="f['password'].errors?.['minlength'] && (f['password'].dirty || f['password'].touched)">Le mot de passe doit faire au moins 8 caractères.</div>
           </div>
           <div class="mb-4">
-            <label class="form-label-custom">Confirmer</label>
+            <label class="form-label-custom">Confirmer mot de passe</label>
             <div class="input-with-icon">
               <span class="ion-ios-checkmark-circle-outline input-icon"></span>
-              <input [type]="hideConfirmPassword ? 'password' : 'text'" class="form-control custom-input pe-5" [class.is-invalid]="(f['confirmPassword'].invalid || signupForm.errors?.['mismatch']) && (f['confirmPassword'].dirty || f['confirmPassword'].touched)" [class.is-valid]="f['confirmPassword'].valid && !signupForm.errors?.['mismatch'] && (f['confirmPassword'].dirty || f['confirmPassword'].touched)" formControlName="confirmPassword" placeholder="Confirmer">
-              <span class="password-toggle-icon" (click)="hideConfirmPassword = !hideConfirmPassword" style="position: absolute; right: 40px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; font-size: 1.2rem; z-index: 5;">
+              <input [type]="hideConfirmPassword ? 'password' : 'text'" 
+                     class="form-control custom-input pe-password" 
+                     [class.pe-password-valid]="f['confirmPassword'].valid && !signupForm.errors?.['mismatch'] && f['confirmPassword'].dirty"
+                     [class.is-invalid]="(f['confirmPassword'].invalid || signupForm.errors?.['mismatch']) && (f['confirmPassword'].dirty || f['confirmPassword'].touched)" 
+                     [class.is-valid]="f['confirmPassword'].valid && !signupForm.errors?.['mismatch'] && (f['confirmPassword'].dirty || f['confirmPassword'].touched)" 
+                     formControlName="confirmPassword" 
+                     placeholder="Confirmer">
+              <button type="button" class="password-toggle-icon" (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="hideConfirmPassword ? 'Afficher' : 'Masquer'">
                 <span [class]="hideConfirmPassword ? 'ion-ios-eye-off' : 'ion-ios-eye'"></span>
-              </span>
-              <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="f['confirmPassword'].valid && !signupForm.errors?.['mismatch'] && f['confirmPassword'].dirty" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%);"></span>
+              </button>
+              <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="f['confirmPassword'].valid && !signupForm.errors?.['mismatch'] && f['confirmPassword'].dirty"></span>
             </div>
             <div class="invalid-feedback small mt-1" *ngIf="f['confirmPassword'].errors?.['required'] && (f['confirmPassword'].dirty || f['confirmPassword'].touched)">Veuillez confirmer votre mot de passe.</div>
             <div class="invalid-feedback small mt-1" *ngIf="signupForm.errors?.['mismatch'] && (f['confirmPassword'].dirty || f['confirmPassword'].touched)">Les mots de passe ne correspondent pas.</div>
           </div>
         </div>
 
-        <div *ngIf="errorMessage" class="alert alert-danger py-2 small mb-4">{{ errorMessage }}</div>
+        <!-- Modern Error Alert -->
+        <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center py-3 px-4 rounded-4 border-0 shadow-sm mb-4 animate__animated animate__shakeX" 
+             style="background-color: #fef2f2; color: #991b1b; border-left: 5px solid #ef4444 !important;">
+          <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm me-3" style="width: 32px; height: 32px; flex-shrink: 0;">
+            <span class="ion-ios-alert text-danger" style="font-size: 1.2rem;"></span>
+          </div>
+          <div class="small fw-bold" style="line-height: 1.4;">{{ errorMessage }}</div>
+        </div>
 
         <div class="wizard-actions d-flex gap-3 mt-5">
           <button *ngIf="currentStep > 1" type="button" class="btn btn-outline-light-custom flex-grow-1" (click)="prevStep()">
@@ -195,5 +230,15 @@
 
     </div>
   </div>
+</div>
 
+<!-- Success Toast -->
+<div *ngIf="showSuccess" class="premium-toast success">
+  <div class="premium-toast-icon">
+    <span class="ion-ios-checkmark-circle"></span>
+  </div>
+  <div class="premium-toast-content">
+    <span class="premium-toast-title">Inscription réussie !</span>
+    <p class="premium-toast-message">Bienvenue chez GoRide. Redirection en cours...</p>
+  </div>
 </div>

@@ -13,7 +13,7 @@ import { LanguageOption, LanguageService } from '../i18n/language.service';
 export class LoginComponent {
 
   readonly form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
     password: ['', [Validators.required, Validators.minLength(4)]]
   });
 
@@ -52,10 +52,11 @@ export class LoginComponent {
     }
 
     const { email, password } = this.form.getRawValue();
+    const normalizedEmail = (email ?? '').trim().toLowerCase();
     this.isSubmitting = true;
 
     this.authService
-      .login({ email: email ?? '', password: password ?? '' })
+      .login({ email: normalizedEmail, password: password ?? '' })
       .pipe(finalize(() => (this.isSubmitting = false)))
       .subscribe({
         next: () => {

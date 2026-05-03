@@ -65,14 +65,16 @@
                  [(ngModel)]="newEmployee.email" 
                  #empEmail="ngModel" 
                  required 
-                 email
+                 pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                 (blur)="newEmployee.email = newEmployee.email?.trim()?.toLowerCase() ?? ''"
                  [class.is-invalid]="empEmail.invalid && (empEmail.dirty || empEmail.touched)"
                  [class.is-valid]="empEmail.valid && (empEmail.dirty || empEmail.touched)"
                  placeholder="email@entreprise.tn">
-          <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="empEmail.valid && empEmail.dirty" style="font-size: 1.1rem; right: 15px;"></span>
+          <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="empEmail.valid && empEmail.dirty"></span>
         </div>
         <div class="text-danger small mt-1" *ngIf="empEmail.invalid && (empEmail.dirty || empEmail.touched)" style="font-size: 0.75rem;">
-          Email professionnel valide requis.
+          <span *ngIf="empEmail.errors?.['required']">Email requis.</span>
+          <span *ngIf="empEmail.errors?.['pattern']">Format email professionnel invalide.</span>
         </div>
       </div>
       <div class="mb-4">

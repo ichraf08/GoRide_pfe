@@ -106,12 +106,15 @@
               <input type="email" 
                      formControlName="email" 
                      class="custom-input" 
+                     (blur)="profileForm.get('email')?.setValue(profileForm.get('email')?.value?.trim()?.toLowerCase() ?? '')"
                      [class.is-invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
                      [class.is-valid]="profileForm.get('email')?.valid && profileForm.get('email')?.touched">
               <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="profileForm.get('email')?.valid && profileForm.get('email')?.dirty"></span>
             </div>
-            <span class="error-text" *ngIf="profileForm.get('email')?.hasError('required') && profileForm.get('email')?.touched">L'email est requis.</span>
-            <span class="error-text" *ngIf="profileForm.get('email')?.hasError('email') && profileForm.get('email')?.touched">Format email invalide.</span>
+            <span class="error-text d-block mt-1" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+              <span *ngIf="profileForm.get('email')?.hasError('required')">L'email est requis.</span>
+              <span *ngIf="profileForm.get('email')?.hasError('pattern')">Format email invalide.</span>
+            </span>
           </div>
           <div class="form-group">
             <label>Téléphone</label>

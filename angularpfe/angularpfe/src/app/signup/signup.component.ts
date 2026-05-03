@@ -12,6 +12,7 @@ import { finalize } from 'rxjs/operators';
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   isSubmitting = false;
+  showSuccess = false;
   errorMessage: string | null = null;
   successMessage: string | null = null;
   hidePassword = true;
@@ -107,21 +108,28 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     const roleParam = this.route.snapshot.queryParamMap.get('role') || 'CLIENT';
-    this.initForm(roleParam);
+    this.initForm([roleParam]);
   }
 
-  private initForm(role: string): void {
+  private initForm(roles: string[]): void {
     this.signupForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
+      phone: ['', [Validators.required, Validators.pattern('^(\\+216)?[0-9]{8}$')]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]],
-      role: [role, [Validators.required]],
+      roles: [roles, [Validators.required, Validators.minLength(1)]],
       hasFleet: [false]
     }, {
       validators: this.passwordMatchValidator
+    });
+
+    // Effacer le message d'erreur quand l'utilisateur modifie le formulaire
+    this.signupForm.valueChanges.subscribe(() => {
+      if (this.errorMessage) {
+        this.errorMessage = '';
+      }
     });
   }
 
@@ -152,7 +160,7 @@ export class SignupComponent implements OnInit {
              this.signupForm.get('email')!.valid;
     }
     if (this.currentStep === 2) {
-      return this.signupForm.get('role')!.valid;
+      return this.signupForm.get('roles')!.valid && this.signupForm.get('roles')!.value.length > 0;
     }
     if (this.currentStep === 3) {
       return this.signupForm.get('phone')!.valid;
@@ -160,12 +168,29 @@ export class SignupComponent implements OnInit {
     return true;
   }
 
-  updateRole(roleValue: string): void {
-    this.signupForm.patchValue({ role: roleValue });
+  toggleRole(roleValue: string): void {
+    const currentRoles = [...this.signupForm.get('roles')?.value || []];
+    const index = currentRoles.indexOf(roleValue);
+    
+    if (index > -1) {
+      // Remove if already selected
+      currentRoles.splice(index, 1);
+    } else {
+      // Add if not selected
+      currentRoles.push(roleValue);
+    }
+    
+    this.signupForm.patchValue({ roles: currentRoles });
+    this.signupForm.get('roles')?.markAsTouched();
+  }
+
+  isRoleSelected(roleValue: string): boolean {
+    return this.signupForm?.get('roles')?.value?.includes(roleValue);
   }
 
   get currentRole(): string {
-    return this.signupForm?.get('role')?.value || 'CLIENT';
+    const roles = this.signupForm?.get('roles')?.value;
+    return roles && roles.length > 0 ? roles[0] : 'CLIENT';
   }
 
   get currentVisualData(): { image: string, title: string, highlight: string, subtitle: string, features: string[] } {
@@ -179,12 +204,36 @@ export class SignupComponent implements OnInit {
 
   submit(): void {
     if (this.signupForm.invalid) return;
+    
+    // Normalize email
+    const formValue = this.signupForm.getRawValue();
+    formValue.email = formValue.email.trim().toLowerCase();
+
     this.isSubmitting = true;
-    this.authService.signup(this.signupForm.getRawValue())
+    this.errorMessage = '';
+
+    // Nettoyage préventif pour éviter les conflits de session
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('auth_user');
+
+    this.authService.signup(formValue)
       .pipe(finalize(() => this.isSubmitting = false))
       .subscribe({
-        next: () => this.router.navigate(['/login']),
-        error: (err) => this.errorMessage = err.error?.message || "Erreur"
+        next: () => {
+          this.showSuccess = true;
+          // Auto-login après succès pour redirection dashboard
+          this.authService.login({ email: formValue.email, password: formValue.password }).subscribe({
+            next: () => {
+              setTimeout(() => {
+                this.router.navigate(['/acceuil']); // Rediriger vers l'accueil connecté
+              }, 2000); // Laisser le temps de voir le toast
+            },
+            error: () => this.router.navigate(['/login']) // Fallback si auto-login échoue
+          });
+        },
+        error: (err) => {
+          this.errorMessage = err.error?.message || "Une erreur est survenue lors de l'inscription.";
+        }
       });
   }
 }

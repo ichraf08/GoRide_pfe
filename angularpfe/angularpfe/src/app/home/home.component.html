@@ -770,11 +770,16 @@
                        name="email" 
                        #homeEmailRef="ngModel" 
                        required 
-                       email
+                       pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                       (blur)="homeContactEmail = homeContactEmail?.trim()?.toLowerCase() ?? ''"
                        [class.is-invalid]="homeEmailRef.invalid && (homeEmailRef.dirty || homeEmailRef.touched)"
                        [class.is-valid]="homeEmailRef.valid && (homeEmailRef.dirty || homeEmailRef.touched)"
                        placeholder="Votre email">
-                <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="homeEmailRef.valid && homeEmailRef.dirty" style="right: 18px;"></span>
+                <span class="ion-md-checkmark-circle valid-check-icon" *ngIf="homeEmailRef.valid && homeEmailRef.dirty"></span>
+              </div>
+              <div class="invalid-feedback small mt-1 d-block" *ngIf="homeEmailRef.invalid && (homeEmailRef.dirty || homeEmailRef.touched)">
+                <span *ngIf="homeEmailRef.errors?.['required']">Email requis.</span>
+                <span *ngIf="homeEmailRef.errors?.['pattern']">Format email invalide.</span>
               </div>
             </div>
             <div class="col-12">

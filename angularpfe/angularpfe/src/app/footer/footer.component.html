@@ -78,7 +78,10 @@
           <div class="input-with-icon" style="flex: 1;">
             <span class="ion-ios-mail input-icon" style="left: 15px; color: #fff; opacity: 0.7;"></span>
             <input type="email" 
+                   #newsletterEmail
                    [placeholder]="'FOOTER.ENTER_EMAIL' | translate" 
+                   pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                   (blur)="newsletterEmail.value = newsletterEmail.value?.trim()?.toLowerCase() ?? ''"
                    style="padding-left: 45px !important; background: rgba(255,255,255,0.1) !important; border: 1px solid rgba(255,255,255,0.2) !important; color: #fff !important; height: 50px !important; border-radius: 12px !important; width: 100%;">
           </div>
           <button type="submit" [attr.aria-label]="'FOOTER.SUBSCRIBE' | translate" style="height: 50px; width: 50px; border-radius: 12px; margin-left: 10px;">
