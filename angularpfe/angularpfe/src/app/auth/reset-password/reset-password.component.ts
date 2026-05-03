@@ -19,6 +19,13 @@ export class ResetPasswordComponent implements OnInit {
   hideConfirmPassword = true;
   token: string | null = null;
 
+  passwordRules = {
+    length: false,
+    upper: false,
+    number: false,
+    symbol: false
+  };
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -26,9 +33,16 @@ export class ResetPasswordComponent implements OnInit {
     private authService: AuthService
   ) {
     this.resetForm = this.fb.group({
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}')]],
       confirmPassword: ['', [Validators.required]]
     }, { validators: this.passwordMatchValidator });
+
+    this.resetForm.get('password')?.valueChanges.subscribe(val => {
+      const pwd = val || '';
+      this.passwordRules.length = pwd.length >= 8;
+      this.passwordRules.number = /[0-9]/.test(pwd);
+      this.passwordRules.symbol = /[^A-Za-z0-9]/.test(pwd);
+    });
   }
 
   ngOnInit(): void {
@@ -86,7 +100,7 @@ export class ResetPasswordComponent implements OnInit {
     const newPassword = this.resetForm.value.password;
 
     // Appel au service avec l'objet attendu par le backend { token, password }
-    this.authService.resetPassword({ token: this.token, password: newPassword })
+    this.authService.resetPassword({ token: this.token, newPassword: newPassword })
       .pipe(finalize(() => this.isSubmitting = false))
       .subscribe({
         next: () => {

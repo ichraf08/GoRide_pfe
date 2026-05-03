@@ -137,6 +137,12 @@
   transform: translateY(0) scale(0.97);
 }
 
+.btn-primary-custom:disabled {
+  opacity: 0.85 !important;
+  cursor: not-allowed;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.1) !important;
+}
+
 .signup-link-custom, .custom-link {
   color: #2563eb;
   font-weight: 700;
@@ -147,6 +153,24 @@
 .signup-link-custom:hover, .custom-link:hover {
   text-decoration: underline !important;
   color: #1d4ed8;
+}
+
+.back-link-elegant {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14.5px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.back-link-elegant:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+  transform: translateX(-4px);
 }
 
 .back-home-link {

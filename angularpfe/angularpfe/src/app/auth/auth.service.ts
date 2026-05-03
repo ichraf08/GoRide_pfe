@@ -217,7 +217,7 @@ export class AuthService {
   /**
    * Réinitialiser le mot de passe avec le token.
    */
-  resetPassword(request: any): Observable<MessageResponse> {
+  resetPassword(request: { token: string | null, newPassword: string }): Observable<MessageResponse> {
     return this.http.post<MessageResponse>(API_URL + 'reset-password', request);
   }
 

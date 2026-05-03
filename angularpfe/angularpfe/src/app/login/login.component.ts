@@ -31,12 +31,13 @@ export class LoginComponent implements OnInit {
   resetErrorMessage: string | null = null;
   isSubmittingReset = false;
   hideConfirmPassword = true;
+  resetSubmitAttempted = false;
 
   readonly resetForm = this.fb.group({
     password: ['', [
       Validators.required, 
       Validators.minLength(8),
-      Validators.pattern('(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}')
+      Validators.pattern('(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}')
     ]],
     confirmPassword: ['', [Validators.required]]
   }, { validators: this.passwordMatchValidator });
@@ -45,7 +46,6 @@ export class LoginComponent implements OnInit {
     const pwd = this.resetForm.get('password')?.value || '';
     return {
       length: pwd.length >= 8,
-      upper: /[A-Z]/.test(pwd),
       number: /[0-9]/.test(pwd),
       symbol: /[^A-Za-z0-9]/.test(pwd)
     };
@@ -112,6 +112,13 @@ export class LoginComponent implements OnInit {
   get ff() { return this.forgotForm.controls; }
   get fReset() { return this.resetForm.controls; }
 
+  trySubmitReset(): void {
+    this.resetSubmitAttempted = true;
+    if (this.resetForm.valid) {
+      this.submitReset();
+    }
+  }
+
   submitReset(): void {
     if (this.resetForm.invalid || !this.token) {
       this.resetForm.markAllAsTouched();
@@ -124,7 +131,7 @@ export class LoginComponent implements OnInit {
 
     const newPassword = this.resetForm.value.password;
 
-    this.authService.resetPassword({ token: this.token, password: newPassword })
+    this.authService.resetPassword({ token: this.token, newPassword: newPassword })
       .pipe(finalize(() => this.isSubmittingReset = false))
       .subscribe({
         next: () => {

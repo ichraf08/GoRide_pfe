@@ -127,8 +127,8 @@
           </button>
 
           <div class="text-center">
-            <a class="custom-link small fw-bold pointer" (click)="toggleForgotPassword()" style="color: #2563eb !important; font-weight: 700;">
-              &lt; Retour à la connexion
+            <a (click)="toggleForgotPassword()" style="color: #2563eb !important; font-weight: 700; font-size: 14.5px; text-decoration: none; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center;">
+              &larr; Retour à la connexion
             </a>
           </div>
         </form>
@@ -189,21 +189,17 @@
                 <span [class]="hidePassword ? 'ion-ios-eye-off' : 'ion-ios-eye'"></span>
               </button>
             </div>
-            
-            <!-- Dynamic Checklist -->
-            <div class="password-checklist d-flex flex-wrap mt-3" style="gap: 12px; font-weight: 600;">
-              <div class="small d-flex align-items-center" [style.color]="passwordRules.length ? '#10b981' : '#94a3b8'" style="transition: color 0.3s ease;">
-                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.2rem;"></span> 8 caractères
-              </div>
-              <div class="small d-flex align-items-center" [style.color]="passwordRules.upper ? '#10b981' : '#94a3b8'" style="transition: color 0.3s ease;">
-                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.2rem;"></span> 1 majuscule
-              </div>
-              <div class="small d-flex align-items-center" [style.color]="passwordRules.number ? '#10b981' : '#94a3b8'" style="transition: color 0.3s ease;">
-                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.2rem;"></span> 1 chiffre
-              </div>
-              <div class="small d-flex align-items-center" [style.color]="passwordRules.symbol ? '#10b981' : '#94a3b8'" style="transition: color 0.3s ease;">
-                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.2rem;"></span> 1 symbole
-              </div>
+            <!-- Règles du mot de passe -->
+            <div class="d-flex flex-wrap mt-2" style="gap: 12px;">
+              <span class="d-inline-flex align-items-center" style="font-size: 12px; color: #94a3b8; font-weight: 600;">
+                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1rem;"></span> 8 caractères
+              </span>
+              <span class="d-inline-flex align-items-center" style="font-size: 12px; color: #94a3b8; font-weight: 600;">
+                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1rem;"></span> 1 chiffre
+              </span>
+              <span class="d-inline-flex align-items-center" style="font-size: 12px; color: #94a3b8; font-weight: 600;">
+                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1rem;"></span> 1 symbole
+              </span>
             </div>
           </div>
 
@@ -226,13 +222,26 @@
             </div>
           </div>
 
-          <button class="btn btn-primary-custom w-100 py-3 mb-4" type="submit" [disabled]="isSubmittingReset || resetForm.invalid">
+          <!-- Erreur affichée après clic si règles non respectées -->
+          <div *ngIf="resetSubmitAttempted && resetForm.invalid"
+               class="d-flex align-items-start rounded-3 mb-3 px-3 py-2"
+               style="background:#fef2f2; border:1.5px solid #ef4444; font-size:13px; color:#991b1b; font-weight:600; gap:10px;">
+            <span class="ion-ios-close-circle" style="font-size:1.3rem; color:#ef4444; flex-shrink:0;"></span>
+            <span>
+              <span *ngIf="!passwordRules.length">Le mot de passe doit contenir au moins 8 caractères. </span>
+              <span *ngIf="!passwordRules.number">Ajoutez au moins 1 chiffre. </span>
+              <span *ngIf="!passwordRules.symbol">Ajoutez au moins 1 symbole (!@#$...). </span>
+              <span *ngIf="resetForm.errors?.['mismatch']">Les mots de passe ne correspondent pas.</span>
+            </span>
+          </div>
+
+          <button class="btn btn-primary-custom w-100 py-3 mb-3" type="button" (click)="trySubmitReset()" [disabled]="isSubmittingReset">
             <span *ngIf="!isSubmittingReset">Mettre à jour mon mot de passe</span>
             <span *ngIf="isSubmittingReset" class="spinner-border spinner-border-sm me-2"></span>
           </button>
 
-          <div class="text-center">
-            <a class="custom-link small fw-bold pointer" (click)="mode = 'login'">
+          <div class="text-center d-flex justify-content-center">
+            <a (click)="mode = 'login'" style="color: #2563eb !important; font-weight: 700; font-size: 14.5px; text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">
               &larr; Retour à la connexion
             </a>
           </div>
