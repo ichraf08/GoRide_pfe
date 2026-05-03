@@ -2,6 +2,7 @@ package com.pfeproject.GoRide.services;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class EmailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom(fromEmail);
+            helper.setFrom(fromEmail, "GoRide Support");
             helper.setTo(toEmail);
             helper.setSubject("Bienvenue sur GoRide ! \uD83D\uDE97");
 
@@ -70,7 +71,7 @@ public class EmailService {
             mailSender.send(message);
             logger.info("[EMAIL] SUCCÈS : Email de bienvenue envoyé à {}", toEmail);
 
-        } catch (MessagingException e) {
+        } catch (MessagingException | UnsupportedEncodingException e) {
             logger.error("[EMAIL] ÉCHEC : Erreur lors de l'envoi à {} | Raison : {}", toEmail, e.getMessage());
         }
     }
