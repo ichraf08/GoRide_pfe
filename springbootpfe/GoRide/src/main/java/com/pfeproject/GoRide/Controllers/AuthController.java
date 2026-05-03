@@ -18,9 +18,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -260,5 +262,53 @@ public class AuthController {
         userRepo.save(user);
 
         return ResponseEntity.ok(new MessageResponse("Rôle " + requestedRole + " supprimé avec succès !"));
+    }
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        logger.info("[AUTH] Demande de réinitialisation pour : {}", request.getEmail());
+        
+        try {
+            UserEntity user = userRepo.findByEmail(request.getEmail())
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé avec cet email."));
+
+            String token = UUID.randomUUID().toString();
+            user.setResetToken(token);
+            user.setResetTokenExpiration(LocalDateTime.now().plusMinutes(15));
+            userRepo.save(user);
+
+            emailService.sendPasswordResetEmail(user.getEmail(), user.getFirstName(), token);
+
+            return ResponseEntity.ok(new MessageResponse("Un email de réinitialisation a été envoyé à " + user.getEmail()));
+        } catch (Exception e) {
+            logger.error("[AUTH] Erreur lors de la demande de réinitialisation : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new MessageResponse(e.getMessage()));
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        logger.info("[AUTH] Tentative de réinitialisation avec token");
+        
+        try {
+            UserEntity user = userRepo.findByResetToken(request.getToken())
+                    .orElseThrow(() -> new RuntimeException("Token invalide ou expiré."));
+
+            if (user.getResetTokenExpiration().isBefore(LocalDateTime.now())) {
+                throw new RuntimeException("Le lien de réinitialisation a expiré.");
+            }
+
+            user.setPassword(encoder.encode(request.getNewPassword()));
+            user.setResetToken(null);
+            user.setResetTokenExpiration(null);
+            userRepo.save(user);
+
+            logger.info("[AUTH] Mot de passe réinitialisé avec succès pour : {}", user.getEmail());
+            return ResponseEntity.ok(new MessageResponse("Votre mot de passe a été réinitialisé avec succès."));
+        } catch (Exception e) {
+            logger.error("[AUTH] Erreur lors de la réinitialisation : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new MessageResponse(e.getMessage()));
+        }
     }
 }

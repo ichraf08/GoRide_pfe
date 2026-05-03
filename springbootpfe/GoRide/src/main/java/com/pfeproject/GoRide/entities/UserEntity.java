@@ -92,6 +92,12 @@ public class UserEntity {
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "reset_token", length = 100)
+    private String resetToken;
+
+    @Column(name = "reset_token_expiration")
+    private LocalDateTime resetTokenExpiration;
+
     // Relation Many-to-Many avec les rôles
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
