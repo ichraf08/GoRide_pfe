@@ -170,13 +170,25 @@ export class LoginComponent implements OnInit {
             return;
           }
 
+          const user = this.authService.getCurrentUser();
+          const roles = user?.roles || [];
+
+          // Si plusieurs rôles → page de choix
+          if (roles.length > 1) {
+            this.router.navigateByUrl('/role-selection');
+            return;
+          }
+
+          // Si un seul rôle → redirection directe
           const activeRole = this.authService.getActiveRole();
           switch (activeRole) {
-            case 'ROLE_DRIVER': this.router.navigateByUrl('/driver/home'); break;
+            case 'ROLE_DRIVER':     this.router.navigateByUrl('/driver/home'); break;
             case 'ROLE_FLEET_OWNER': this.router.navigateByUrl('/fleet/home'); break;
-            case 'ROLE_COMPANY': this.router.navigateByUrl('/company/home'); break;
-            case 'ROLE_ADMIN': this.router.navigateByUrl('/admin/home'); break;
-            default: this.router.navigateByUrl('/acceuil'); break;
+            case 'ROLE_COMPANY':    this.router.navigateByUrl('/company/home'); break;
+            case 'ROLE_ADMIN':      this.router.navigateByUrl('/admin/home'); break;
+            case 'ROLE_CLIENT':
+            case 'ROLE_USER':
+            default:               this.router.navigateByUrl('/client/home'); break;
           }
         },
         error: (err: any) => {

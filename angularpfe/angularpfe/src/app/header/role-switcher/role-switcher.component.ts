@@ -25,9 +25,16 @@ export class RoleSwitcherComponent implements OnInit {
     'ROLE_CLIENT': {
       id: 'ROLE_CLIENT',
       label: 'Client',
-      icon: 'ion-ios-person',
-      route: '/acceuil',
+      icon: 'ion-ios-car',
+      route: '/client/home',
       color: '#10b981'
+    },
+    'ROLE_USER': {
+      id: 'ROLE_USER',
+      label: 'Passager',
+      icon: 'ion-ios-navigate',
+      route: '/client/home',
+      color: '#3b82f6'
     },
     'ROLE_DRIVER': {
       id: 'ROLE_DRIVER',
