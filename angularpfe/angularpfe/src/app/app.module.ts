@@ -23,7 +23,6 @@ import { ContactComponent } from './contact/contact.component';
 import { RoleSwitcherComponent } from './header/role-switcher/role-switcher.component';
 import { ProfileAvatarComponent } from './header/profile-avatar/profile-avatar.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -40,8 +39,7 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
     FleetSetupComponent,
     ContactComponent,
     RoleSwitcherComponent,
-    ForgotPasswordComponent,
-    ResetPasswordComponent
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
