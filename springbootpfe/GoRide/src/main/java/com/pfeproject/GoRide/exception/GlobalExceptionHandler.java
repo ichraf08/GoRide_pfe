@@ -31,4 +31,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleRuntimeExceptions(RuntimeException ex) {
         return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage()));
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleAllExceptions(Exception ex) {
+        ex.printStackTrace(); // Log l'erreur complète dans la console backend
+        return ResponseEntity.internalServerError().body(new MessageResponse("Erreur interne du serveur : " + ex.getMessage()));
+    }
 }

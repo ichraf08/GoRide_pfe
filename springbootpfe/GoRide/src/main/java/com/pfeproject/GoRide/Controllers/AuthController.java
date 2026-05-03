@@ -58,27 +58,41 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        logger.info("[LOGIN] Tentative de connexion pour l'email : {}", loginRequest.getEmail());
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()));
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(),
+                            loginRequest.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(
-                jwt,
-                userDetails.getId(),
-                userDetails.getEmail(),
-                userDetails.getFirstName(),
-                userDetails.getLastName(),
-                roles));
+            logger.info("[LOGIN] Connexion réussie pour : {} | Roles: {}", loginRequest.getEmail(), roles);
+
+            return ResponseEntity.ok(new JwtResponse(
+                    jwt,
+                    userDetails.getId(),
+                    userDetails.getEmail(),
+                    userDetails.getFirstName(),
+                    userDetails.getLastName(),
+                    roles));
+
+        } catch (org.springframework.security.authentication.BadCredentialsException e) {
+            logger.warn("[LOGIN] Échec de connexion : Identifiants invalides pour {}", loginRequest.getEmail());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new MessageResponse("Adresse e-mail ou mot de passe incorrect."));
+        } catch (Exception e) {
+            logger.error("[LOGIN] Erreur inattendue lors de la connexion pour {} : {}", loginRequest.getEmail(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MessageResponse("Une erreur technique est survenue."));
+        }
     }
 
     /**
@@ -154,19 +168,25 @@ public class AuthController {
         user.setRoles(roles);
 
         // 6. Sauvegarder en BD
-        userRepo.save(user);
-        logger.info("[REGISTRATION] Utilisateur créé avec succès en base de données. ID: {}", user.getId());
+        try {
+            userRepo.save(user);
+            logger.info("[REGISTRATION] Utilisateur créé avec succès en base de données. ID: {}", user.getId());
+        } catch (Exception e) {
+            logger.error("[REGISTRATION] Erreur lors de la sauvegarde en base de données : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MessageResponse("Erreur lors de la création du compte : " + e.getMessage()));
+        }
 
         // 7. Envoyer email de bienvenue (Asynchrone)
         try {
-            logger.info("[REGISTRATION] Tentative de déclenchement de l'email de bienvenue pour : {}", user.getEmail());
+            logger.info("[REGISTRATION] Tentative d'envoi de l'email de bienvenue pour : {}", user.getEmail());
             emailService.sendWelcomeEmail(user.getEmail(), user.getFirstName());
         } catch (Exception e) {
-            logger.error("[REGISTRATION] Erreur lors du déclenchement de l'email : {}", e.getMessage());
+            logger.error("[REGISTRATION] Erreur (non-bloquante) lors de l'envoi de l'email : {}", e.getMessage());
         }
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new MessageResponse("Inscription réussie ! Vous pouvez maintenant vous connecter."));
+                .body(new MessageResponse("Inscription réussie !"));
     }
 
     /**

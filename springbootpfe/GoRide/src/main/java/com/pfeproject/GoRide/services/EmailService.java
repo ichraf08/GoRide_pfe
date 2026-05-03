@@ -36,9 +36,11 @@ public class EmailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom(fromEmail, "GoRide Support");
+            helper.setFrom(fromEmail, "GoRide Team");
             helper.setTo(toEmail);
             helper.setSubject("Bienvenue sur GoRide ! \uD83D\uDE97");
+
+            logger.info("[REGISTER EMAIL] Sending to: {}", toEmail);
 
             String htmlContent = "<html>" +
                     "<body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>" +
