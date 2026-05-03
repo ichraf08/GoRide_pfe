@@ -144,92 +144,95 @@
       <div *ngIf="mode === 'reset'" class="animate__animated animate__fadeIn">
         
         <!-- Messages Spécifiques au Reset -->
-        <div *ngIf="resetErrorMessage" class="alert alert-danger d-flex align-items-center py-2 px-3 rounded-4 border-0 shadow-sm mb-3 animate__animated animate__shakeX" 
-             style="background-color: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444 !important;">
-          <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm me-3" style="width: 28px; height: 28px; flex-shrink: 0;">
-            <span class="ion-ios-alert text-danger" style="font-size: 1rem;"></span>
+        <div *ngIf="resetErrorMessage" class="alert alert-danger d-flex align-items-center py-3 px-4 rounded-4 border-0 shadow-sm mb-4 animate__animated animate__shakeX" 
+             style="background-color: #fef2f2; color: #991b1b; border-left: 5px solid #ef4444 !important;">
+          <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm me-3" style="width: 32px; height: 32px; flex-shrink: 0;">
+            <span class="ion-ios-alert text-danger" style="font-size: 1.2rem;"></span>
           </div>
-          <div class="small fw-bold" style="line-height: 1.3;">{{ resetErrorMessage }}</div>
+          <div class="small fw-bold" style="line-height: 1.4;">{{ resetErrorMessage }}</div>
         </div>
 
-        <div *ngIf="resetMessage" class="alert alert-success d-flex align-items-center py-2 px-3 rounded-4 border-0 shadow-sm mb-3 animate__animated animate__fadeInUp"
-             style="background-color: #f0fdf4; color: #166534; border-left: 4px solid #10b981 !important;">
-          <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm me-3" style="width: 28px; height: 28px; flex-shrink: 0;">
-            <span class="ion-ios-checkmark-circle text-success" style="font-size: 1rem;"></span>
+        <div *ngIf="resetMessage" class="alert alert-success d-flex align-items-center py-3 px-4 rounded-4 border-0 shadow-sm mb-4 animate__animated animate__fadeInUp"
+             style="background-color: #f0fdf4; color: #166534; border-left: 5px solid #10b981 !important;">
+          <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm me-3" style="width: 32px; height: 32px; flex-shrink: 0;">
+            <span class="ion-ios-checkmark-circle text-success" style="font-size: 1.2rem;"></span>
           </div>
-          <div class="small fw-bold" style="line-height: 1.3;">{{ resetMessage }}</div>
+          <div class="small fw-bold" style="line-height: 1.4;">{{ resetMessage }}</div>
         </div>
 
-        <div class="form-header-new mb-4 text-center">
-          <div class="icon-circle shadow-sm mx-auto mb-3" style="background: #d1fae5; color: #10b981; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-            <span class="ion-ios-key" style="font-size: 32px; transform: rotate(-45deg); display: inline-block;"></span>
+        <div class="form-header-new mb-5">
+          <div class="d-flex align-items-center mb-2">
+            <div style="position: relative; width: 48px; height: 48px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: zoomIn 0.5s ease-out; filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.1)); margin-right: 16px; flex-shrink: 0;">
+              <!-- Lock Icon in the center -->
+              <span class="ion-ios-lock" style="font-size: 20px; color: #3b82f6; position: absolute; z-index: 2;"></span>
+              <!-- Refresh Arrow overlapping around it -->
+              <span class="ion-ios-refresh" style="font-size: 38px; color: #2563eb; position: absolute; z-index: 1;"></span>
+            </div>
+            <h2 class="fw-bold text-dark mb-0" style="font-size: 1.5rem;">Nouveau mot de passe</h2>
           </div>
-          <h2 class="fw-bold text-dark mb-1" style="font-size: 1.5rem;">Créer un nouveau mot de passe</h2>
-          <p class="text-muted small mb-0 px-2">Choisissez un mot de passe sécurisé pour protéger votre compte GoRide.</p>
+          <p class="text-muted small">Choisissez un mot de passe sécurisé pour protéger votre compte GoRide.</p>
         </div>
 
         <form [formGroup]="resetForm" (ngSubmit)="submitReset()" novalidate *ngIf="!resetMessage">
           
-          <div class="form-group mb-3">
-            <label class="form-label-custom mb-1" style="font-size: 0.75rem;">NOUVEAU MOT DE PASSE</label>
-            <div class="input-with-icon position-relative">
-              <span class="ion-ios-lock input-icon" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #64748b;"></span>
-              <input class="form-control custom-input px-5" 
+          <div class="form-group mb-4 pb-2">
+            <label class="form-label-custom">NOUVEAU MOT DE PASSE</label>
+            <div class="input-with-icon">
+              <span class="ion-ios-lock input-icon"></span>
+              <input class="form-control custom-input" 
                      [class.is-valid]="fReset['password'].valid && fReset['password'].dirty"
-                     style="height: 48px; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"
                      [type]="hidePassword ? 'password' : 'text'" 
                      formControlName="password" 
                      placeholder="Votre nouveau mot de passe"
                      (focus)="fReset['password'].markAsTouched()">
-              <button type="button" class="password-toggle-icon" (click)="hidePassword = !hidePassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; padding: 5px; color: #94a3b8;">
+              <button type="button" class="password-toggle-icon" (click)="hidePassword = !hidePassword">
                 <span [class]="hidePassword ? 'ion-ios-eye-off' : 'ion-ios-eye'"></span>
               </button>
             </div>
             
             <!-- Dynamic Checklist -->
-            <div class="password-checklist d-flex flex-wrap mt-2" style="gap: 8px 16px;">
-              <div class="small d-flex align-items-center" [style.color]="passwordRules.length ? '#10b981' : '#94a3b8'">
-                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.1rem;"></span> 8 caractères
+            <div class="password-checklist d-flex flex-wrap mt-3" style="gap: 12px; font-weight: 600;">
+              <div class="small d-flex align-items-center" [style.color]="passwordRules.length ? '#10b981' : '#94a3b8'" style="transition: color 0.3s ease;">
+                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.2rem;"></span> 8 caractères
               </div>
-              <div class="small d-flex align-items-center" [style.color]="passwordRules.upper ? '#10b981' : '#94a3b8'">
-                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.1rem;"></span> 1 majuscule
+              <div class="small d-flex align-items-center" [style.color]="passwordRules.upper ? '#10b981' : '#94a3b8'" style="transition: color 0.3s ease;">
+                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.2rem;"></span> 1 majuscule
               </div>
-              <div class="small d-flex align-items-center" [style.color]="passwordRules.number ? '#10b981' : '#94a3b8'">
-                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.1rem;"></span> 1 chiffre
+              <div class="small d-flex align-items-center" [style.color]="passwordRules.number ? '#10b981' : '#94a3b8'" style="transition: color 0.3s ease;">
+                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.2rem;"></span> 1 chiffre
               </div>
-              <div class="small d-flex align-items-center" [style.color]="passwordRules.symbol ? '#10b981' : '#94a3b8'">
-                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.1rem;"></span> 1 symbole
+              <div class="small d-flex align-items-center" [style.color]="passwordRules.symbol ? '#10b981' : '#94a3b8'" style="transition: color 0.3s ease;">
+                <span class="ion-ios-checkmark-circle me-1" style="font-size: 1.2rem;"></span> 1 symbole
               </div>
             </div>
           </div>
 
-          <div class="form-group mb-4">
-            <label class="form-label-custom mb-1" style="font-size: 0.75rem;">CONFIRMER LE MOT DE PASSE</label>
-            <div class="input-with-icon position-relative">
-              <span class="ion-ios-checkmark-circle-outline input-icon" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #64748b;"></span>
-              <input class="form-control custom-input px-5" 
+          <div class="form-group mb-4 pb-2">
+            <label class="form-label-custom">CONFIRMER LE MOT DE PASSE</label>
+            <div class="input-with-icon">
+              <span class="ion-ios-checkmark-circle-outline input-icon"></span>
+              <input class="form-control custom-input" 
                      [class.is-invalid]="resetForm.errors?.['mismatch'] && fReset['confirmPassword'].touched"
                      [class.is-valid]="!resetForm.errors?.['mismatch'] && fReset['confirmPassword'].dirty && fReset['confirmPassword'].value"
-                     style="height: 48px; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"
                      [type]="hideConfirmPassword ? 'password' : 'text'" 
                      formControlName="confirmPassword" 
                      placeholder="Répétez le mot de passe">
-              <button type="button" class="password-toggle-icon" (click)="hideConfirmPassword = !hideConfirmPassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; padding: 5px; color: #94a3b8;">
+              <button type="button" class="password-toggle-icon" (click)="hideConfirmPassword = !hideConfirmPassword">
                 <span [class]="hideConfirmPassword ? 'ion-ios-eye-off' : 'ion-ios-eye'"></span>
               </button>
             </div>
-            <div class="invalid-feedback d-block small mt-1 fw-bold" *ngIf="resetForm.errors?.['mismatch'] && fReset['confirmPassword'].touched">
+            <div class="invalid-feedback d-block small mt-2 fw-bold" *ngIf="resetForm.errors?.['mismatch'] && fReset['confirmPassword'].touched">
               Les mots de passe ne correspondent pas.
             </div>
           </div>
 
-          <button class="btn btn-primary-custom w-100 py-3 mb-3" type="submit" [disabled]="isSubmittingReset || resetForm.invalid" style="border-radius: 12px; font-weight: 600; font-size: 1rem;">
+          <button class="btn btn-primary-custom w-100 py-3 mb-4" type="submit" [disabled]="isSubmittingReset || resetForm.invalid">
             <span *ngIf="!isSubmittingReset">Mettre à jour mon mot de passe</span>
             <span *ngIf="isSubmittingReset" class="spinner-border spinner-border-sm me-2"></span>
           </button>
 
           <div class="text-center">
-            <a class="custom-link small fw-bold pointer" (click)="mode = 'login'" style="color: #64748b !important; text-decoration: none; transition: color 0.2s ease;">
+            <a class="custom-link small fw-bold pointer" (click)="mode = 'login'">
               &larr; Retour à la connexion
             </a>
           </div>
@@ -237,7 +240,7 @@
 
         <!-- Success Redirect Button -->
         <div *ngIf="resetMessage" class="text-center mt-4">
-           <button class="btn btn-primary-custom w-100 py-3" style="border-radius: 12px;" (click)="mode = 'login'">
+           <button class="btn btn-primary-custom w-100 py-3" (click)="mode = 'login'">
              Se connecter maintenant
            </button>
         </div>
