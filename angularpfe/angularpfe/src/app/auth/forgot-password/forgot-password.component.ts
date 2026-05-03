@@ -45,7 +45,11 @@ export class ForgotPasswordComponent {
           this.forgotForm.reset();
         },
         error: (err) => {
-          this.errorMessage = err.error?.message || "Une erreur est survenue.";
+          if (err.status === 0) {
+            this.errorMessage = 'Impossible de joindre le serveur. Vérifiez votre connexion.';
+          } else {
+            this.errorMessage = err.error?.message || 'Une erreur est survenue. Veuillez réessayer.';
+          }
         }
       });
   }
