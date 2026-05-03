@@ -75,7 +75,7 @@
               <input type="checkbox" style="width: 18px; height: 18px; accent-color: #2563eb; flex-shrink: 0; cursor: pointer;" />
               <span class="text-muted small" style="margin: 0; line-height: 1.2;">{{ 'LOGIN.REMEMBER' | translate }}</span>
             </label>
-            <a class="custom-link small fw-bold pointer" (click)="toggleForgotPassword()">
+            <a class="custom-link small fw-bold pointer" (click)="toggleForgotPassword()" style="color: #2563eb !important; font-weight: 700;">
               {{ 'LOGIN.FORGOT' | translate }}
             </a>
           </div>
@@ -129,7 +129,7 @@
           </button>
 
           <div class="text-center">
-            <a class="custom-link small fw-bold pointer" (click)="toggleForgotPassword()">
+            <a class="custom-link small fw-bold pointer" (click)="toggleForgotPassword()" style="color: #2563eb !important; font-weight: 700;">
               Retour à la connexion
             </a>
           </div>
