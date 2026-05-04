@@ -154,84 +154,153 @@
 
 /* ===== CARD ===== */
 .role-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  animation: cardAppear 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  backdrop-filter: blur(10px);
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  animation: cardAppear 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 @keyframes cardAppear {
-  from { opacity: 0; transform: translateY(30px) scale(0.95); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.role-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
 }
 
 .role-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+  transform: translateY(-12px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 
+              0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.role-card:hover::before {
+  opacity: 1;
+}
+
+/* Luxury Glow Effect */
+.role-card::after {
+  content: '';
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: var(--card-color, #3b82f6);
+  filter: blur(80px);
+  opacity: 0;
+  top: -20px;
+  right: -20px;
+  z-index: -1;
+  transition: opacity 0.5s;
+}
+
+.role-card:hover::after {
+  opacity: 0.15;
 }
 
 .card-accent {
-  height: 5px;
+  height: 4px;
   width: 100%;
+  opacity: 0.6;
+  transition: opacity 0.3s;
 }
+.role-card:hover .card-accent { opacity: 1; }
 
 .card-body {
-  padding: 28px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .card-icon-wrapper {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  position: relative;
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
-.card-emoji { font-size: 2rem; }
+
+.role-card:hover .card-icon-wrapper {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.card-icon-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: inherit;
+  filter: blur(15px);
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.card-emoji { 
+  font-size: 2.2rem;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
 
 .card-info { flex: 1; }
 
 .card-title {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: white;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
+  letter-spacing: -0.5px;
 }
+
 .card-desc {
-  font-size: 0.875rem;
-  color: rgba(255,255,255,0.55);
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.5);
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-weight: 400;
 }
 
 .card-action {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  font-size: 0.875rem;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.9rem;
   font-weight: 700;
-  color: rgba(255,255,255,0.6);
-  transition: color 0.3s ease;
+  color: rgba(255,255,255,0.4);
+  transition: all 0.3s ease;
 }
-.role-card:hover .card-action { color: white; }
+
+.role-card:hover .card-action { 
+  color: white;
+  border-top-color: rgba(255,255,255,0.15);
+}
 
 .arrow-icon {
-  font-size: 1.1rem;
-  transition: transform 0.3s ease;
+  font-size: 1.2rem;
+  transform: translateX(0);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
-.role-card:hover .arrow-icon { transform: translateX(6px); }
+
+.role-card:hover .arrow-icon { 
+  transform: translateX(5px);
+}
 
 /* ===== FOOTER HINT ===== */
 .rs-footer-hint {

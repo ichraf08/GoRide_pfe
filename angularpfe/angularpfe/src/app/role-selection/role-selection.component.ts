@@ -25,21 +25,21 @@ export class RoleSelectionComponent implements OnInit {
   private readonly roleConfig: Record<string, RoleCard> = {
     'ROLE_CLIENT': {
       roleKey: 'ROLE_CLIENT',
-      label: 'Client',
-      description: 'Réservez un véhicule ou commandez une livraison en quelques secondes.',
-      icon: 'ion-ios-car',
+      label: 'Espace Client',
+      description: 'Réservez un véhicule de prestige ou commandez une livraison express.',
+      icon: 'ion-ios-briefcase',
       gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
       route: '/client/home',
-      emoji: '🚗'
+      emoji: '💎'
     },
     'ROLE_USER': {
       roleKey: 'ROLE_USER',
-      label: 'Passager',
-      description: 'Commandez un trajet et laissez-vous conduire en toute sécurité.',
+      label: 'Espace Passager',
+      description: 'Commandez un trajet instantané et voyagez en toute sérénité.',
       icon: 'ion-ios-navigate',
-      gradient: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+      gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
       route: '/client/home',
-      emoji: '🧳'
+      emoji: '✨'
     },
     'ROLE_DRIVER': {
       roleKey: 'ROLE_DRIVER',

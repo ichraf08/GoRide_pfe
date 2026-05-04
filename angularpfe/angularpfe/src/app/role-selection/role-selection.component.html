@@ -50,7 +50,8 @@
       <div class="role-card"
            *ngFor="let card of availableRoles; let i = index"
            (click)="selectRole(card)"
-           [style.animation-delay]="(i * 0.1) + 's'">
+           [style.animation-delay]="(i * 0.1) + 's'"
+           [style.--card-color]="card.roleKey === 'ROLE_USER' ? '#3b82f6' : '#10b981'">
 
         <!-- Card top gradient bar -->
         <div class="card-accent" [style.background]="card.gradient"></div>
