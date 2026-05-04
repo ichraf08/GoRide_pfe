@@ -112,6 +112,11 @@
           <p class="text-muted small">Entrez votre adresse e-mail pour recevoir un lien sécurisé.</p>
         </div>
 
+        <div class="alert alert-danger d-flex align-items-center mb-4" *ngIf="errorMessage" style="border-radius: 12px; background-color: #fef2f2; border: 1px solid #fee2e2;">
+          <span class="ion-ios-alert me-3" style="font-size: 24px; color: #dc2626;"></span>
+          <div class="text-danger small fw-medium">{{ errorMessage }}</div>
+        </div>
+
         <form [formGroup]="forgotForm" (ngSubmit)="submitForgot()" novalidate *ngIf="!successMessage">
           <div class="form-group mb-4 pb-2">
             <label class="form-label-custom">ADRESSE E-MAIL</label>
@@ -133,10 +138,16 @@
           </div>
         </form>
 
-        <div *ngIf="successMessage" class="text-center mt-4">
-           <button class="btn btn-primary-custom w-100 py-3" style="border-radius: 12px;" (click)="toggleForgotPassword()">
-             Retour au login
-           </button>
+        <div *ngIf="successMessage" class="text-center animate__animated animate__fadeIn">
+          <div class="mb-4">
+             <span class="ion-ios-checkmark-circle" style="font-size: 60px; color: #059669;"></span>
+          </div>
+          <div class="alert alert-success mb-4" style="border-radius: 12px; background-color: #f0fdf4; border: 1px solid #dcfce7; color: #166534;">
+            {{ successMessage }}
+          </div>
+          <button class="btn btn-primary-custom w-100 py-3" style="border-radius: 12px;" (click)="toggleForgotPassword()">
+            Retour au login
+          </button>
         </div>
       </div>
 

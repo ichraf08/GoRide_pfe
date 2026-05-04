@@ -22,7 +22,7 @@ import { FleetSetupComponent } from './fleet-setup/fleet-setup.component';
 import { ContactComponent } from './contact/contact.component';
 import { RoleSwitcherComponent } from './header/role-switcher/role-switcher.component';
 import { ProfileAvatarComponent } from './header/profile-avatar/profile-avatar.component';
-import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
 
 @NgModule({
@@ -40,7 +40,7 @@ import { RoleSelectionComponent } from './role-selection/role-selection.componen
     FleetSetupComponent,
     ContactComponent,
     RoleSwitcherComponent,
-    ForgotPasswordComponent,
+
     RoleSelectionComponent
   ],
   imports: [

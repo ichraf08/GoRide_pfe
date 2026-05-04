@@ -10,7 +10,7 @@ import { SignupComponent } from './signup/signup.component';
 import { FleetSetupComponent } from './fleet-setup/fleet-setup.component';
 import { ContactComponent } from './contact/contact.component';
 import { AuthGuard } from './auth/auth.guard';
-import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
 
 const routes: Routes = [
@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'reset-password/:token', component: LoginComponent },
   { path: 'login/reset/:token', component: LoginComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
+
   { path: 'signup', component: SignupComponent },
   
   {
