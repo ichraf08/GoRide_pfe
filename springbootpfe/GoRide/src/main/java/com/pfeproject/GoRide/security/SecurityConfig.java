@@ -64,22 +64,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // CORS : autorise Angular (localhost:4200)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // Désactive CSRF (inutile avec JWT stateless)
                 .csrf(csrf -> csrf.disable())
-                // Gestion des erreurs 401
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
-                // Pas de session serveur (JWT = stateless)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // Règles d'autorisation des routes
                 .authorizeHttpRequests(auth -> auth
-                        // Routes publiques (inscription + connexion + tests)
+                        // 1. Autoriser TOUTES les requêtes OPTIONS (pré-vérification CORS)
+                        .requestMatchers(org.springframework.web.bind.annotation.RequestMethod.OPTIONS.name()).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(org.springframework.http.HttpMethod.OPTIONS, "/**")).permitAll()
+                        
+                        // 2. Routes publiques
                         .requestMatchers(new AntPathRequestMatcher("/api/auth/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/test/**")).permitAll()
-                        // Consultation des trajets disponibles — public (GET seulement)
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/trips", "/api/trips/**").permitAll()
-                        // Toutes les autres requêtes nécessitent une authentification
                         .anyRequest().authenticated());
 
         http.authenticationProvider(authenticationProvider());
@@ -90,7 +87,8 @@ public class SecurityConfig {
 
     @Bean
     public org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/api/auth/signup", "/api/auth/login");
+        // On ne laisse que le strict minimum ici, car ignorer court-circuite les filtres CORS
+        return (web) -> web.ignoring().requestMatchers("/h2-console/**", "/favicon.ico");
     }
 
     /**
@@ -100,7 +98,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:4200"));
+        config.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost:58387", "http://localhost:8081"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
