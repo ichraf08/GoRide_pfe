@@ -8,6 +8,7 @@ import { RentVehicleComponent } from './pages/rent-vehicle/rent-vehicle.componen
 import { MyBookingsComponent } from './pages/my-bookings/my-bookings.component';
 import { HistoryComponent } from './pages/history/history.component';
 import { PaymentsComponent } from './pages/payments/payments.component';
+import { ProfileComponent } from '../profile/profile.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'my-bookings', component: MyBookingsComponent },
       { path: 'history', component: HistoryComponent },
       { path: 'payments', component: PaymentsComponent },
+      { path: 'profile', component: ProfileComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   }

@@ -6,7 +6,7 @@ import { RidesComponent } from './pages/rides/rides.component';
 import { RequestsComponent } from './pages/requests/requests.component';
 import { VehicleComponent } from './pages/vehicle/vehicle.component';
 import { EarningsComponent } from './pages/earnings/earnings.component';
-import { ProfileComponent } from './pages/profile/profile.component';
+import { ProfileComponent } from '../profile/profile.component';
 
 const routes: Routes = [
   {

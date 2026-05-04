@@ -12,7 +12,6 @@ import { RidesComponent } from './pages/rides/rides.component';
 import { RequestsComponent } from './pages/requests/requests.component';
 import { VehicleComponent } from './pages/vehicle/vehicle.component';
 import { EarningsComponent } from './pages/earnings/earnings.component';
-import { ProfileComponent } from './pages/profile/profile.component';
 import { ProfileAvatarComponent } from '../header/profile-avatar/profile-avatar.component';
 
 @NgModule({
@@ -24,8 +23,7 @@ import { ProfileAvatarComponent } from '../header/profile-avatar/profile-avatar.
     RidesComponent,
     RequestsComponent,
     VehicleComponent,
-    EarningsComponent,
-    ProfileComponent
+    EarningsComponent
   ],
   imports: [
     CommonModule,

@@ -34,6 +34,8 @@ export interface JwtResponse {
   secondaryEmail?: string;
   roles: string[];
   photoUrl?: string;
+  phone?: string;
+  address?: string;
 }
 
 export interface MessageResponse {
@@ -98,6 +100,36 @@ export class AuthService {
         this.isLoggedInSubject.next(true);
       })
     );
+  }
+
+  /**
+   * Logique de redirection centralisée après connexion ou inscription
+   */
+  handleAuthSuccess(returnUrl?: string | null): void {
+    if (returnUrl && !returnUrl.includes('/login') && !returnUrl.includes('/signup') && !returnUrl.includes('/profile')) {
+      this.router.navigateByUrl(returnUrl);
+      return;
+    }
+
+    const user = this.getCurrentUser();
+    const roles = user?.roles || [];
+
+    // Si l'utilisateur possède plusieurs rôles -> Page de choix
+    if (roles.length > 1) {
+      this.router.navigate(['/role-selection']);
+      return;
+    }
+
+    // Si l'utilisateur a un seul rôle -> Redirection directe au dashboard
+    const singleRole = roles.length === 1 ? roles[0] : 'ROLE_CLIENT';
+    this.setActiveRole(singleRole);
+    
+    const roleData = this.getActiveRoleData();
+    if (roleData && roleData.route) {
+      this.router.navigate([roleData.route]);
+    } else {
+      this.router.navigate(['/client/home']); // Route par défaut
+    }
   }
 
   /**

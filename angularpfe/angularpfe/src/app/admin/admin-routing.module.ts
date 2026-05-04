@@ -7,6 +7,7 @@ import { UsersComponent } from './pages/users/users.component';
 import { VehiclesComponent } from './pages/vehicles/vehicles.component';
 import { BookingsComponent } from './pages/bookings/bookings.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { ProfileComponent } from '../profile/profile.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: 'vehicles', component: VehiclesComponent },
       { path: 'bookings', component: BookingsComponent },
       { path: 'settings', component: SettingsComponent },
+      { path: 'profile', component: ProfileComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   }

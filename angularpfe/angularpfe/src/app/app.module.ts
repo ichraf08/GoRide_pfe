@@ -20,6 +20,7 @@ import { ContactComponent } from './contact/contact.component';
 import { RoleSwitcherComponent } from './header/role-switcher/role-switcher.component';
 import { ProfileAvatarComponent } from './header/profile-avatar/profile-avatar.component';
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RoleSelectionComponent } from './role-selection/role-selection.componen
     FleetSetupComponent,
     ContactComponent,
     RoleSwitcherComponent,
-    RoleSelectionComponent
+    RoleSelectionComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

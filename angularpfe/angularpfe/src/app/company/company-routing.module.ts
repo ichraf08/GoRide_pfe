@@ -6,6 +6,7 @@ import { CompanyHomeComponent } from './pages/company-home/company-home.componen
 import { EmployeesComponent } from './pages/employees/employees.component';
 import { BillingComponent } from './pages/billing/billing.component';
 import { ReportsComponent } from './pages/reports/reports.component';
+import { ProfileComponent } from '../profile/profile.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
       { path: 'employees', component: EmployeesComponent },
       { path: 'billing', component: BillingComponent },
       { path: 'reports', component: ReportsComponent },
+      { path: 'profile', component: ProfileComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   }

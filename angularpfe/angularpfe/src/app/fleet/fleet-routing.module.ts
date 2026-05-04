@@ -7,6 +7,7 @@ import { MyVehiclesComponent } from './pages/my-vehicles/my-vehicles.component';
 import { AddVehicleComponent } from './pages/add-vehicle/add-vehicle.component';
 import { RequestsComponent } from './pages/requests/requests.component';
 import { EarningsComponent } from './pages/earnings/earnings.component';
+import { ProfileComponent } from '../profile/profile.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: 'add-vehicle', component: AddVehicleComponent },
       { path: 'requests', component: RequestsComponent },
       { path: 'earnings', component: EarningsComponent },
+      { path: 'profile', component: ProfileComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   }
