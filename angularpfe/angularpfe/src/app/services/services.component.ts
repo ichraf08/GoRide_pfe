@@ -24,10 +24,11 @@ export class ServicesComponent implements OnInit {
         this.router.navigate([targetRoute]);
       } else {
         // Rediriger vers le profil pour ajouter le rôle manquant (Chemin correct)
-        this.router.navigate(['/acceuil/profile']);
+        this.router.navigate(['/role-selection']);
       }
     } else {
       this.router.navigate([signupRoute]);
     }
   }
 }
+

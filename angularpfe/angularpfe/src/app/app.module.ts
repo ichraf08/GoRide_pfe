@@ -5,13 +5,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderfooterComponent } from './headerfooter/headerfooter.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ServicesComponent } from './services/services.component';
 import { AboutComponent } from './about/about.component';
-import { ProfileComponent } from './profile/profile.component';
 import { SignupComponent } from './signup/signup.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -24,24 +30,6 @@ import { RoleSwitcherComponent } from './header/role-switcher/role-switcher.comp
 import { ProfileAvatarComponent } from './header/profile-avatar/profile-avatar.component';
 
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
-
-@NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    HeaderfooterComponent,
-    LoginComponent,
-    HomeComponent,
-    ServicesComponent,
-    AboutComponent,
-    ProfileComponent,
-    SignupComponent,
-    FleetSetupComponent,
-    ContactComponent,
-    RoleSwitcherComponent,
-
-    RoleSelectionComponent
   ],
   imports: [
     BrowserModule,

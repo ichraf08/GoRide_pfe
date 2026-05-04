@@ -5,7 +5,6 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ServicesComponent } from './services/services.component';
 import { AboutComponent } from './about/about.component';
-import { ProfileComponent } from './profile/profile.component';
 import { SignupComponent } from './signup/signup.component';
 import { FleetSetupComponent } from './fleet-setup/fleet-setup.component';
 import { ContactComponent } from './contact/contact.component';
@@ -32,7 +31,6 @@ const routes: Routes = [
        { path: 'services', component: ServicesComponent },
        { path: 'about', component: AboutComponent },
        { path: 'contact', component: ContactComponent },
-       { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
      ]
    },
 

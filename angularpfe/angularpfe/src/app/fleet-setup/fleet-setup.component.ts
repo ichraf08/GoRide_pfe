@@ -74,7 +74,7 @@ export class FleetSetupComponent implements OnInit {
       next: () => {
         this.isSubmitting = false;
         this.successMessage = 'Véhicule ajouté avec succès ! Vous pouvez maintenant gérer votre flotte.';
-        setTimeout(() => this.router.navigate(['/acceuil/profile']), 3000);
+        setTimeout(() => this.router.navigate(['/role-selection']), 3000);
       },
       error: (err) => {
         this.isSubmitting = false;
@@ -84,6 +84,7 @@ export class FleetSetupComponent implements OnInit {
   }
 
   skip(): void {
-    this.router.navigate(['/acceuil/profile']);
+    this.router.navigate(['/role-selection']);
   }
 }
+
