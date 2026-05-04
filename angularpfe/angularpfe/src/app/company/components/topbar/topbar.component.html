@@ -45,10 +45,17 @@
           </button>
         </div>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item px-3 py-2 d-flex align-items-center gap-2" routerLink="/role-selection">
+        <a class="dropdown-item" [routerLink]="getHomeRoute()">
+          <span class="ion-ios-home-outline"></span> Accueil
+        </a>
+        <a class="dropdown-item" routerLink="/role-selection">
           <span class="ion-ios-person-outline"></span> Profil Entreprise
         </a>
-        <a class="dropdown-item px-3 py-2 d-flex align-items-center gap-2 text-danger" (click)="authService.logout()">
+        <a class="dropdown-item" routerLink="/settings">
+          <span class="ion-ios-settings-outline"></span> Paramètres
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item text-danger" (click)="authService.logout()">
           <span class="ion-ios-log-out text-danger"></span> Déconnexion
         </a>
       </div>

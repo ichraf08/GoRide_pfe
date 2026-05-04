@@ -26,6 +26,7 @@ export class TopbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadUserRoles(); // Initial load
     this.authService.activeRole$.subscribe(() => {
       this.loadUserRoles();
     });
@@ -56,6 +57,12 @@ export class TopbarComponent implements OnInit {
   switchRole(roleId: string, route: string): void {
     this.authService.setActiveRole(roleId);
     this.router.navigateByUrl(route);
+  }
+
+  getHomeRoute(): string {
+    const activeRole = this.authService.getActiveRole();
+    const normalizedRole = activeRole?.startsWith('ROLE_') ? activeRole : 'ROLE_' + activeRole;
+    return this.roleDefinitions[normalizedRole]?.route || '/acceuil';
   }
 
   getPageTitle(): string {

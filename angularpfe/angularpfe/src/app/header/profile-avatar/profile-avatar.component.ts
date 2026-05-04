@@ -22,6 +22,11 @@ import { CommonModule } from '@angular/common';
       position: relative;
       user-select: none;
       flex-shrink: 0;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .avatar-container:hover {
+      transform: scale(1.05);
     }
     .avatar-img {
       width: 100%;
@@ -29,6 +34,7 @@ import { CommonModule } from '@angular/common';
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
     .avatar-initials {
       width: 100%;
@@ -38,10 +44,11 @@ import { CommonModule } from '@angular/common';
       align-items: center;
       justify-content: center;
       color: #ffffff;
-      font-weight: 700;
+      font-weight: 600;
       letter-spacing: 0.5px;
       border: 2px solid #fff;
       text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
   `]
 })
@@ -52,15 +59,15 @@ export class ProfileAvatarComponent implements OnInit, OnChanges {
   @Input() size: number = 40;
 
   initials: string = '';
-  backgroundColor: string = '#2563eb'; // Default blue
+  backgroundColor: string = 'linear-gradient(135deg, #2563EB, #1d4ed8)'; // GoRide Primary Gradient
   fontSize: number = 14;
 
   // Premium colors array (GoRide platform colors)
   private colors = [
-    'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)', // Primary Blue (btn-premium-blue)
-    'linear-gradient(135deg, #475569 0%, #1e293b 100%)', // Slate/Dark (text color)
-    'linear-gradient(135deg, #f97316 0%, #ea580c 100%)', // Premium Orange (btn-premium-orange)
-    'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', // Premium Purple (btn-premium-purple)
+    'linear-gradient(135deg, #2563EB 0%, #1d4ed8 100%)', // GoRide Blue
+    'linear-gradient(135deg, #475569 0%, #1e293b 100%)', // Slate/Dark
+    'linear-gradient(135deg, #f97316 0%, #ea580c 100%)', // Orange
+    'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', // Purple
   ];
 
   ngOnInit(): void {

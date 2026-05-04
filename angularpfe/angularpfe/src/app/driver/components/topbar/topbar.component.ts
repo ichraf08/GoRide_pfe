@@ -34,6 +34,7 @@ export class TopbarComponent implements OnInit {
     this.driverService.getProfile().subscribe(p => this.profile = p);
     this.driverService.isOnline$.subscribe(status => this.isOnline = status);
     
+    this.loadUserRoles(); // Initial load
     this.authService.activeRole$.subscribe(() => {
       this.loadUserRoles();
     });
@@ -62,8 +63,19 @@ export class TopbarComponent implements OnInit {
     this.router.navigateByUrl(route);
   }
 
+  getHomeRoute(): string {
+    const activeRole = this.authService.getActiveRole();
+    const normalizedRole = activeRole?.startsWith('ROLE_') ? activeRole : 'ROLE_' + activeRole;
+    return this.roleDefinitions[normalizedRole]?.route || '/acceuil';
+  }
+
   get currentUser(): any {
     return this.authService.getCurrentUser();
+  }
+
+  get currentUserFullName(): string {
+    const user = this.currentUser;
+    return user ? `${user.firstName} ${user.lastName}` : '';
   }
 
   toggleDropdown(): void {

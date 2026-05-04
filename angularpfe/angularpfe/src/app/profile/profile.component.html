@@ -1,41 +1,42 @@
 <div class="profile-container">
-  <!-- Page Header -->
-  <div class="page-header">
-    <div>
-      <h1 class="page-title">Profil Utilisateur</h1>
-      <p class="page-subtitle">Gérez vos informations, votre sécurité et vos préférences.</p>
-    </div>
-  </div>
-
+  
   <!-- Success Toast -->
   <div class="success-toast" *ngIf="saveSuccess">
-    <span class="ion-ios-checkmark-circle"></span> Modifications enregistrées avec succès !
+    <span class="ion-md-checkmark-circle"></span>
+    Modifications enregistrées avec succès !
   </div>
 
-  <!-- Profile Hero Card -->
+  <!-- Hero Header -->
   <div class="profile-hero-card">
-    <div class="hero-left">
-      <div class="avatar-wrapper">
-        <img [src]="user?.photoUrl || 'assets/images/goride-fleet-owner-key.png'" class="profile-avatar" alt="Avatar">
-        <button class="btn-edit-photo" (click)="triggerPhotoUpload()">
-          <span class="ion-md-camera"></span>
+    <div class="hero-bg-shape"></div>
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="avatar-wrapper">
+          <img [src]="user?.photoUrl || 'assets/images/goride-fleet-owner-key.png'" class="profile-avatar" alt="Avatar">
+          <button class="btn-edit-photo" (click)="triggerPhotoUpload()">
+            <span class="ion-md-camera"></span>
+          </button>
+        </div>
+        <div class="hero-info">
+          <h2 class="hero-name">
+            {{ user?.firstName }} {{ user?.lastName }}
+            <span class="verified-badge"><span class="ion-md-checkmark"></span></span>
+          </h2>
+          <div class="hero-email">
+            <span class="ion-md-mail"></span> {{ user?.email }}
+          </div>
+          <div class="hero-badges">
+            <span class="badge badge-role"><span class="ion-md-person"></span> {{ activeRole }}</span>
+            <span class="badge badge-verified"><span class="ion-md-checkmark-circle"></span> Vérifié</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="hero-right">
+        <button class="btn-primary" (click)="activeTab = 'info'; isEditing = true">
+          <span class="ion-md-create"></span> Modifier le profil
         </button>
       </div>
-      <div class="hero-info">
-        <h2 class="hero-name">{{ user?.firstName }} {{ user?.lastName }}</h2>
-        <div class="hero-meta">
-          <span class="hero-email"><span class="ion-ios-mail"></span> {{ user?.email }}</span>
-        </div>
-        <div class="hero-badges">
-          <span class="badge-role">{{ activeRole }}</span>
-          <span class="badge-premium"><span class="ion-ios-star"></span> {{ badgeLabel }}</span>
-        </div>
-      </div>
-    </div>
-    <div class="hero-right">
-      <button class="btn-primary" (click)="activeTab = 'info'; isEditing = true">
-        <span class="ion-md-create"></span> Modifier profil
-      </button>
     </div>
   </div>
 
@@ -62,233 +63,267 @@
     
     <!-- TAB: INFORMATIONS -->
     <div class="tab-pane" *ngIf="activeTab === 'info'">
-      <div class="content-card">
-        <div class="card-header">
-          <h3 class="card-title">Informations Personnelles</h3>
-          <button class="btn-outline" (click)="toggleEdit()">
-            {{ isEditing ? 'Annuler' : 'Modifier' }}
-          </button>
+      <div class="layout-grid">
+        
+        <!-- Left Column: Form -->
+        <div class="layout-left">
+          <div class="content-card">
+            <div class="card-header">
+              <div class="card-title-wrapper">
+                <div class="icon-box icon-blue"><span class="ion-md-person"></span></div>
+                <h3 class="card-title">Informations Personnelles</h3>
+              </div>
+            </div>
+
+            <!-- Edit Mode -->
+            <form [formGroup]="infoForm" (ngSubmit)="saveInfo()" class="modern-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Prénom</label>
+                  <div class="input-with-icon">
+                    <span class="ion-md-person icon"></span>
+                    <input type="text" formControlName="firstName" class="form-input">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Nom</label>
+                  <div class="input-with-icon">
+                    <span class="ion-md-person icon"></span>
+                    <input type="text" formControlName="lastName" class="form-input">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Adresse Email</label>
+                  <div class="input-with-icon">
+                    <span class="ion-md-mail icon text-green"></span>
+                    <input type="email" formControlName="email" class="form-input" readonly style="background-color: #f8fafc;">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Numéro de téléphone</label>
+                  <div class="input-with-icon">
+                    <span class="ion-md-call icon text-green"></span>
+                    <input type="text" formControlName="phone" class="form-input" placeholder="+216 ...">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Adresse</label>
+                  <div class="input-with-icon">
+                    <span class="ion-md-pin icon text-blue"></span>
+                    <input type="text" formControlName="address" class="form-input" placeholder="Ariana, Tunis, Tunisie">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Code postal</label>
+                  <div class="input-with-icon">
+                    <span class="ion-md-archive icon text-purple"></span>
+                    <input type="text" class="form-input" placeholder="2080">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Date de naissance</label>
+                  <div class="input-with-icon">
+                    <span class="ion-md-calendar icon text-orange"></span>
+                    <input type="text" class="form-input" placeholder="15 / 06 / 1996">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Nationalité</label>
+                  <div class="input-with-icon">
+                    <span class="ion-md-flag icon text-yellow"></span>
+                    <input type="text" class="form-input" placeholder="Tunisienne">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-actions mt-6">
+                <button type="submit" class="btn-primary btn-large" [disabled]="infoForm.invalid">
+                  <span class="ion-md-save"></span> Enregistrer les modifications
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
 
-        <!-- View Mode -->
-        <div class="info-grid" *ngIf="!isEditing">
-          <div class="info-group">
-            <span class="info-label">Prénom</span>
-            <span class="info-value">{{ user?.firstName }}</span>
+        <!-- Right Column: Cards -->
+        <div class="layout-right">
+          
+          <!-- Card 1: Account Status -->
+          <div class="content-card status-card">
+            <div class="card-header">
+              <div class="card-title-wrapper">
+                <div class="icon-box icon-green"><span class="ion-md-shield"></span></div>
+                <h3 class="card-title">Statut du compte</h3>
+              </div>
+            </div>
+            <div class="status-box">
+              <div class="status-info">
+                <h4>Compte vérifié</h4>
+                <p>Votre compte est sécurisé et vérifié.</p>
+              </div>
+              <div class="status-check">
+                <span class="ion-md-checkmark-circle"></span>
+              </div>
+            </div>
           </div>
-          <div class="info-group">
-            <span class="info-label">Nom</span>
-            <span class="info-value">{{ user?.lastName }}</span>
-          </div>
-          <div class="info-group">
-            <span class="info-label">Adresse Email</span>
-            <span class="info-value">{{ user?.email }}</span>
-          </div>
-          <div class="info-group">
-            <span class="info-label">Numéro de téléphone</span>
-            <span class="info-value">{{ user?.phone || 'Non renseigné' }}</span>
-          </div>
-          <div class="info-group full-width">
-            <span class="info-label">Adresse postale</span>
-            <span class="info-value">{{ user?.address || 'Non renseignée' }}</span>
-          </div>
-        </div>
 
-        <!-- Edit Mode -->
-        <form [formGroup]="infoForm" (ngSubmit)="saveInfo()" *ngIf="isEditing" class="edit-form">
-          <div class="form-grid">
-            <div class="form-group">
-              <label>Prénom</label>
-              <input type="text" formControlName="firstName" class="form-input">
+          <!-- Card 2: Quick Actions -->
+          <div class="content-card quick-actions-card">
+            <div class="card-header">
+              <div class="card-title-wrapper">
+                <div class="icon-box icon-blue"><span class="ion-md-flash"></span></div>
+                <h3 class="card-title">Actions rapides</h3>
+              </div>
             </div>
-            <div class="form-group">
-              <label>Nom</label>
-              <input type="text" formControlName="lastName" class="form-input">
-            </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" formControlName="email" class="form-input" readonly style="background-color: #f8fafc; cursor: not-allowed;">
-              <small style="color: #64748b; margin-top: 4px; display: block;">L'email ne peut pas être modifié.</small>
-            </div>
-            <div class="form-group">
-              <label>Téléphone</label>
-              <input type="text" formControlName="phone" class="form-input" placeholder="+216 ...">
-            </div>
-            <div class="form-group full-width">
-              <label>Adresse postale</label>
-              <input type="text" formControlName="address" class="form-input" placeholder="Votre adresse complète">
+            
+            <div class="actions-list">
+              <button class="action-item" (click)="activeTab = 'security'">
+                <div class="action-left">
+                  <span class="ion-md-lock text-gray"></span>
+                  <span>Changer le mot de passe</span>
+                </div>
+                <span class="ion-ios-arrow-forward arrow-icon"></span>
+              </button>
+              
+              <button class="action-item" (click)="activeTab = 'payments'">
+                <div class="action-left">
+                  <span class="ion-md-card text-blue"></span>
+                  <span>Gérer mes méthodes de paiement</span>
+                </div>
+                <span class="ion-ios-arrow-forward arrow-icon"></span>
+              </button>
+
+              <button class="action-item">
+                <div class="action-left">
+                  <span class="ion-md-download text-blue"></span>
+                  <span>Télécharger mes documents</span>
+                </div>
+                <span class="ion-ios-arrow-forward arrow-icon"></span>
+              </button>
+              
+              <button class="action-item action-danger">
+                <div class="action-left">
+                  <span class="ion-md-trash"></span>
+                  <span>Supprimer mon compte</span>
+                </div>
+                <span class="ion-ios-arrow-forward arrow-icon"></span>
+              </button>
             </div>
           </div>
-          <div class="form-actions">
-            <button type="button" class="btn-outline" (click)="toggleEdit()">Annuler</button>
-            <button type="submit" class="btn-primary" [disabled]="infoForm.invalid">
-              Enregistrer les modifications
-            </button>
-          </div>
-        </form>
+
+        </div>
       </div>
     </div>
 
     <!-- TAB: SÉCURITÉ -->
     <div class="tab-pane" *ngIf="activeTab === 'security'">
-      <div class="content-card">
-        <div class="card-header">
-          <h3 class="card-title">Sécurité et Mot de passe</h3>
+      <div class="layout-grid">
+        <div class="layout-left">
+          <div class="content-card">
+            <div class="card-header">
+              <div class="card-title-wrapper">
+                <div class="icon-box icon-blue"><span class="ion-md-lock"></span></div>
+                <h3 class="card-title">Sécurité et Mot de passe</h3>
+              </div>
+            </div>
+            
+            <form [formGroup]="securityForm" (ngSubmit)="updateSecurity()" class="modern-form">
+              <div class="form-group max-w-md">
+                <label>Mot de passe actuel</label>
+                <div class="input-with-icon">
+                  <span class="ion-md-key icon text-gray"></span>
+                  <input type="password" formControlName="currentPassword" class="form-input">
+                </div>
+              </div>
+              <div class="form-group max-w-md mt-4">
+                <label>Nouveau mot de passe</label>
+                <div class="input-with-icon">
+                  <span class="ion-md-key icon text-blue"></span>
+                  <input type="password" formControlName="newPassword" class="form-input">
+                </div>
+              </div>
+              <div class="form-group max-w-md mt-4">
+                <label>Confirmer le nouveau mot de passe</label>
+                <div class="input-with-icon">
+                  <span class="ion-md-checkmark-circle-outline icon text-green"></span>
+                  <input type="password" formControlName="confirmPassword" class="form-input">
+                </div>
+                <span class="error-text" *ngIf="securityForm.hasError('mismatch') && securityForm.get('confirmPassword')?.touched">
+                  Les mots de passe ne correspondent pas.
+                </span>
+              </div>
+              
+              <div class="form-actions max-w-md mt-6">
+                <button type="submit" class="btn-primary" [disabled]="securityForm.invalid">
+                  Mettre à jour le mot de passe
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-        
-        <form [formGroup]="securityForm" (ngSubmit)="updateSecurity()" class="edit-form">
-          <div class="form-group max-w-md">
-            <label>Mot de passe actuel</label>
-            <input type="password" formControlName="currentPassword" class="form-input">
-          </div>
-          <div class="form-group max-w-md mt-4">
-            <label>Nouveau mot de passe</label>
-            <input type="password" formControlName="newPassword" class="form-input">
-          </div>
-          <div class="form-group max-w-md mt-4">
-            <label>Confirmer le nouveau mot de passe</label>
-            <input type="password" formControlName="confirmPassword" class="form-input">
-            <span class="error-text" *ngIf="securityForm.hasError('mismatch') && securityForm.get('confirmPassword')?.touched">
-              Les mots de passe ne correspondent pas.
-            </span>
-          </div>
-          
-          <div class="form-actions max-w-md mt-6">
-            <button type="submit" class="btn-primary" [disabled]="securityForm.invalid">
-              Mettre à jour le mot de passe
-            </button>
-          </div>
-        </form>
 
-        <hr class="divider">
-
-        <div class="sessions-history">
-          <h4 class="sub-title">Historique des connexions</h4>
-          <div class="session-item">
-            <div class="session-icon"><span class="ion-md-desktop"></span></div>
-            <div class="session-details">
-              <strong>Windows 11 • Chrome</strong>
-              <span>Tunis, Tunisie • Il y a 2 heures</span>
+        <div class="layout-right">
+          <div class="content-card">
+            <div class="card-header">
+              <h3 class="card-title">Historique des connexions</h3>
             </div>
-            <div class="session-status text-green">Active maintenant</div>
-          </div>
-          <div class="session-item">
-            <div class="session-icon"><span class="ion-md-phone-portrait"></span></div>
-            <div class="session-details">
-              <strong>iPhone 13 • Safari</strong>
-              <span>Sousse, Tunisie • Hier à 14:30</span>
+            <div class="sessions-history mt-4">
+              <div class="session-item">
+                <div class="session-icon icon-blue"><span class="ion-md-desktop"></span></div>
+                <div class="session-details">
+                  <strong>Windows 11 • Chrome</strong>
+                  <span>Tunis, Tunisie • Il y a 2 heures</span>
+                </div>
+                <div class="session-status text-green">Active</div>
+              </div>
+              <div class="session-item">
+                <div class="session-icon text-gray"><span class="ion-md-phone-portrait"></span></div>
+                <div class="session-details">
+                  <strong>iPhone 13 • Safari</strong>
+                  <span>Sousse, Tunisie • Hier à 14:30</span>
+                </div>
+                <div class="session-status text-gray">Déconnectée</div>
+              </div>
             </div>
-            <div class="session-status">Déconnectée</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB: PAIEMENTS -->
+    <!-- OTHERS TABS (Placeholder structure) -->
     <div class="tab-pane" *ngIf="activeTab === 'payments'">
       <div class="content-card">
         <div class="card-header">
-          <h3 class="card-title">Moyens de paiement</h3>
-          <button class="btn-primary-light">
-            <span class="ion-md-add"></span> Ajouter une carte
-          </button>
-        </div>
-        
-        <div class="cards-list mt-4">
-          <div class="payment-card">
-            <div class="card-logo">Visa</div>
-            <div class="card-details">
-              <div class="card-number">•••• •••• •••• 4242</div>
-              <div class="card-expiry">Expire le 12/25</div>
-            </div>
-            <button class="btn-icon text-red"><span class="ion-md-trash"></span></button>
+          <div class="card-title-wrapper">
+            <div class="icon-box icon-blue"><span class="ion-md-card"></span></div>
+            <h3 class="card-title">Moyens de paiement</h3>
           </div>
         </div>
-
-        <hr class="divider">
-
-        <h4 class="sub-title">Historique des transactions</h4>
-        <div class="empty-state">
-          <span class="ion-md-paper empty-icon"></span>
-          <p>Aucune transaction récente.</p>
-        </div>
+        <p class="text-gray mt-4">Vos méthodes de paiement apparaîtront ici.</p>
       </div>
     </div>
 
-    <!-- TAB: NOTIFICATIONS -->
     <div class="tab-pane" *ngIf="activeTab === 'notifications'">
       <div class="content-card">
         <div class="card-header">
-          <h3 class="card-title">Préférences de notification</h3>
-        </div>
-        
-        <div class="toggle-list mt-4">
-          <div class="toggle-item">
-            <div class="toggle-info">
-              <strong>Notifications Push (Application)</strong>
-              <p>Recevoir des alertes sur votre téléphone pour vos trajets.</p>
-            </div>
-            <label class="switch">
-              <input type="checkbox" checked>
-              <span class="slider round"></span>
-            </label>
-          </div>
-          
-          <div class="toggle-item">
-            <div class="toggle-info">
-              <strong>Emails promotionnels</strong>
-              <p>Recevoir les offres spéciales et nouveautés GoRide.</p>
-            </div>
-            <label class="switch">
-              <input type="checkbox">
-              <span class="slider round"></span>
-            </label>
-          </div>
-
-          <div class="toggle-item">
-            <div class="toggle-info">
-              <strong>Alertes SMS</strong>
-              <p>Recevoir des SMS quand votre chauffeur arrive.</p>
-            </div>
-            <label class="switch">
-              <input type="checkbox" checked>
-              <span class="slider round"></span>
-            </label>
+          <div class="card-title-wrapper">
+            <div class="icon-box icon-blue"><span class="ion-md-notifications"></span></div>
+            <h3 class="card-title">Préférences de notification</h3>
           </div>
         </div>
+        <p class="text-gray mt-4">Paramétrez vos alertes ici.</p>
       </div>
     </div>
 
-    <!-- TAB: PRÉFÉRENCES -->
     <div class="tab-pane" *ngIf="activeTab === 'preferences'">
       <div class="content-card">
         <div class="card-header">
-          <h3 class="card-title">Préférences globales</h3>
-        </div>
-        
-        <div class="preferences-form mt-4">
-          <div class="form-group max-w-md">
-            <label>Langue de l'interface</label>
-            <select class="form-input">
-              <option value="fr">Français</option>
-              <option value="en">English</option>
-              <option value="ar">العربية</option>
-            </select>
-          </div>
-          
-          <div class="form-group max-w-md mt-4">
-            <label>Thème</label>
-            <select class="form-input">
-              <option value="light">Mode Clair</option>
-              <option value="dark">Mode Sombre</option>
-              <option value="system">Système</option>
-            </select>
-          </div>
-          
-          <div class="form-actions max-w-md mt-6">
-            <button class="btn-primary">Enregistrer les préférences</button>
+          <div class="card-title-wrapper">
+            <div class="icon-box icon-blue"><span class="ion-md-options"></span></div>
+            <h3 class="card-title">Préférences globales</h3>
           </div>
         </div>
+        <p class="text-gray mt-4">Personnalisez votre expérience.</p>
       </div>
     </div>
 

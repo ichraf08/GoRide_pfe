@@ -17,8 +17,8 @@
           <div class="status-online" style="position:absolute;bottom:0;right:0;width:10px;height:10px;background:#10b981;border-radius:50%;border:2px solid white;z-index:10;"></div>
         </div>
         <div class="user-info d-none d-md-block">
-          <span class="user-name text-white">{{ currentUserFullName }}</span>
-          <span class="user-role text-danger">Administrateur Système</span>
+          <span class="user-name">{{ currentUserFullName }}</span>
+          <span class="user-role">Administrateur Système</span>
         </div>
         <span class="ion-ios-arrow-down arrow-icon text-muted"></span>
       </div>
@@ -41,7 +41,17 @@
           </button>
         </div>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item px-3 py-2 d-flex align-items-center gap-2 text-danger" (click)="authService.logout()">
+        <a class="dropdown-item" [routerLink]="getHomeRoute()">
+          <span class="ion-ios-home-outline"></span> Accueil
+        </a>
+        <a class="dropdown-item" routerLink="/role-selection">
+          <span class="ion-ios-person-outline"></span> Mon Compte
+        </a>
+        <a class="dropdown-item" routerLink="/settings">
+          <span class="ion-ios-settings-outline"></span> Paramètres
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item text-danger" (click)="authService.logout()">
           <span class="ion-ios-log-out text-danger"></span> Déconnexion
         </a>
       </div>

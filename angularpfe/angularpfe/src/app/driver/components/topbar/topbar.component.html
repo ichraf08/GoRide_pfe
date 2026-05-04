@@ -47,10 +47,17 @@
           </button>
         </div>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item px-3 py-2 d-flex align-items-center gap-2" (click)="goToProfile()">
+        <a class="dropdown-item" [routerLink]="getHomeRoute()">
+          <span class="ion-ios-home-outline"></span> Accueil
+        </a>
+        <a class="dropdown-item" (click)="goToProfile()">
           <span class="ion-ios-person-outline"></span> Mon Compte
         </a>
-        <a class="dropdown-item px-3 py-2 d-flex align-items-center gap-2 text-danger" (click)="authService.logout()">
+        <a class="dropdown-item" routerLink="/driver/settings">
+          <span class="ion-ios-settings-outline"></span> Paramètres
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item text-danger" (click)="authService.logout()">
           <span class="ion-ios-log-out text-danger"></span> Déconnexion
         </a>
       </div>
