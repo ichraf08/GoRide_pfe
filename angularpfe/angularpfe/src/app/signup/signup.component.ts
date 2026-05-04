@@ -225,10 +225,27 @@ export class SignupComponent implements OnInit {
           this.authService.login({ email: formValue.email, password: formValue.password }).subscribe({
             next: () => {
               setTimeout(() => {
-                this.router.navigate(['/acceuil']); // Rediriger vers l'accueil connecté
-              }, 2000); // Laisser le temps de voir le toast
+                const user = this.authService.getCurrentUser();
+                const roles = user?.roles || [];
+
+                if (roles.length > 1) {
+                  this.router.navigateByUrl('/role-selection');
+                } else {
+                  // Redirection directe selon le rôle unique
+                  const activeRole = roles[0] || 'ROLE_USER';
+                  switch (activeRole) {
+                    case 'ROLE_ADMIN':       this.router.navigateByUrl('/admin/dashboard'); break;
+                    case 'ROLE_DRIVER':      this.router.navigateByUrl('/driver/dashboard'); break;
+                    case 'ROLE_FLEET_OWNER': this.router.navigateByUrl('/fleet/dashboard'); break;
+                    case 'ROLE_COMPANY':     this.router.navigateByUrl('/company/dashboard'); break;
+                    case 'ROLE_CLIENT':      this.router.navigateByUrl('/client/home'); break;
+                    case 'ROLE_USER':
+                    default:               this.router.navigateByUrl('/client/home'); break;
+                  }
+                }
+              }, 2000);
             },
-            error: () => this.router.navigate(['/login']) // Fallback si auto-login échoue
+            error: () => this.router.navigate(['/login'])
           });
         },
         error: (err) => {
