@@ -10,6 +10,7 @@ interface RoleCard {
   gradient: string;
   route: string;
   emoji: string;
+  imageUrl?: string;
 }
 
 @Component({
@@ -25,21 +26,23 @@ export class RoleSelectionComponent implements OnInit {
   private readonly roleConfig: Record<string, RoleCard> = {
     'ROLE_CLIENT': {
       roleKey: 'ROLE_CLIENT',
-      label: 'Espace Client',
-      description: 'Réservez un véhicule de prestige ou commandez une livraison express.',
+      label: 'Espace Location',
+      description: 'Accédez à des véhicules disponibles à tout moment.',
       icon: 'ion-ios-briefcase',
-      gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+      gradient: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
       route: '/client/home',
-      emoji: '💎'
+      emoji: '💎',
+      imageUrl: 'assets/images/goride-fleet-owner-key.png'
     },
     'ROLE_USER': {
       roleKey: 'ROLE_USER',
       label: 'Espace Passager',
       description: 'Commandez un trajet instantané et voyagez en toute sérénité.',
       icon: 'ion-ios-navigate',
-      gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+      gradient: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
       route: '/client/home',
-      emoji: '✨'
+      emoji: '✨',
+      imageUrl: 'assets/images/roles/passenger.png'
     },
     'ROLE_DRIVER': {
       roleKey: 'ROLE_DRIVER',
