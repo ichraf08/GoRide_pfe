@@ -101,6 +101,11 @@ export class RoleSelectionComponent implements OnInit {
     }
   }
 
+  get formattedFirstName(): string {
+    const name = this.user?.firstName || this.user?.email?.split('@')[0] || 'Utilisateur';
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  }
+
   selectRole(card: RoleCard): void {
     this.authService.setActiveRole(card.roleKey);
     this.router.navigateByUrl(card.route);
